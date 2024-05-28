@@ -64,10 +64,16 @@ function createOrder() {
             });
         },
         error: function (xhr, status, error) {
-            let errorBlock = $('#message-id');
-            errorBlock.text(xhr.responseText);
-            errorBlock.css('color', 'RED');
-            $('#message-block-id').show();
+            if (xhr.status === 400) {
+                let errorBlock = $('#message-id');
+                errorBlock.text(xhr.responseText);
+                errorBlock.css('color', 'RED');
+                $('#message-block-id').show();
+            } else {
+                let errorBlock = $('#message-id');
+                errorBlock.text("Что-то пошло не так");
+                errorBlock.css('color', 'RED');
+            }
         }
     });
 }

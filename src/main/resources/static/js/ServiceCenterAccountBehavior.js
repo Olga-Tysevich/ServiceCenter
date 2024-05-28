@@ -30,9 +30,15 @@ function createServiceCenterAccount() {
             window.location.href = '/accounts';
         },
         error: function (xhr, status, error) {
-            let errorBlock = $('#error');
-            errorBlock.text(xhr.responseText);
-            errorBlock.css('color', 'RED');
+            if (xhr.status === 400) {
+                let errorBlock = $('#error');
+                errorBlock.text(xhr.responseText);
+                errorBlock.css('color', 'RED');
+            } else {
+                let errorBlock = $('#error');
+                errorBlock.text("Что-то пошло не так");
+                errorBlock.css('color', 'RED');
+            }
         }
     });
 }
