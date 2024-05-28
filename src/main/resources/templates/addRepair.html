@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Сервисный центр</title>
+</head>
+<body>
+<section>
+
+    <div th:replace="included/header"></div>
+
+    <div class="container main">
+        <div class="table-container">
+
+            <div class="forms-container lf">
+                <form th:action="@{/repairs/repair-create}" th:object="${repair}" method="post" id="create-repair">
+                    <input type="hidden" name="serviceCenterId" th:value="${serviceCenterId}">
+
+                    <div class="f-input">
+                        <label class="form-el">Статус ремонта:</label>
+                        <input class="f-form" type="text" th:value="${status}" name="status">
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">Категория ремонта:</label>
+                        <select class="f-form" name="category" size="1">
+                            <option th:each="category : ${categoryList}"
+                                    th:value="${category.name()}"
+                                    th:text="${category}">
+                                <!--                                    th:selected="${category == repair.category}"-->
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">Бренд:</label>
+                        <select class="f-form" name="brandId" size="1">
+                            <option th:each="brand : ${brandList}"
+                                    th:value="${brand.id}"
+                                    th:text="${brand.name}">
+                                <!--                                    th:selected="${brand.id == repair.brandId}"-->
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">Модель:</label>
+                        <select class="f-form" name="modelId" size="1">
+                            <option th:each="model : ${modelList}"
+                                    th:value="${model.id}"
+                                    th:text="${model.name}">
+                                <!--                                    th:selected="${model.id == repair.modelId}"-->
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">Серийный номер:</label>
+                        <input class="f-form" type="text" th:field="*{serialNumber}" name="serialNumber">
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">Причина обращения:</label>
+                        <input class="f-form" type="text" th:field="*{defectDescription}" name="defectDescription">
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">Номер заказ-наряда:</label>
+                        <input class="f-form" type="text" th:field="*{repairNumber}" name="repairNumber">
+                    </div>
+
+                    <div class="f-input">
+                        <label class="date-label">Дата продажи: </label>
+                        <div class="date-container">
+                            <input class="f-form" required type="date" name="dateOfSale"
+                                   th:value="*{#dates.format(dateOfSale, 'yyyy-MM-dd')}"/>
+                        </div>
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">Продавец:</label>
+                        <input class="f-form" type="text" th:field="*{salesmanName}" name="salesmanName">
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">Телефон продавца:</label>
+                        <input class="f-form" type="text" th:field="*{salesmanPhone}" name="salesmanPhone">
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">Имя владельца:</label>
+                        <input class="f-form" type="text" th:field="*{buyerName}" name="buyerName">
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">Фамилия владельца:</label>
+                        <input class="f-form" type="text" th:field="*{buyerSurname}" name="buyerSurname">
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">Телефон владельца:</label>
+                        <input class="f-form" type="text" th:field="*{buyerPhone}" name="buyerPhone">
+                    </div>
+
+                </form>
+
+                <div class="button-container">
+                    <h1 style="color: red" th:if="${errorMessage != null}"
+                        th:val="${errorMessage}"></h1>
+                </div>
+
+                <div class="button-container">
+                    <input class="button button-fieldset" type="submit" value="Сохранить" form="create-repair"/>
+                    <button class="button button-fieldset" onclick="location.href='/repairs'">Отмена</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="/js/RepairFormBehavior.js"></script>
+</body>

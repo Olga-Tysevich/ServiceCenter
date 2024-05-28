@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="/static/css/style.css"
+          th:href="@{/css/style.css}" rel="stylesheet"/>
+    <title>Сервисный центр</title>
+</head>
+<body>
+
+<section class="login-section">
+    <div class="login-container">
+        <div class="header">
+            <h1>Сервисный центр</h1>
+        </div>
+
+        <div class="form-container">
+            <form th:action="@{/login}" method="post">
+                <div class="container">
+                    <label class="form-el" for="username">Логин:</label>
+                    <br><input class="form-el" type="text" id="username" name="username" value="admin@mail.ru" placeholder="Логин:">
+                    <div style="color: red" th:if="${param.error}">
+                        Такого логина не существует!
+                    </div>
+                    <div th:if="${param.logout}">
+                        Вы вышли из программы.
+                    </div>
+                    <br><br>
+                    <label class="form-el" for="password">Пароль:</label>
+                    <br><input class="form-el" type="password" id="password" name="password" value="User8707!" placeholder="Пароль:">
+                    <div style="color: red" th:if="${param.error}">
+                        Неверный пароль!
+                    </div>
+
+                    <div class="button-container">
+                        <input class="button"  type="submit" name="commit" value="Войти">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+</body>
+</html>

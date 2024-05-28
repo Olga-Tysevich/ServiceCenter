@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.25.xsd">
+
+    <changeSet id="insert_devices_id" author="Olga Tysevich">
+        <insert tableName="devices">
+            <column name="model_id" value="1"/>
+            <column name="serial_number" value="SR2024T0301255"/>
+            <column name="date_of_sale" value="2023-12-05"/>
+            <column name="buyer_name" value="Мария"/>
+            <column name="buyer_surname" value="Иванова"/>
+            <column name="buyer_phone" value="+375 29 255-01-01"/>
+            <column name="salesman_name" value="ЗАО Патио"/>
+            <column name="salesman_phone" value="+375 29 124-25-70"/>
+        </insert>
+
+        <insert tableName="devices">
+            <column name="model_id" value="2"/>
+            <column name="serial_number" value="RPR050S2024012501"/>
+            <column name="date_of_sale" value="2023-01-15"/>
+            <column name="buyer_name" value="Сергей"/>
+            <column name="buyer_surname" value="Морозов"/>
+            <column name="buyer_phone" value="+375 29 311-10-04"/>
+            <column name="salesman_name" value="ООО Палома-сервис"/>
+            <column name="salesman_phone" value="+375 25 427-11-56"/>
+        </insert>
+
+        <insert tableName="devices">
+            <column name="model_id" value="3"/>
+            <column name="serial_number" value="SR112ЗK20230506"/>
+            <column name="date_of_sale" value="2023-10-25"/>
+            <column name="buyer_name" value="Ирина"/>
+            <column name="buyer_surname" value="Котова"/>
+            <column name="buyer_phone" value="+375 25 726-27-43"/>
+            <column name="salesman_name" value="ООО Электросеврис"/>
+            <column name="salesman_phone" value="+375 29 324-75-46"/>
+        </insert>
+
+        <insert tableName="devices">
+            <column name="model_id" value="4"/>
+            <column name="serial_number" value="IPS2023R0512200"/>
+            <column name="date_of_sale" value="2023-01-15"/>
+            <column name="buyer_name" value="Алексей"/>
+            <column name="buyer_surname" value="Иванов"/>
+            <column name="buyer_phone" value="+375 29 117-48-15"/>
+            <column name="salesman_name" value="ИП Стальная В.А."/>
+            <column name="salesman_phone" value="+375 29 296-75-17"/>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>

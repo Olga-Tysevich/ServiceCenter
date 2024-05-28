@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.25.xsd">
+
+    <changeSet id="create_models_spare_parts_table_01" author="Olga Tysevich">
+        <createTable tableName="models_spare_parts">
+            <column name="model_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="spare_part_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+    </changeSet>
+
+    <changeSet author="Olga Tysevich" id="addPrimaryKey-device_types_spare_parts">
+        <addPrimaryKey tableName="models_spare_parts"
+                       columnNames="model_id,spare_part_id"
+                       constraintName="primary_key_constraint"/>
+    </changeSet>
+
+    <changeSet author="Olga Tysevich" id="addDeviceTypeForeign_key_table_device_types_spare_parts">
+        <addForeignKeyConstraint
+                baseTableName="models_spare_parts"
+                baseColumnNames="model_id"
+                constraintName="FK1hbans8uoq29bm9lgucc989gs"
+                referencedTableName="models"
+                referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet author="Olga Tysevich" id="addSparePartForeign_key_table_device_types_spare_parts">
+        <addForeignKeyConstraint
+                baseTableName="models_spare_parts"
+                baseColumnNames="spare_part_id"
+                constraintName="FKjlql80mn9jg3l394c8uyjogsc"
+                referencedTableName="spare_parts"
+                referencedColumnNames="id"/>
+    </changeSet>
+
+
+</databaseChangeLog>

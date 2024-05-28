@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Сервисный центр</title>
+</head>
+<body>
+<section>
+
+    <div th:replace="included/header"></div>
+
+    <div class="container main">
+
+        <div class="table-container">
+
+            <div class="forms-container lf">
+                <h2>Создание модели</h2>
+
+                <form th:action="@{/repair-types/repair-type-create}" th:object="${repairType}" method="post" id="create-repair-type-id">
+                    <input type="hidden" name="isActive" th:value="true">
+
+                    <div class="f-input">
+                        <label class="form-el">Название типа ремонта:</label>
+                        <input class="f-form" required type="text" th:field="*{name}" name="name">
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">Код ремонта:</label>
+                        <input class="f-form" required type="text" th:field="*{code}" name="code">
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">Уровень ремонта:</label>
+                        <input class="f-form" required type="text" th:field="*{level}" name="level">
+                    </div>
+
+                </form>
+
+                <div class="button-container">
+                    <h1 style="color: red" th:if="${errorMessage != null}"
+                        th:val="${errorMessage}"></h1>
+                </div>
+
+
+                <div class="button-container">
+                    <input class="button button-fieldset" type="submit" value="Сохранить" form="create-repair-type-id"/>
+                    <button class="button button-fieldset" onclick="location.href='/repair-types'">Отмена</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+<script src="/js/ModelFormBehavior.js"></script>
+</body>

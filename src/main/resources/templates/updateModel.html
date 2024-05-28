@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Сервисный центр</title>
+</head>
+<body>
+<section>
+
+    <div th:replace="included/header"></div>
+
+    <div class="container main">
+
+        <div class="table-container">
+
+            <div class="forms-container lf">
+                <h2>Создание модели</h2>
+
+                <form th:action="@{/models/model-create}" th:object="${model}" method="post">
+                    <input type="hidden" name="id" th:value="*{id}" id="id">
+
+                    <div class="f-input" sec:authorize="hasAuthority('ADMIN')">
+                        <div class="radio-container-rp">
+                            <label>Активный: </label>
+                            <label>да: </label>
+                            <input type="radio" name="isActive" th:checked="${model.isActive == true}"
+                                   th:value="true">
+                            <label>нет: </label>
+                            <input type="radio" name="isActive" th:checked="${model.isActive == false}"
+                                   th:value="false">
+                        </div>
+                    </div>
+
+
+                    <div class="f-input">
+                        <label class="form-el">Бренд:</label>
+                        <select class="f-form" name="brandId" size="1" id="brand-id">
+                            <option th:each="brand : ${brandList}"
+                                    th:value="${brand.id}"
+                                    th:text="${brand.name}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">Тип устройства:</label>
+                        <select class="f-form" name="deviceTypeId" size="1" id="device-type-id">
+                            <option th:each="deviceType : ${deviceTypeList}"
+                                    th:value="${deviceType.id}"
+                                    th:text="${deviceType.name}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">Название модели:</label>
+                        <input class="f-form" required type="text" th:field="*{name}" name="name" id="model-name-id">
+                    </div>
+
+                </form>
+
+                <div class="button-container">
+                    <h1 id="error"></h1>
+                </div>
+
+
+                <div class="button-container">
+                    <input class="button button-fieldset" type="submit" value="Сохранить" onclick="updateModel()"/>
+                    <button class="button button-fieldset" onclick="location.href='/models'">Отмена</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+<script src="/js/ModelFormBehavior.js"></script>
+</body>

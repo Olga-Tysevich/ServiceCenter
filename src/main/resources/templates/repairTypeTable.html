@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <title>Сервисный центр</title>
+</head>
+<body>
+<section>
+
+    <div th:replace="included/header"></div>
+
+    <div class="container main">
+
+        <div th:replace="included/menu"></div>
+
+        <div>
+            <div>
+                <form action="#" th:action="@{/repair-types/page/1}" method="get">
+                    <input type="hidden" name="sortDir" th:value="${tablePage.sortDir}"/>
+                    <input type="hidden" name="sortField" th:value="${tablePage.sortField}"/>
+
+                    <input class="search" type="search" name="keyword"
+                           placeholder="Найти по названию, коду, уровню"
+                           th:value="${tablePage.keyword}"/>
+                    <input class="button light" type="submit" value="Найти">
+                </form>
+            </div>
+
+            <div class="table-container">
+
+                <div th:switch="${tablePage.listForTable}">
+
+                    <div class="button-container">
+                        <h1 style="color: red" th:if="${errorMessage != null}"
+                            th:text="${errorMessage}"></h1>
+                    </div>
+
+                    <h2 th:case="null">Нет добавленных типов ремонта!</h2>
+                    <div th:case="*">
+                        <table id="repairs">
+                            <thead>
+                            <tr>
+                                <th>
+                                    <a th:href="@{'/repair-types/page/' + ${tablePage.pageNum} + '?sortField=name&sortDir='
+                                    + ${tablePage.sortDir == 'ASC'? 'DESC' : 'ASC'} + '&keyword=' + ${tablePage.keyword}}">
+                                        Тип ремонта</a>
+                                </th>
+                                <th class="date">
+                                    <a th:href="@{'/repair-types/page/' + ${tablePage.pageNum} + '?sortField=code&sortDir='
+                                    + ${tablePage.sortDir  == 'ASC'? 'DESC' : 'ASC'}+ '&keyword=' + ${tablePage.keyword}}">
+                                        Код</a>
+                                </th>
+                                <th>
+                                    <a th:href="@{'/repair-types/page/' + ${tablePage.pageNum} + '?sortField=level&sortDir='
+                                    + ${tablePage.sortDir == 'ASC'? 'DESC' : 'ASC'} + '&keyword=' + ${tablePage.keyword}}">
+                                        Уровень</a>
+                                </th>
+                                <th>
+                                    <a th:href="@{'/repair-types/page/' + ${tablePage.pageNum} + '?sortField=isActive&sortDir='
+                                    + ${tablePage.sortDir == 'ASC'? 'DESC' : 'ASC'} + '&keyword=' + ${tablePage.keyword}}">
+                                        Активный</a>
+                                </th>
+                                <th colspan="2" class="menu" sec:authorize="hasAuthority('ADMIN')" >Управление</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="repairType : ${tablePage.listForTable}">
+                                <td th:text="${repairType.name}"></td>
+                                <td th:text="${repairType.code}"></td>
+                                <td th:text="${repairType.level}"></td>
+                                <td th:text="${repairType.isActive}"></td>
+                                <td sec:authorize="hasAuthority('ADMIN')">
+                                    <a th:href="@{/repair-types/repair-type-update/{id}(id=${repairType.id})}">Редактировать</a>
+                                </td>
+                                <td sec:authorize="hasAuthority('ADMIN')">
+                                    <a th:href="@{/repair-types/repair-type-delete/{id}(id=${repairType.id})}">Удалить</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <br>
+
+                    </div>
+                </div>
+
+                <div th:replace="included/pagination"></div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>

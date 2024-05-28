@@ -1,0 +1,27 @@
+<div class="button-container">
+    <div th:if="${tablePage.totalPages > 1}">
+        <a th:href="@{${tablePage.paginationUrl} + ${1} + '?sortField=' + ${tablePage.sortField} + '&sortDir='
+        + ${tablePage.sortDir} + '&keyword=' + ${tablePage.keyword}}"
+           th:text="'Первая'"></a>
+
+        <a th:if="${tablePage.pageNum == 1}"
+           th:each="i : ${#numbers.sequence(tablePage.pageNum + 1, tablePage.pageNum + 5 < tablePage.totalPages ? tablePage.pageNum + 5 : tablePage.totalPages)}"
+           th:href="@{${tablePage.paginationUrl} + ${i} + '?sortField=' + ${tablePage.sortField} + '&sortDir=' + ${tablePage.sortDir} + '&keyword=' + ${tablePage.keyword}}"
+           th:text="${i}"></a>
+
+        <a th:if="${tablePage.pageNum != 1}"
+           th:each="i : ${#numbers.sequence(tablePage.pageNum - 5 > 2 ? tablePage.pageNum - 5 : 2, tablePage.pageNum > 1 ? tablePage.pageNum : 2)}"
+           th:href="@{${tablePage.paginationUrl} + ${i} + '?sortField=' + ${tablePage.sortField} + '&sortDir=' + ${tablePage.sortDir} + '&keyword=' + ${tablePage.keyword}}"
+           th:text="${i}"></a>
+
+        <a th:if="${tablePage.pageNum != tablePage.totalPages && tablePage.pageNum != 1}"
+           th:each="i : ${#numbers.sequence(tablePage.pageNum + 1, tablePage.pageNum + 5 < tablePage.totalPages ? tablePage.pageNum + 5 : tablePage.totalPages)}"
+           th:href="@{${tablePage.paginationUrl} + ${i} + '?sortField=' + ${tablePage.sortField} + '&sortDir=' + ${tablePage.sortDir} + '&keyword=' + ${tablePage.keyword}}"
+           th:text="${i}"></a>
+
+        <a th:if="${tablePage.pageNum != tablePage.totalPages}"
+           th:href="@{${tablePage.paginationUrl} + ${tablePage.totalPages} + '?sortField=' + ${tablePage.sortField}
+           + '&sortDir=' + ${tablePage.sortDir} + '&keyword=' + ${tablePage.keyword}}"
+           th:text="${'Последняя: ' + tablePage.totalPages}"></a>
+    </div>
+</div>

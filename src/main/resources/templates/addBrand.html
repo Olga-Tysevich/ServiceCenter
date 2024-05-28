@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Сервисный центр</title>
+</head>
+<body>
+<section>
+
+    <div th:replace="included/header"></div>
+
+    <div class="container main">
+
+        <div class="table-container">
+
+            <div class="forms-container lf">
+                <h2>Создание бренда</h2>
+
+                <form th:action="@{/brands/brand-create}" th:object="${brand}" method="post" id="create-brand-id">
+                    <input type="hidden" name="isActive" th:value="${true}">
+
+                    <div class="f-input">
+                        <label class="form-el">Наименование:</label>
+                        <input class="f-form" required type="text" th:field="*{name}" name="name">
+                    </div>
+
+                </form>
+
+                <div class="button-container">
+                    <h1 style="color: red" th:if="${errorMessage != null}"
+                        th:text="${errorMessage}"></h1>
+                </div>
+
+
+                <div class="button-container">
+                    <input class="button button-fieldset" type="submit" value="Сохранить" form="create-brand-id"/>
+                    <button class="button button-fieldset" onclick="location.href='/brands'">Отмена</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+</body>
+

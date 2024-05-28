@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Сервисный центр</title>
+</head>
+<body>
+<section>
+
+    <div th:replace="included/header"></div>
+
+    <div class="container main">
+
+        <div class="menu-container">
+
+            <fieldset class="f1">
+                <legend th:text="${'Ремонт No.' + repairNumber}"></legend>
+
+                <div class="button button-fieldset">
+                    <a th:href="@{/repairs/repair-page/{id}(id=${repairId})}">Вернуться в ремонт</a>
+                </div>
+
+                <button class="button button-fieldset" onclick="location.href='/repairs'">На главную</button>
+
+            </fieldset>
+        </div>
+
+        <div class="table-container">
+
+            <div th:switch="${orderList}">
+                <h2 th:case="null">Нет добавленных заказов!</h2>
+                <div th:case="*">
+                    <table id="orders-id">
+                        <thead>
+                        <tr>
+                            <th>
+                                <a th:href="@{'/show-orders/' + repairNumber + '?sortField=id&sortDir=' + ${sortDir}}">
+                                    Номер заказа</a>
+                            </th>
+
+                            <th>
+                                <a th:href="@{'/show-orders/' + repairNumber + '?sortField=orderDate&sortDir=' + ${sortDir}}">
+                                    Дата заказа</a>
+                            </th>
+                            <th class="date">
+                                <a th:href="@{'/show-orders/' + repairNumber + '?sortField=departureDate&sortDir=' + ${sortDir}}">
+                                    Дата отправки</a>
+                            </th>
+                            <th>
+                                <a th:href="@{'/show-orders/' + repairNumber + '?sortField=deliveryDate&sortDir=' + ${sortDir}}">
+                                    Дата доставки</a>
+                            </th>
+                            <th class="menu">Управление</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="order : ${orderList}">
+                            <td th:text="${order.id}"></td>
+                            <td th:text="${order.orderDate}"></td>
+                            <td th:text="${order.departureDate == null? '' : order.departureDate}"></td>
+                            <td th:text="${order.deliveryDate == null? '' : order.deliveryDate}"></td>
+                            <td>
+                                <button class="button light">Просмотреть список ЗЧ</button>
+
+                                <div class="included-container" style="display: none">
+                                    <div class="form-container order-form">
+                                        <div class="order-container">
+                                            <div class="f-input right">
+                                            <button class="close">X</button>
+                                            </div>
+
+                                            <div class="f-input">
+                                                <p th:text="${'Заказ No.' + order.id}"></p>
+                                            </div>
+
+                                            <table id="order_table">
+                                                <tr>
+                                                    <th>Наименование</th>
+                                                    <th>Количество</th>
+                                                </tr>
+
+                                                <tr th:each="orderItem : ${order.orderItems}">
+                                                    <td th:text="${orderItem.name}"></td>
+                                                    <td th:text="${orderItem.quantity}"></td>
+                                                </tr>
+
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <br>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<script src="/js/SparePartOrderListBehavior.js"></script>
+</body>

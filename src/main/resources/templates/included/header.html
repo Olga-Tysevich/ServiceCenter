@@ -1,0 +1,17 @@
+<div class=" container">
+
+    <div class="header-container">
+        <div class="header-el">
+            <div sec:authorize="isAuthenticated()" >
+                <span ec:authorize="hasAuthority('SERVICE_CENTER')" sec:authentication="principal.serviceCenterName"></span>
+            </div>
+        </div>
+
+        <div class="header-el">
+            <div sec:authorize="isAuthenticated()">
+                <span sec:authentication="principal.email"></span>
+            </div>
+        </div>
+    </div>
+
+</div>

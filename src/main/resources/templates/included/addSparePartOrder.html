@@ -1,0 +1,53 @@
+<div class="form-container r-form">
+    <div class="rc-form" id="spare-part-order_id">
+        <input type="hidden" th:field="${repair.id}" name="repairId">
+        <input type="hidden" th:field="${repair.modelId}" name="modelId">
+
+        <div class="f-input" style="display: none" id="message-block-id">
+            <h1 id="message-id"></h1>
+        </div>
+
+        <div class="f-input">
+            <h1 th:text="${'Заказ запчастей для ремонта No.' + repair.repairNumber}"></h1>
+        </div>
+
+        <div class="f-input">
+            <label class="form-el">Запчасть:</label>
+            <select class="f-form" name="sparePart" size="1" id="spare-parts-container-id">
+            </select>
+        </div>
+
+        <div class="f-input">
+            <label class="form-el">Количество:</label>
+            <input id="quantity-id" type="number" name="input_quantity" value="1">
+        </div>
+
+        <div class="f-input">
+            <input id="add-id" class="choose-button btn-table" type="button" value="Добавить"/>
+        </div>
+
+
+        <div class="f-input">
+
+            <table id="order-table-id">
+                <thead>
+                <tr>
+                    <th>Наименование</th>
+                    <th>Количество</th>
+                    <th>Управление</th>
+                </tr>
+                </thead>
+                <tbody id="order-body-id"></tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="button-container">
+    <button class="button" id="submit_id" onclick="createOrder()">Подтвердить</button>
+    <button class="button" id="cancel-id" onclick="closeOrderForm()">Отмена</button>
+</div>
+<script src="/js/SparePartOrderBehavior.js"></script>
+

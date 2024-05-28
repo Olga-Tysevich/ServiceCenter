@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <title>Сервисный центр</title>
+</head>
+<body>
+<section>
+
+    <div th:replace="included/header"></div>
+
+    <div class="container main">
+
+        <div th:replace="included/menu"></div>
+
+        <div>
+            <div>
+                <form action="#" th:action="@{/brands/page/1}" method="get">
+                    <input type="hidden" name="sortDir" th:value="${tablePage.sortDir}"/>
+                    <input type="hidden" name="sortField" th:value="${tablePage.sortField}"/>
+
+                    <input class="search" type="search" name="keyword"
+                           placeholder="Найти по названию"
+                           th:value="${tablePage.keyword}"/>
+                    <input class="button light" type="submit" value="Найти">
+                </form>
+            </div>
+
+            <div class="table-container">
+
+                <div th:switch="${tablePage.listForTable}">
+
+                    <div class="button-container">
+                        <h1 style="color: red" th:if="${errorMessage != null}"
+                            th:text="${errorMessage}"></h1>
+                    </div>
+
+                    <h2 th:case="null">Нет добавленных брендов!</h2>
+                    <div th:case="*">
+                        <table id="repairs">
+                            <thead>
+                            <tr>
+                                <th>
+                                    <a th:href="@{'/brands/page/' + ${tablePage.pageNum} + '?sortField=name&sortDir='
+                                    + ${tablePage.sortDir == 'ASC'? 'DESC' : 'ASC'} + '&keyword=' + ${tablePage.keyword}}">
+                                        Наименование бренда</a>
+                                </th>
+                                <th>
+                                    <a th:href="@{'/brands/page/' + ${tablePage.pageNum} + '?sortField=isActive&sortDir='
+                                    + ${tablePage.sortDir == 'ASC'? 'DESC' : 'ASC'} + '&keyword=' + ${tablePage.keyword}}">
+                                        Активно</a>
+                                </th>
+                                <th colspan="2" class="menu" sec:authorize="hasAuthority('ADMIN')" >Управление</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="brand : ${tablePage.listForTable}">
+                                <td th:text="${brand.name}"></td>
+                                <td th:text="${brand.isActive}"></td>
+                                <td sec:authorize="hasAuthority('ADMIN')">
+                                    <a th:href="@{/brands/brand-update/{id}(id=${brand.id})}">Редактировать</a>
+                                </td>
+                                <td sec:authorize="hasAuthority('ADMIN')">
+                                    <a th:href="@{/brands/brand-delete/{id}(id=${brand.id})}">Удалить</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <br>
+
+                    </div>
+                </div>
+
+                <div th:replace="included/pagination"></div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>

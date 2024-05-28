@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Сервисный центр</title>
+</head>
+<body>
+<section>
+
+    <div th:replace="included/header"></div>
+
+    <div class="container main">
+
+        <div class="table-container">
+
+            <div class="forms-container lf">
+                <h2>Изменение типа устройства</h2>
+
+                <form th:action="@{/brands/brand-update}" th:object="${brand}" method="post" id="update-brand-id">
+                    <input type="hidden" name="id" th:value="*{id}">
+
+                    <div class="f-input" sec:authorize="hasAuthority('ADMIN')">
+                        <div class="radio-container-rp">
+                            <label>Активный: </label>
+                            <label>да: </label>
+                            <input type="radio" name="isActive" th:checked="${brand.isActive == true}"
+                                   th:value="true">
+                            <label>нет: </label>
+                            <input type="radio" name="isActive" th:checked="${brand.isActive == false}"
+                                   th:value="false">
+                        </div>
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">Наименование:</label>
+                        <input class="f-form" required type="text" th:field="*{name}" name="name">
+                    </div>
+
+                </form>
+
+                <div class="button-container">
+                    <h1 style="color: red" th:if="${errorMessage != null}"
+                        th:text="${errorMessage}"></h1>
+                </div>
+
+                <div class="button-container">
+                    <input class="button button-fieldset" type="submit" value="Сохранить" form="update-brand-id"/>
+                    <button class="button button-fieldset" onclick="location.href='/brands'">Отмена</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+</body>

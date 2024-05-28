@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.25.xsd">
+
+    <changeSet id="insert_service-centers_id" author="Olga Tysevich">
+        <insert tableName="service_centers">
+            <column name="service_name" value="Дрималайн"/>
+            <column name="full_name" value="ООО Дрималайн"/>
+            <column name="email" value="email7752@mail.ru"/>
+            <column name="phone" value="+375 29 123-45-58"/>
+            <column name="registration_number" value="191111111"/>
+            <column name="taxpayer_number" value="385599999"/>
+            <column name="bank_name" value="Арктика Финанс"/>
+            <column name="bank_code" value="BK6825656"/>
+            <column name="bank_account" value="BA9995825656"/>
+            <column name="bank_address" value="Улица Центральная, дом 15"/>
+            <column name="actual_address" value="Шоссе Южное, дом 7, офис 3"/>
+            <column name="legal_address" value="Шоссе Южное, дом 7, офис 3"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="service_centers">
+            <column name="service_name" value="Кенфорд"/>
+            <column name="full_name" value="ООО Кенфорд"/>
+            <column name="email" value="email4447@mail.ru"/>
+            <column name="phone" value="+375 33 444-45-38"/>
+            <column name="registration_number" value="128641111"/>
+            <column name="taxpayer_number" value="10178999"/>
+            <column name="bank_name" value="Созвездие Банкс"/>
+            <column name="bank_code" value="BK59675656"/>
+            <column name="bank_account" value="BA71635825656"/>
+            <column name="bank_address" value="Улица Ленина, дом 10"/>
+            <column name="actual_address" value="Проспект Победы, дом 25"/>
+            <column name="legal_address" value="Проспект Победы, дом 25"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>

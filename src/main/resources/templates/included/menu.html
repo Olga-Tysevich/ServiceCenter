@@ -1,0 +1,116 @@
+<div class="menu-container">
+
+    <fieldset class="f1">
+        <legend>Текущий аккаунт</legend>
+        <div class="button button-fieldset">
+            <a style="color: white" th:href="@{/accounts/account-update/{id}(id=${id})}">Изменить данные аккаунта</a>
+        </div>
+
+        <div class="button button-fieldset" sec:authorize="hasAuthority('SERVICE_CENTER')">
+            <a style="color: white" th:href="@{/service-centers/service-center-update/{id}(id=${serviceCenterId})}">Изменить
+                учетные данные</a>
+        </div>
+    </fieldset>
+
+    <fieldset class="f1" sec:authorize="hasAuthority('ADMIN')">
+        <legend>Компания</legend>
+
+        <div class="button button-fieldset">
+            <a style="color: white" th:href="@{/accounts/account-create-admin}">Добавить аккаунт администратора</a>
+        </div>
+
+        <div class="button button-fieldset">
+            <a style="color: white" th:href="@{/accounts/account-create-service-center}">Добавить аккаунт сервиса</a>
+        </div>
+
+        <div class="button button-fieldset">
+            <a style="color: white" th:href="@{/accounts}">Список аккаунтов</a>
+        </div>
+
+    </fieldset>
+
+    <fieldset class="f1" sec:authorize="hasAuthority('ADMIN')">
+        <legend>Сервисные центры</legend>
+
+        <div class="button button-fieldset">
+            <a style="color: white" th:href="@{/service-centers/service-center-create}">Добавить сервисный центр</a>
+        </div>
+
+        <div class="button button-fieldset">
+            <a style="color: white" th:href="@{/service-centers}">Список сервисных центров</a>
+        </div>
+    </fieldset>
+
+    <fieldset class="f1">
+        <legend>Устройства</legend>
+
+        <div class="button button-fieldset" sec:authorize="hasAuthority('ADMIN')">
+            <a style="color: white" th:href="@{/models/model-create}">Добавить модель</a>
+        </div>
+
+        <div class="button button-fieldset">
+            <a style="color: white" th:href="@{/models}">Список моделей</a>
+        </div>
+
+        <div class="button button-fieldset" sec:authorize="hasAuthority('ADMIN')">
+            <a style="color: white" th:href="@{/brands/brand-create}">Добавить бренд</a>
+        </div>
+
+        <div class="button button-fieldset" sec:authorize="hasAuthority('ADMIN')">
+            <a style="color: white" th:href="@{/brands}">Список брендов</a>
+        </div>
+
+        <div class="button button-fieldset" sec:authorize="hasAuthority('ADMIN')">
+            <a style="color: white" th:href="@{/device-types/device-type-create}">Добавить тип устройства</a>
+        </div>
+
+        <div class="button button-fieldset" sec:authorize="hasAuthority('ADMIN')">
+            <a style="color: white" th:href="@{/device-types}">Список типов устройств</a>
+        </div>
+    </fieldset>
+
+    <fieldset class="f1">
+        <legend>Запчасти</legend>
+
+        <div class="button button-fieldset" sec:authorize="hasAuthority('ADMIN')">
+            <a style="color: white" th:href="@{/spare-parts/spare-part-create}">Добавить запчасть</a>
+        </div>
+
+        <div class="button button-fieldset">
+            <a style="color: white" th:href="@{/spare-parts}">Список запчастей</a>
+        </div>
+
+    </fieldset>
+
+    <fieldset class="f1">
+        <legend>Ремонты</legend>
+        <div class="button button-fieldset" sec:authorize="hasAuthority('SERVICE_CENTER')">
+            <a style="color: white" th:href="@{/repairs/repair-create}">Создание нового ремонта</a>
+        </div>
+
+
+        <div class="button button-fieldset">
+            <a style="color: white" th:href="@{'/repairs'}">
+                Список ремонтов
+            </a>
+        </div>
+
+        <div class="button button-fieldset" sec:authorize="hasAuthority('ADMIN')">
+            <a style="color: white" th:href="@{/repair-types/repair-type-create}">Добавить тип ремонта</a>
+        </div>
+
+        <div class="button button-fieldset">
+            <a style="color: white" th:href="@{/repair-types}">Список типов ремонта</a>
+        </div>
+
+    </fieldset>
+
+    <fieldset class="f1">
+        <legend>Выход</legend>
+        <div class="button button-fieldset">
+            <a style="color: white" th:href="@{/logout}">Выйти из авторизованного режима</a>
+        </div>
+
+    </fieldset>
+
+</div>

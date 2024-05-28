@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Сервисный центр</title>
+</head>
+<body>
+<section>
+
+    <div th:replace="included/header"></div>
+
+    <div class="container main">
+
+        <div class="table-container">
+
+            <div class="forms-container lf">
+                <h2>Изменение данных аккаунта</h2>
+
+                <form th:action="@{/accounts/account-update}" th:object="${account}" method="post" id="update-account-id">
+                    <input type="hidden" name="id" th:value="*{id}">
+                    <input type="hidden" name="role" th:value="*{role}">
+                    <input type="hidden" name="serviceCenterId" th:value="*{serviceCenterId}">
+                    <input sec:authorize="hasAuthority('SERVICE_CENTER')" type="hidden" name="isActive" th:value="*{isActive}">
+
+                    <div class="f-input" th:if="${T(it.academy.service.entity.RoleEnum).SERVICE_CENTER == account.role}"
+                         sec:authorize="hasAuthority('ADMIN')">
+                        <div class="radio-container-rp">
+                            <label>Активный: </label>
+                            <label>да: </label>
+                            <input type="radio" name="isActive" th:checked="${account.isActive == true}"
+                                   th:value="true">
+                            <label>нет: </label>
+                            <input type="radio" name="isActive" th:checked="${account.isActive == false}"
+                                   th:value="false">
+                        </div>
+                    </div>
+
+                    <div class="f-input" sec:authorize="hasAuthority('ADMIN')">
+                        <label class="form-el">Сервисный центр:</label>
+                        <input class="f-form" type="email" th:field="*{serviceCenterName}" name="serviceCenterName" disabled>
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">email:</label>
+                        <input class="f-form" type="email" th:field="*{email}" name="email"
+                               pattern="^[a-zA-Z0-9-.]+@([a-zA-Z-]+\\.)+[a-zA-Z-]{2,4}$">
+                    </div>
+
+
+                    <div class="f-input">
+                        <label class="form-el">Имя пользователя:</label>
+                        <input class="f-form" type="text" th:field="*{userName}" name="userName"
+                               pattern="[A-ZА-Я][a-zа-я]{2,19}">
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">Фамилия пользователя:</label>
+                        <input class="f-form" type="text" th:field="*{userSurname}" name="userSurname"
+                               pattern="[A-ZА-Я][a-zа-я]{2,19}">
+                    </div>
+
+
+                    <div class="f-input">
+                        <label class="form-el">Установить новый пароль:</label>
+                        <input class="f-form" type="password" th:field="*{password}" name="password" placeholder="Введите пароль"
+                               pattern="^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}$">
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">Подтвердить пароль:</label>
+                        <input class="f-form" type="password" th:field="*{passwordConfirm}" name="passwordConfirm" placeholder="Подтвердите пароль"
+                               pattern="^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}$">
+                    </div>
+
+                </form>
+
+
+                <div class="button-container">
+                    <h1 style="color: red" th:if="${errorMessage != null}"
+                        th:val="${errorMessage}"></h1>
+                </div>
+
+                <div class="button-container">
+                    <input class="button button-fieldset" type="submit" value="Сохранить" form="update-account-id"/>
+                    <button class="button button-fieldset" onclick="location.href='/accounts'">Отмена</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+</body>

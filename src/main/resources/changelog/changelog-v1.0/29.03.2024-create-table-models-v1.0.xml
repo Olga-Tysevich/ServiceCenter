@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.25.xsd">
+
+    <changeSet id="create_models_table_01" author="Olga Tysevich">
+        <createTable tableName="models">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" unique="true"/>
+            </column>
+
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="brand_id" type="bigint"/>
+
+            <column name="type_id" type="bigint"/>
+
+            <column name="active" type="bit">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+
+    </changeSet>
+
+    <changeSet id="add_unique_constraint_models_table_02" author="Olga Tysevich">
+        <addUniqueConstraint columnNames="name, brand_id, type_id"
+                             constraintName="constr_models_table"
+                             tableName="models"
+                             validate="true"/>
+    </changeSet>
+
+    <changeSet author="Olga Tysevich" id="addBrandForeign_key_table_models">
+        <addForeignKeyConstraint
+                baseTableName="models"
+                baseColumnNames="brand_id"
+                constraintName="FK95s72g5hnsl3o0bqeuhnokdxu"
+                referencedTableName="brands"
+                referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet author="Olga Tysevich" id="addDeviceTypeForeign_key_table_models">
+        <addForeignKeyConstraint
+                baseTableName="models"
+                baseColumnNames="type_id"
+                constraintName="FKqr4ob9tinxm7c4tudf3bm1swg"
+                referencedTableName="device_types"
+                referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

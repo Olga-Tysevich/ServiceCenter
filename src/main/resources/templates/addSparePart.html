@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Сервисный центр</title>
+</head>
+<body>
+<section>
+
+    <div th:replace="included/header"></div>
+
+    <div class="container main">
+
+        <div class="table-container">
+
+            <div class="forms-container lf">
+                <h2>Создание запчасти</h2>
+
+                <form th:action="@{/spare-parts/spare-part-create}" th:object="${sparePart}" method="post"
+                      id="create-spare-part-id">
+                    <input type="hidden" name="isActive" th:value="${true}">
+
+                    <div class="f-input">
+                        <label class="form-el">Наименование:</label>
+                        <input class="f-form" required type="text" th:field="*{name}" name="name" id="sp-name">
+                    </div>
+
+                    <div class="sp-model-container">
+
+                        <table id="repairs">
+                            <thead>
+                            <tr>
+                                <th>Название модели</th>
+                                <th class="date">Бренд</th>
+                                <th>Тип устройства</th>
+                                <th>Применяется</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="model : ${modelList}">
+                                <td th:text="${model.name}"></td>
+                                <td th:text="${model.brandName}"></td>
+                                <td th:text="${model.deviceTypeName}"></td>
+                                <td>
+                                    <input type="checkbox" name="isChecked" th:checked="${sparePart.modelIdList != null?
+                                    sparePart.modelIdList.contains(model.id) : false}"
+                                           th:value="${model.id}">
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </form>
+
+                <div class="button-container">
+                    <h1 id="error"></h1>
+                </div>
+
+                <div class="button-container">
+                    <input class="button button-fieldset" type="submit" value="Сохранить" onclick="updateSparePart()"/>
+                    <button class="button button-fieldset" onclick="location.href='/spare-parts'">Отмена</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+<script src="/js/SparePartBehavior.js"></script>
+</body>

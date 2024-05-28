@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Сервисный центр</title>
+</head>
+<body>
+<section>
+
+    <div th:replace="included/header"></div>
+
+    <div class="container main">
+
+        <div class="table-container">
+
+            <div class="forms-container lf">
+                <h2>Изменение данных сервисного центра</h2>
+
+                <form th:action="@{/service-centers/service-center-update}" th:object="${serviceCenter}" method="post" id="update-sc-id">
+                    <input type="hidden" name="id" th:value="*{id}">
+                    <input sec:authorize="hasAuthority('SERVICE_CENTER')" type="hidden" name="serviceName" th:value="*{serviceName}">
+                    <input sec:authorize="hasAuthority('SERVICE_CENTER')" type="hidden" name="isActive" th:value="*{isActive}">
+
+                    <div class="f-input" sec:authorize="hasAuthority('ADMIN')">
+                        <div class="radio-container-rp">
+                            <label>Активный: </label>
+                            <label>да: </label>
+                            <input type="radio" name="isActive" th:checked="${serviceCenter.isActive == true}"
+                                   th:value="true">
+                            <label>нет: </label>
+                            <input type="radio" name="isActive" th:checked="${serviceCenter.isActive == false}"
+                                   th:value="false">
+                        </div>
+                    </div>
+
+                    <div class="f-input" sec:authorize="hasAuthority('ADMIN')">
+                        <label class="form-el">Сервисное имя:</label>
+                        <input class="f-form" type="text" th:field="*{serviceName}" name="serviceName">
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">Банк:</label>
+                        <input class="f-form" type="text" th:field="*{bankName}" name="bankName">
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">Банковский аккаунт:</label>
+                        <input class="f-form" type="text" th:field="*{bankAccount}" name="bankAccount">
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">БИК:</label>
+                        <input class="f-form" type="text" th:field="*{bankCode}" name="bankCode">
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">Адрес банка:</label>
+                        <input class="f-form" type="text" th:field="*{bankAddress}" name="bankAddress">
+                    </div>
+
+
+                    <div class="f-input">
+                        <label class="form-el">Полное название:</label>
+                        <input class="f-form" type="text" th:field="*{fullName}" name="fullName">
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">Юридический адрес:</label>
+                        <input class="f-form" type="text" th:field="*{legalAddress}" name="legalAddress">
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">Фактический адрес:</label>
+                        <input class="f-form" type="text" th:field="*{actualAddress}" name="actualAddress">
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">Телефон:</label>
+                        <input class="f-form" type="tel" th:field="*{phone}" name="phone">
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">email:</label>
+                        <input class="f-form" type="text" th:field="*{email}" name="email">
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">УНН:</label>
+                        <input class="f-form" type="number" th:field="*{taxpayerNumber}" name="taxpayerNumber">
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">ОКПО:</label>
+                        <input class="f-form" type="number" th:field="*{registrationNumber}" name="registrationNumber">
+                    </div>
+
+                </form>
+
+
+                <div class="button-container">
+                    <h1 style="color: red" th:if="${errorMessage != null}"
+                        th:val="${errorMessage}"></h1>
+                </div>
+
+                <div class="button-container">
+                    <input class="button button-fieldset" type="submit" value="Сохранить" form="update-sc-id"/>
+                    <button class="button button-fieldset" onclick="location.href='/service-centers'">Отмена</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+</body>

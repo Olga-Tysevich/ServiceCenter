@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.25.xsd">
+
+    <changeSet id="insert_models_id" author="Olga Tysevich">
+        <insert tableName="models">
+            <column name="name" value="IPC-240B-Tuya560"/>
+            <column name="brand_id" value="1"/>
+            <column name="type_id" value="4"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="models">
+            <column name="name" value="RDM-1699503"/>
+            <column name="brand_id" value="1"/>
+            <column name="type_id" value="2"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="models">
+            <column name="name" value="Q36034"/>
+            <column name="brand_id" value="2"/>
+            <column name="type_id" value="1"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="models">
+            <column name="name" value="FIT7404"/>
+            <column name="brand_id" value="2"/>
+            <column name="type_id" value="2"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="models">
+            <column name="name" value="DK20015147"/>
+            <column name="brand_id" value="3"/>
+            <column name="type_id" value="2"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>

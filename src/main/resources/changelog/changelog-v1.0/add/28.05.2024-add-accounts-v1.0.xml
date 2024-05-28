@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.25.xsd">
+
+    <changeSet id="insert_accounts_id" author="Olga Tysevich">
+        <insert tableName="accounts">
+            <column name="email" value="admin@mail.ru"/>
+            <column name="active" valueBoolean="true"/>
+            <column name="password" value="$2a$10$0nBBb9riyviQfNlJ94vxduDG.6WP4eoULnO6zu7ZSlQ6FsVF1KFlC"/>
+            <column name="role" value="ADMIN"/>
+            <column name="user_name" value="Admin"/>
+            <column name="user_surname" value="Admin"/>
+        </insert>
+
+        <insert tableName="accounts">
+            <column name="email" value="user@mail.ru"/>
+            <column name="active" valueBoolean="true"/>
+            <column name="password" value="$2a$10$0nBBb9riyviQfNlJ94vxduDG.6WP4eoULnO6zu7ZSlQ6FsVF1KFlC"/>
+            <column name="role" value="SERVICE_CENTER"/>
+            <column name="user_name" value="Service"/>
+            <column name="user_surname" value="Service"/>
+            <column name="service_center_id" value="1"/>
+        </insert>
+
+        <insert tableName="accounts">
+            <column name="email" value="user2@mail.ru"/>
+            <column name="active" valueBoolean="true"/>
+            <column name="password" value="$2a$10$0nBBb9riyviQfNlJ94vxduDG.6WP4eoULnO6zu7ZSlQ6FsVF1KFlC"/>
+            <column name="role" value="SERVICE_CENTER"/>
+            <column name="user_name" value="Service"/>
+            <column name="user_surname" value="Service"/>
+            <column name="service_center_id" value="1"/>
+        </insert>
+
+        <insert tableName="accounts">
+            <column name="email" value="user3@mail.ru"/>
+            <column name="active" valueBoolean="true"/>
+            <column name="password" value="$2a$10$0nBBb9riyviQfNlJ94vxduDG.6WP4eoULnO6zu7ZSlQ6FsVF1KFlC"/>
+            <column name="role" value="SERVICE_CENTER"/>
+            <column name="user_name" value="Service"/>
+            <column name="user_surname" value="Service"/>
+            <column name="service_center_id" value="2"/>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>

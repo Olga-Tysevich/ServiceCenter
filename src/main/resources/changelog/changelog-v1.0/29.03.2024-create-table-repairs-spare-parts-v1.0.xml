@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.25.xsd">
+
+    <changeSet id="create_repairs-spare_parts_table_01" author="Olga Tysevich">
+        <createTable tableName="repairs_spare_parts">
+            <column name="repair_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="spare_part_order_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="spare_part_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="quantity" type="int">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+
+    </changeSet>
+
+    <changeSet author="Olga Tysevich" id="add-PK-repairs-sp">
+        <addPrimaryKey tableName="repairs_spare_parts"
+                       columnNames="repair_id, spare_part_id, spare_part_order_id"
+                       constraintName="primary_key_constraint_rsp"/>
+    </changeSet>
+
+</databaseChangeLog>

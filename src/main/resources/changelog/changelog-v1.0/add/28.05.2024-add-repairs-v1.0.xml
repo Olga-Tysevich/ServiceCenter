@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.25.xsd">
+
+    <changeSet id="insert_repairs_id" author="Olga Tysevich">
+        <insert tableName="repairs">
+            <column name="category" value="WARRANTY"/>
+            <column name="status" value="WAITING_FOR_SPARE_PARTS"/>
+            <column name="service_center_id" value="1"/>
+            <column name="repair_number" value="1-01"/>
+            <column name="device_id" value="1"/>
+            <column name="defect_description" value="Не работает"/>
+            <column name="start_date" value="2024-05-01"/>
+        </insert>
+
+        <insert tableName="repairs">
+            <column name="category" value="WARRANTY"/>
+            <column name="status" value="WAITING_FOR_SPARE_PARTS"/>
+            <column name="service_center_id" value="1"/>
+            <column name="repair_number" value="1-02"/>
+            <column name="device_id" value="2"/>
+            <column name="defect_description" value="Не включается"/>
+            <column name="start_date" value="2024-05-01"/>
+        </insert>
+
+        <insert tableName="repairs">
+            <column name="category" value="WARRANTY"/>
+            <column name="status" value="WAITING_FOR_SPARE_PARTS"/>
+            <column name="service_center_id" value="2"/>
+            <column name="repair_number" value="2-01"/>
+            <column name="device_id" value="3"/>
+            <column name="defect_description" value="Не включается"/>
+            <column name="start_date" value="2024-05-01"/>
+        </insert>
+
+        <insert tableName="repairs">
+            <column name="category" value="WARRANTY"/>
+            <column name="status" value="REQUEST"/>
+            <column name="service_center_id" value="1"/>
+            <column name="repair_number" value="1-03"/>
+            <column name="device_id" value="4"/>
+            <column name="defect_description" value="Не работает"/>
+            <column name="start_date" value="2024-05-01"/>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>

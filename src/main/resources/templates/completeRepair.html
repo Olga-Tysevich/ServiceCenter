@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Сервисный центр</title>
+</head>
+<body>
+<section>
+
+    <div th:replace="included/header"></div>
+
+    <div class="container main">
+
+        <div class="menu-container">
+
+            <fieldset class="f1">
+                <legend th:text="${'Ремонт No.' + repairNumber}"></legend>
+
+
+                <button class="button button-fieldset">Добавить со склада</button>
+
+                <div class="button button-fieldset">
+                    <a th:href="@{/repairs/repair-page/{id}(id=${repairId})}">Вернуться в ремонт</a>
+                </div>
+
+                <button class="button button-fieldset" onclick="location.href='/repairs'">На главную</button>
+
+
+            </fieldset>
+        </div>
+
+        <div class="repairType-container">
+            <div>
+
+                <div class="f-input" id="repair-type-option-id">
+                    <h1>Тип ремонта:</h1>
+                    <select class="f-form" name="repairType" size="1" onchange="addRepairType()">
+                        <option th:each="repairType : ${repairTypeList}"
+                                th:value="${repairType.id}"
+                                th:text="${repairType.name + ' (Код: ' + repairType.code + '; Уровень: ' + repairType.level + ')'}">
+                        </option>
+                    </select>
+                </div>
+
+                <div th:switch="${sparePartList}">
+                    <h2 th:case="null">Нет добавленных заказов!</h2>
+                    <div th:case="*">
+
+                        <div>
+                            <table id="orders-id">
+                                <thead>
+                                <tr>
+                                    <th>Заказ No.</th>
+                                    <th>Дата заказа</th>
+                                    <th>Запчасть</th>
+                                    <th>Количество</th>
+                                    <th class="menu">Управление</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="sparePart : ${sparePartList}">
+                                    <td class="order-id" th:text="${sparePart.orderId}"></td>
+                                    <td th:text="${sparePart.orderDate}"></td>
+                                    <td th:text="${sparePart.id}" style="display: none"></td>
+                                    <td th:text="${sparePart.name}"></td>
+                                    <td th:text="${sparePart.quantity}"></td>
+                                    <td>
+                                        <button class="button light" onclick="addToRepair(this)">Добавить в ремонт</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <br>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div>
+                <button class="button" id="find-stock-sp-id" onclick="getStockSpareParts()">Добавить со склада
+                </button>
+            </div>
+
+            <div th:replace="included/errorContainer"></div>
+
+            <div id="stock-stare-parts-block-id">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Заказ №</th>
+                        <th>Дата заказа</th>
+                        <th>Запчасть</th>
+                        <th>Количество</th>
+                        <th>Номер ремонта из заказа</th>
+                        <th class="menu">Управление</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="repair-type-data-id">
+                <input type="hidden" id="repairId" th:value="${repairId}">
+                <input type="hidden" id="modelId" th:value="${modelId}">
+
+                <h1>Выполненный ремонт:</h1>
+                <p id="repair-type-description-id">
+                </p>
+
+                <table id="repair-block-id">
+                    <thead>
+                    <tr>
+                        <th>Запчасть</th>
+                        <th>Количество</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+
+                <div class="f-input right">
+                    <button class="button" id="complete-repair-button-id" onclick="completeRepair()">Завершить ремонт
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+<script src="/js/CompleteRepairBehavior.js"></script>
+</body>

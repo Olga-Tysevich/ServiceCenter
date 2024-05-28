@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Сервисный центр</title>
+</head>
+<body>
+<section>
+
+    <div th:replace="included/header"></div>
+
+    <div class="container main">
+
+        <div class="table-container">
+
+            <div class="forms-container lf">
+                <h2>Создание аккаунта</h2>
+
+                <form th:action="@{/accounts-rest/account-create}" th:object="${account}" method="post" id="create-account-id">
+                    <input type="hidden" name="id" th:value="*{id}" id="account-id">
+                    <input type="hidden" name="role" th:value="'SERVICE_CENTER'">
+                    <input type="hidden" name="isActive" th:value="true">
+
+                    <div class="f-input">
+                        <label class="form-el">Сервисный центр:</label>
+                        <select class="f-form" name="serviceCenterId" size="1" id="service-center-container-id">
+                            <option th:each="serviceCenter : ${serviceCenters}"
+                                    th:value="${serviceCenter.id}"
+                                    th:text="${serviceCenter.serviceName}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">email:</label>
+                        <input class="f-form" type="email" th:field="*{email}" name="email" id="email-id"
+                               pattern="^[a-zA-Z0-9-.]+@([a-zA-Z-]+\\.)+[a-zA-Z-]{2,4}$">
+                    </div>
+
+
+                    <div class="f-input">
+                        <label class="form-el">Имя пользователя:</label>
+                        <input class="f-form" type="text" th:field="*{userName}" name="userName" id="user-name-id"
+                               pattern="[A-ZА-Я][a-zа-я]{2,19}">
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">Фамилия пользователя:</label>
+                        <input class="f-form" type="text" th:field="*{userSurname}" name="userSurname" id="user-surname-id"
+                               pattern="[A-ZА-Я][a-zа-я]{2,19}">
+                    </div>
+
+
+                    <div class="f-input">
+                        <label class="form-el">Введите пароль</label>
+                        <input class="f-form" type="password" th:field="*{password}" name="password" placeholder="Введите пароль" id="password-id"
+                               pattern="^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}$">
+                    </div>
+
+                    <div class="f-input">
+                        <label class="form-el">Подтвердите пароль:</label>
+                        <input class="f-form" type="password" th:field="*{passwordConfirm}" name="passwordConfirm" placeholder="Подтвердите пароль"
+                               id="password-confirm-id" pattern="^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}$">
+                    </div>
+
+                </form>
+
+                <div class="button-container">
+                    <h1 id="error"></h1>
+                </div>
+
+                <div class="button-container">
+                    <input class="button button-fieldset" type="submit" value="Сохранить" onclick="createServiceCenterAccount()"/>
+                    <button class="button button-fieldset" onclick="location.href='/accounts'">Отмена</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+<script src="/js/ServiceCenterAccountBehavior.js"></script>
+</body>

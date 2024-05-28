@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.25.xsd">
+
+    <changeSet id="insert_repair_types_id" author="Olga Tysevich">
+        <insert tableName="repair_types">
+            <column name="code" value="CODE2"/>
+            <column name="level" value="LEVEL1"/>
+            <column name="name" value="Замена динамика"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="repair_types">
+            <column name="code" value="CODE1"/>
+            <column name="level" value="LEVEL3"/>
+            <column name="name" value="Замена платы"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="repair_types">
+            <column name="code" value="CODE1"/>
+            <column name="level" value="LEVEL1"/>
+            <column name="name" value="Замена предохранителя"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="repair_types">
+            <column name="code" value="CODE1"/>
+            <column name="level" value="LEVEL2"/>
+            <column name="name" value="Замена трансформатора"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="repair_types">
+            <column name="code" value="CODE1"/>
+            <column name="level" value="LEVEL0"/>
+            <column name="name" value="Отказ в ГО"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="repair_types">
+            <column name="code" value="CODE1"/>
+            <column name="level" value="LEVEL0"/>
+            <column name="name" value="Test pagination"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="repair_types">
+            <column name="code" value="CODE1"/>
+            <column name="level" value="LEVEL0"/>
+            <column name="name" value="Test pagination2"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="repair_types">
+            <column name="code" value="CODE1"/>
+            <column name="level" value="LEVEL0"/>
+            <column name="name" value="Test pagination3"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="repair_types">
+            <column name="code" value="CODE1"/>
+            <column name="level" value="LEVEL0"/>
+            <column name="name" value="Test pagination4"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="repair_types">
+            <column name="code" value="CODE1"/>
+            <column name="level" value="LEVEL0"/>
+            <column name="name" value="Test pagination5"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="repair_types">
+            <column name="code" value="CODE1"/>
+            <column name="level" value="LEVEL0"/>
+            <column name="name" value="Test pagination6"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="repair_types">
+            <column name="code" value="CODE1"/>
+            <column name="level" value="LEVEL0"/>
+            <column name="name" value="Test pagination7"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="repair_types">
+            <column name="code" value="CODE1"/>
+            <column name="level" value="LEVEL0"/>
+            <column name="name" value="Test pagination8"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="repair_types">
+            <column name="code" value="CODE1"/>
+            <column name="level" value="LEVEL0"/>
+            <column name="name" value="Test pagination9"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="repair_types">
+            <column name="code" value="CODE1"/>
+            <column name="level" value="LEVEL0"/>
+            <column name="name" value="Test pagination10"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="repair_types">
+            <column name="code" value="CODE1"/>
+            <column name="level" value="LEVEL0"/>
+            <column name="name" value="Test pagination11"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="repair_types">
+            <column name="code" value="CODE1"/>
+            <column name="level" value="LEVEL0"/>
+            <column name="name" value="Test pagination12"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="repair_types">
+            <column name="code" value="CODE1"/>
+            <column name="level" value="LEVEL0"/>
+            <column name="name" value="Test pagination13"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="repair_types">
+            <column name="code" value="CODE1"/>
+            <column name="level" value="LEVEL0"/>
+            <column name="name" value="Test pagination14"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="repair_types">
+            <column name="code" value="CODE1"/>
+            <column name="level" value="LEVEL0"/>
+            <column name="name" value="Test pagination15"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="repair_types">
+            <column name="code" value="CODE1"/>
+            <column name="level" value="LEVEL0"/>
+            <column name="name" value="Test pagination16"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="repair_types">
+            <column name="code" value="CODE1"/>
+            <column name="level" value="LEVEL0"/>
+            <column name="name" value="Test pagination17"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="repair_types">
+            <column name="code" value="CODE1"/>
+            <column name="level" value="LEVEL0"/>
+            <column name="name" value="Test pagination18"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="repair_types">
+            <column name="code" value="CODE1"/>
+            <column name="level" value="LEVEL0"/>
+            <column name="name" value="Test pagination19"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+        <insert tableName="repair_types">
+            <column name="code" value="CODE1"/>
+            <column name="level" value="LEVEL0"/>
+            <column name="name" value="Test pagination20"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>

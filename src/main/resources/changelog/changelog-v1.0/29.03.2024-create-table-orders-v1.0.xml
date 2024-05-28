@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.25.xsd">
+
+    <changeSet id="create_orders_table_01" author="Olga Tysevich">
+        <createTable tableName="orders">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" unique="true"/>
+            </column>
+
+            <column name="repair_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="order_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="departure_date" type="date"/>
+
+            <column name="delivery_date" type="date"/>
+        </createTable>
+
+    </changeSet>
+
+    <changeSet author="Olga Tysevich" id="addRepairForeign_key_table_repairs">
+        <addForeignKeyConstraint
+                baseTableName="orders"
+                baseColumnNames="repair_id"
+                constraintName="FKo47r7vtvc57p59ljpbq4v86ay"
+                referencedTableName="repairs"
+                referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

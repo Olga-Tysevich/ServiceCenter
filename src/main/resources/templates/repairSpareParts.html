@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Сервисный центр</title>
+</head>
+<body>
+<section>
+
+    <div th:replace="included/header"></div>
+
+    <div class="container main">
+
+        <div class="menu-container">
+
+            <fieldset class="f1">
+                <legend th:text="${'Ремонт No.' + repairNumber}"></legend>
+
+                <div class="button button-fieldset">
+                    <a th:href="@{/repairs/repair-page/{id}(id=${repairId})}">Вернуться в ремонт</a>
+                </div>
+
+                <button class="button button-fieldset" onclick="location.href='/repairs'">На главную</button>
+
+
+            </fieldset>
+        </div>
+
+        <div class="repairType-container">
+
+            <div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Заказ №</th>
+                        <th>Дата заказа</th>
+                        <th>Номер ремонта из заказа</th>
+                        <th>Запчасть</th>
+                        <th>Количество</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="sparePart : ${repairSpareParts}">
+                        <td th:text="${sparePart.orderId}"></td>
+                        <td th:text="${sparePart.orderDate}"></td>
+                        <td th:text="${sparePart.repairNumberFromOrder}">
+                            <a th:if="${sparePart.actualRepairId != repairId}"
+                               th:href="@{/repairs/repair-page/{id}(id=${repairId})}">Перейти в ремонт</a>
+                        </td>
+                        <td th:text="${sparePart.sparePartName}"></td>
+                        <td th:text="${sparePart.quantity}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+</body>

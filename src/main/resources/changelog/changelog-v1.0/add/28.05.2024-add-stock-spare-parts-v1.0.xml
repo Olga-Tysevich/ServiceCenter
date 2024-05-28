@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.25.xsd">
+
+    <changeSet id="insert_stock_spare_parts_id" author="Olga Tysevich">
+        <insert tableName="stock_spare_parts">
+            <column name="spare_part_id" value="3"/>
+            <column name="spare_part_order_id" value="3"/>
+            <column name="quantity" value="1"/>
+        </insert>
+
+        <insert tableName="stock_spare_parts">
+            <column name="spare_part_id" value="4"/>
+            <column name="spare_part_order_id" value="4"/>
+            <column name="quantity" value="1"/>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.25.xsd">
+
+    <changeSet id="create_repair_table_01" author="Olga Tysevich">
+        <createTable tableName="repairs">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" unique="true"/>
+            </column>
+
+            <column name="category" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="status" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="service_center_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="repair_number" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="device_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="defect_description" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="start_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="end_date" type="date"/>
+
+            <column name="repair_type_id" type="bigint"/>
+
+        </createTable>
+
+    </changeSet>
+
+    <changeSet author="Olga Tysevich" id="addServiceForeign_key_table_repairs_02">
+        <addForeignKeyConstraint
+                baseTableName="repairs"
+                baseColumnNames="service_center_id"
+                constraintName="FKqdmntvjnr3u5e9fk2pxjia9my"
+                referencedTableName="service_centers"
+                referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet author="Olga Tysevich" id="addDeviceForeign_key_table_repairs_03">
+        <addForeignKeyConstraint
+                baseTableName="repairs"
+                baseColumnNames="device_id"
+                constraintName="FK1hcepx0l0ouirxspelke8c6g5"
+                referencedTableName="devices"
+                referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet author="Olga Tysevich" id="addRepairTypeForeign_key_table_repairs_04">
+        <addForeignKeyConstraint
+                baseTableName="repairs"
+                baseColumnNames="repair_type_id"
+                constraintName="FKrfs7esd9qjqtdi4hlty5otgpd"
+                referencedTableName="repair_types"
+                referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

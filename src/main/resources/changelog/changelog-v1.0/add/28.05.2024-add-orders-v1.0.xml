@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.25.xsd">
+
+    <changeSet id="insert_orders_id" author="Olga Tysevich">
+        <insert tableName="orders">
+            <column name="repair_id" value="1"/>
+            <column name="order_date" value="2024-05-02"/>
+        </insert>
+
+        <insert tableName="orders">
+            <column name="repair_id" value="1"/>
+            <column name="order_date" value="2024-05-04"/>
+        </insert>
+
+        <insert tableName="orders">
+            <column name="repair_id" value="2"/>
+            <column name="order_date" value="2024-05-01"/>
+            <column name="departure_date" value="2024-05-04"/>
+            <column name="delivery_date" value="2024-05-06"/>
+        </insert>
+
+        <insert tableName="orders">
+            <column name="repair_id" value="2"/>
+            <column name="order_date" value="2024-05-02"/>
+            <column name="departure_date" value="2024-05-04"/>
+            <column name="delivery_date" value="2024-05-05"/>
+        </insert>
+
+        <insert tableName="orders">
+            <column name="repair_id" value="3"/>
+            <column name="order_date" value="2024-05-02"/>
+            <column name="departure_date" value="2024-05-04"/>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>

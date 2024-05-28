@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.25.xsd">
+
+    <changeSet id="insert_models-spare-parts_id" author="Olga Tysevich">
+        <insert tableName="models_spare_parts">
+            <column name="model_id" value="1"/>
+            <column name="spare_part_id" value="1"/>
+        </insert>
+
+        <insert tableName="models_spare_parts">
+            <column name="model_id" value="1"/>
+            <column name="spare_part_id" value="2"/>
+        </insert>
+
+        <insert tableName="models_spare_parts">
+            <column name="model_id" value="2"/>
+            <column name="spare_part_id" value="3"/>
+        </insert>
+
+        <insert tableName="models_spare_parts">
+            <column name="model_id" value="2"/>
+            <column name="spare_part_id" value="4"/>
+        </insert>
+
+        <insert tableName="models_spare_parts">
+            <column name="model_id" value="3"/>
+            <column name="spare_part_id" value="1"/>
+        </insert>
+
+        <insert tableName="models_spare_parts">
+            <column name="model_id" value="3"/>
+            <column name="spare_part_id" value="2"/>
+        </insert>
+
+        <insert tableName="models_spare_parts">
+            <column name="model_id" value="3"/>
+            <column name="spare_part_id" value="4"/>
+        </insert>
+
+        <insert tableName="models_spare_parts">
+            <column name="model_id" value="1"/>
+            <column name="spare_part_id" value="3"/>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>

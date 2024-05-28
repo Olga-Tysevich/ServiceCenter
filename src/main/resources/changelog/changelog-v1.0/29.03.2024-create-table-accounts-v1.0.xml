@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.25.xsd">
+
+    <changeSet id="create_accounts_table_01" author="Olga Tysevich">
+        <createTable tableName="accounts">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" unique="true"/>
+            </column>
+
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+
+            <column name="active" type="bit">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="password" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="role" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="user_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="user_surname" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="service_center_id" type="bigint"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Olga Tysevich" id="addForeign_key_table_accounts">
+        <addForeignKeyConstraint
+                baseTableName="accounts"
+                baseColumnNames="service_center_id"
+                constraintName="FKqc34n12edfkgixnws4bvx8mkt"
+                referencedTableName="service_centers"
+                referencedColumnNames="id"/>
+    </changeSet>
+
+
+</databaseChangeLog>
