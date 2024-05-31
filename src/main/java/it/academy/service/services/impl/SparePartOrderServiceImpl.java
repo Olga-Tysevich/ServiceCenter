@@ -16,11 +16,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static it.academy.service.utils.Constants.ZERO;
 import static it.academy.service.utils.UIConstants.*;
 
 @Transactional
@@ -43,7 +45,7 @@ public class SparePartOrderServiceImpl extends CrudServiceImpl<SparePartOrder, S
     @Override
     public SparePartOrderDTO createOrUpdate(@NotNull SparePartOrderDTO orderDTO) {
         Long id = orderDTO.getId();
-        return id == null? createSparePartOrder(orderDTO) : updateSparePartOrder(orderDTO);
+        return id == null ? createSparePartOrder(orderDTO) : updateSparePartOrder(orderDTO);
     }
 
     @Override
@@ -82,10 +84,11 @@ public class SparePartOrderServiceImpl extends CrudServiceImpl<SparePartOrder, S
     }
 
     private SparePartOrderDTO updateSparePartOrder(SparePartOrderDTO orderDTO) {
-        if (orderDTO.getDepartureDate() == null) {
-            orderDTO.setErrorMessage(DEPARTURE_DATE_IS_EMPTY);
+        if (!checkDates(orderDTO.getDepartureDate(), orderDTO.getDeliveryDate())) {
+            orderDTO.setErrorMessage(INVALID_DATE);
             return orderDTO;
         }
+
         SparePartOrder order = orderRepository.getById(orderDTO.getId());
         if (order.getDepartureDate() == null) {
             order.setDepartureDate(orderDTO.getDepartureDate());
@@ -98,6 +101,16 @@ public class SparePartOrderServiceImpl extends CrudServiceImpl<SparePartOrder, S
 
         SparePartOrder result = orderRepository.save(order);
         return SparePartOrderMapper.INSTANCE.toDTO(result);
+    }
+
+    private boolean checkDates(Date departureDate, Date deliveryDate) {
+        if (departureDate == null || departureDate.toLocalDate().isBefore(java.time.LocalDate.now())) {
+            return false;
+        }
+        if (deliveryDate != null) {
+            return departureDate.compareTo(deliveryDate) <= ZERO;
+        }
+        return true;
     }
 
 

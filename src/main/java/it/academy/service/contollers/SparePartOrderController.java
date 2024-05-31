@@ -55,8 +55,7 @@ public class SparePartOrderController {
             }
             model.addAttribute(ERROR_MESSAGE, result.getErrorMessage());
         }
-        model.addAttribute(SPARE_PART_ORDER, sparePartOrderDTO);
-        return UPDATE_SPARE_PART_ORDER_PAGE;
+        return showUpdatePage(model, sparePartOrderDTO.getId());
     }
 
     @GetMapping("/show-repair-orders/{id}")
