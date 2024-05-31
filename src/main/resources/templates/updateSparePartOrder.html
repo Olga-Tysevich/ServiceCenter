@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Сервисный центр</title>
+</head>
+<body>
+<section>
+
+    <div th:replace="included/header"></div>
+
+    <div class="container main">
+
+        <div class="table-container">
+
+            <div class="forms-container lf">
+                <h2 th:text="${'Отправка заказа зч к ремонту No.' + sparePartOrder.repairNumber}"></h2>
+
+                <form th:action="@{/spare-part-orders/spare-part-order-update}" th:object="${sparePartOrder}"
+                      method="post" id="update-order-id">
+                    <input type="hidden" name="id" th:value="*{id}">
+                    <input type="hidden" name="repairId" th:value="*{repairId}">
+                    <input type="hidden" name="repairNumber" th:value="*{repairNumber}">
+
+                    <div class="f-input">
+                        <label class="form-el">Дата отправки</label>
+                        <input class="f-form" required type="date" th:field="*{departureDate}" name="departureDate">
+                    </div>
+
+                    <div class="f-input" th:if="${sparePartOrder.departureDate != null}">
+                        <label class="form-el">Дата доставки</label>
+                        <input class="f-form" required type="date" th:field="*{deliveryDate}" name="deliveryDate">
+                    </div>
+
+                    <table id="order-items">
+                        <thead>
+                        <tr>
+                            <th>Наименование</th>
+                            <th>Количество</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="orderItem : ${sparePartOrder.orderItems}">
+                            <td th:text="${orderItem.name}"></td>
+                            <td th:text="${orderItem.quantity}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="button-container">
+                        <h1 style="color: red" th:if="${errorMessage != null}"
+                            th:text="${errorMessage}"></h1>
+                    </div>
+
+                    <div class="button-container">
+                        <input class="button button-fieldset" type="submit" value="Сохранить" form="update-order-id"/>
+                        <button class="button button-fieldset" onclick="location.href='/spare-part-orders'">Отмена
+                        </button>
+                    </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+</body>

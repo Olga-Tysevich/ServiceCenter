@@ -2,7 +2,6 @@ package it.academy.service.services.impl;
 
 import it.academy.service.dto.DeviceTypeDTO;
 import it.academy.service.entity.DeviceType;
-import it.academy.service.exceptions.ObjectAlreadyExist;
 import it.academy.service.mappers.DeviceTypeMapper;
 import it.academy.service.repositories.DeviceTypeRepository;
 import it.academy.service.repositories.impl.DeviceTypeSpecification;
@@ -10,11 +9,10 @@ import it.academy.service.services.DeviceTypeService;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
-
+import javax.validation.constraints.NotNull;
+import java.util.Objects;
 import static it.academy.service.utils.Constants.ID_FOR_CHECK;
-import static it.academy.service.utils.UIConstants.DEVICE_TYPE_TABLE_PAGE;
+import static it.academy.service.utils.UIConstants.*;
 
 @Transactional
 @Service
@@ -37,12 +35,11 @@ public class DeviceTypeServiceImpl extends CrudServiceImpl<DeviceType, DeviceTyp
     }
 
     @Override
-    public DeviceTypeDTO createOrUpdate(DeviceTypeDTO dto) {
-        Long id = Optional.ofNullable(dto)
-                .map(DeviceTypeDTO::getId)
-                .orElse(ID_FOR_CHECK);
-        if (dto != null && repository.existsByNameAndIdIsNot(dto.getName(), id)) {
-            throw new ObjectAlreadyExist();
+    public DeviceTypeDTO createOrUpdate(@NotNull DeviceTypeDTO dto) {
+        Long id = Objects.requireNonNullElse(dto.getId(), ID_FOR_CHECK);
+        if (repository.existsByNameAndIdIsNot(dto.getName(), id)) {
+            dto.setErrorMessage(DEVICE_TYPE_ALREADY_EXISTS);
+            return dto;
         }
         return super.createOrUpdate(dto);
     }

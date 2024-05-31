@@ -69,7 +69,8 @@ public class SparePartController {
 
     @PostMapping("/spare-part-update")
     public String update(Model model, @Valid SparePartDTO sparePartDTO, BindingResult bindingResult) {
-        if (!DtoValidator.isValid(model, sparePartDTO, SPARE_PART, bindingResult)) {
+        if (DtoValidator.isValid(model, sparePartDTO, SPARE_PART, bindingResult)) {
+
             model.addAttribute(SPARE_PART, sparePartDTO);
             return UPDATE_SPARE_PART_PAGE;
         }

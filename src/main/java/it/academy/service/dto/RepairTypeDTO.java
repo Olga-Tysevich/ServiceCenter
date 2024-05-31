@@ -26,4 +26,6 @@ public class RepairTypeDTO {
 
     private Boolean isActive;
 
+    private String errorMessage;
+
 }

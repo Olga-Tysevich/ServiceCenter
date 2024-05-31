@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface SparePartOrderRepository extends JpaRepository<SparePartOrder, Long>{
+public interface SparePartOrderRepository extends CustomCrudRepository<SparePartOrder, Long>{
 
     List<SparePartOrder> findAllByRepairId(Long id);
 

@@ -65,7 +65,7 @@
                                     + ${tablePage.sortDir  == 'ASC'? 'DESC' : 'ASC'}+ '&keyword=' + ${tablePage.keyword}}">
                                         Дата получения</a>
                                 </th>
-                                <th class="menu" colspan="2">Управление</th>
+                                <th class="menu">Управление</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -76,10 +76,10 @@
                                 <td th:text="${order.departureDate}"></td>
                                 <td th:text="${order.deliveryDate}"></td>
                                 <td sec:authorize="hasAuthority('ADMIN')">
-                                    <a th:href="@{'/orders/order-update/' + ${order.id} + '?repairId=' + ${order.repairId}}">Отправка</a>
-                                </td>
-                                <td sec:authorize="hasAuthority('ADMIN')">
-                                    <a th:href="@{/orders/order-delete/{id}(id=${order.id})}">Удалить</a>
+                                    <a th:if="${order.departureDate == null}"
+                                       th:href="@{'/spare-part-orders/spare-part-order-update/' + ${order.id}}">Отправка</a>
+                                    <a th:if="${order.departureDate != null && order.deliveryDate == null}"
+                                       th:href="@{'/spare-part-orders/spare-part-order-update/' + ${order.id}}">Указать дату доставки</a>
                                 </td>
                             </tr>
                             </tbody>

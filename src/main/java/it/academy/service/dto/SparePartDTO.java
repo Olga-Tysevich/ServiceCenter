@@ -25,4 +25,6 @@ public class SparePartDTO {
     @NotEmpty(message = "Нужно выбрать хотя бы одну модель!")
     private List<Long> modelIdList;
 
+    private String errorMessage;
+
 }

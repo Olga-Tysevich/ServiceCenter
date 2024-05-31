@@ -5,7 +5,6 @@ import it.academy.service.dto.ServiceCenterDTO;
 import it.academy.service.dto.forms.TablePage;
 import it.academy.service.dto.validator.DtoValidator;
 import it.academy.service.entity.Account_;
-import it.academy.service.exceptions.EmailAlreadyRegistered;
 import it.academy.service.services.AccountService;
 import it.academy.service.services.ServiceCenterService;
 import lombok.RequiredArgsConstructor;
@@ -80,7 +79,8 @@ public class AccountController {
 
     @GetMapping("/account-delete/{id}")
     public String delete(Model model, @PathVariable(OBJECT_ID) Long id) {
-        try{
+        try {
+            model.addAttribute("page", ACCOUNT_TABLE);
             service.delete(id);
         } catch (Exception e) {
             model.addAttribute(ERROR_MESSAGE, DELETE_FAILED);
@@ -90,15 +90,13 @@ public class AccountController {
 
     private String createOrUpdate(Model model, @Valid AccountDTO accountDTO,
                                   BindingResult bindingResult, String formPath) {
-        boolean isValid = DtoValidator.isValid(model, accountDTO, ACCOUNT, bindingResult);
 
-        if (isValid) {
-            try {
-                service.createOrUpdate(accountDTO);
+        if (DtoValidator.isValid(model, accountDTO, ACCOUNT, bindingResult)) {
+            AccountDTO result = service.createOrUpdate(accountDTO);
+            if (StringUtils.isBlank(result.getErrorMessage())) {
                 return ACCOUNTS_PAGE_REDIRECT;
-            } catch (EmailAlreadyRegistered e) {
-                model.addAttribute(ERROR_MESSAGE, EMAIL_ALREADY_EXISTS);
             }
+            model.addAttribute(ERROR_MESSAGE, result.getErrorMessage());
         }
         model.addAttribute(ACCOUNT, accountDTO);
         return formPath;

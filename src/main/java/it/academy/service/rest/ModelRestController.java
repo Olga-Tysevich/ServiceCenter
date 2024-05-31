@@ -2,7 +2,6 @@ package it.academy.service.rest;
 
 import it.academy.service.dto.ModelDTO;
 import it.academy.service.dto.validator.DtoValidator;
-import it.academy.service.exceptions.ObjectAlreadyExist;
 import it.academy.service.services.ModelService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -15,7 +14,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 import static it.academy.service.utils.Constants.OBJECT_ID;
-import static it.academy.service.utils.UIConstants.MODEL_ALREADY_EXISTS;
 import static it.academy.service.utils.UIConstants.UPDATE_SUCCESSFULLY;
 
 @RestController
@@ -40,12 +38,11 @@ public class ModelRestController {
         if (!StringUtils.isBlank(errors)) {
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
-        try {
-            modelService.createOrUpdate(modelDTO);
-            return new ResponseEntity<>(UPDATE_SUCCESSFULLY, HttpStatus.OK);
-        } catch (ObjectAlreadyExist e) {
-            return new ResponseEntity<>(MODEL_ALREADY_EXISTS, HttpStatus.BAD_REQUEST);
+        ModelDTO result = modelService.createOrUpdate(modelDTO);
+        if (result.getErrorMessage() != null) {
+            return new ResponseEntity<>(result.getErrorMessage(), HttpStatus.BAD_REQUEST);
         }
+        return new ResponseEntity<>(UPDATE_SUCCESSFULLY, HttpStatus.OK);
     }
 
 }

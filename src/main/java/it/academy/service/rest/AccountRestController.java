@@ -2,7 +2,6 @@ package it.academy.service.rest;
 
 import it.academy.service.dto.AccountDTO;
 import it.academy.service.dto.validator.DtoValidator;
-import it.academy.service.exceptions.EmailAlreadyRegistered;
 import it.academy.service.services.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-import static it.academy.service.utils.UIConstants.EMAIL_ALREADY_EXISTS;
 import static it.academy.service.utils.UIConstants.UPDATE_SUCCESSFULLY;
 
 @RestController
@@ -31,12 +29,11 @@ public class AccountRestController {
         if (!StringUtils.isBlank(errors)) {
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
-        try {
-            service.createOrUpdate(accountDTO);
-            return new ResponseEntity<>(UPDATE_SUCCESSFULLY, HttpStatus.OK);
-        } catch (EmailAlreadyRegistered e) {
-            return new ResponseEntity<>(EMAIL_ALREADY_EXISTS, HttpStatus.BAD_REQUEST);
+        AccountDTO result = service.createOrUpdate(accountDTO);
+        if (result.getErrorMessage() != null) {
+            return new ResponseEntity<>(result.getErrorMessage(), HttpStatus.BAD_REQUEST);
         }
+        return new ResponseEntity<>(UPDATE_SUCCESSFULLY, HttpStatus.OK);
     }
 
 }

@@ -1,5 +1,6 @@
 package it.academy.service.services.auth;
 
+import it.academy.service.dto.AccountDTO;
 import it.academy.service.entity.Account;
 import it.academy.service.entity.RoleEnum;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public class AccountDetailsImpl implements UserDetails {
-    private final Account account;
+    private final AccountDTO account;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -38,13 +39,22 @@ public class AccountDetailsImpl implements UserDetails {
     }
 
     public String getServiceCenterName() {
-        return account.getServiceCenter() != null?
-                account.getServiceCenter().getServiceName() : RoleEnum.ADMIN.name();
+        return account != null?
+                account.getServiceCenterName() : RoleEnum.ADMIN.name();
+    }
+
+    public RoleEnum getRole() {
+        return account != null?
+                account.getRole() : RoleEnum.SERVICE_CENTER;
     }
 
     public Long getServiceCenterId() {
-        return account.getServiceCenter() != null?
-                account.getServiceCenter().getId() : null;
+        return account != null?
+                account.getServiceCenterId() : null;
+    }
+
+    public Boolean getIsActive() {
+        return account != null? account.getIsActive() : true;
     }
 
 

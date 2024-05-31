@@ -14,8 +14,11 @@
         <div class="table-container">
 
             <div class="forms-container lf">
+                <h2>Создание ремонта</h2>
+
                 <form th:action="@{/repairs/repair-create}" th:object="${repair}" method="post" id="create-repair">
-                    <input type="hidden" name="serviceCenterId" th:value="${serviceCenterId}">
+                    <input sec:authorize="hasAuthority('SERVICE_CENTER')" type="hidden"name="serviceCenterId"
+                           th:value="${#authentication.principal.serviceCenterId}"/>
 
                     <div class="f-input">
                         <label class="form-el">Статус ремонта:</label>
@@ -107,7 +110,7 @@
 
                 <div class="button-container">
                     <h1 style="color: red" th:if="${errorMessage != null}"
-                        th:val="${errorMessage}"></h1>
+                        th:text="${errorMessage}"></h1>
                 </div>
 
                 <div class="button-container">

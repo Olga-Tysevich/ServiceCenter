@@ -42,4 +42,6 @@ public class AccountDTO {
     @NotNull
     private Boolean isActive;
 
+    private String errorMessage;
+
 }

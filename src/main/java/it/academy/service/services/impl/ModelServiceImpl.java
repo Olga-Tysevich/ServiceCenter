@@ -17,8 +17,13 @@ import it.academy.service.services.ModelService;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+
+import static it.academy.service.utils.Constants.ID_FOR_CHECK;
 import static it.academy.service.utils.UIConstants.MODEL_TABLE_PAGE;
 
 @Transactional
@@ -38,17 +43,19 @@ public class ModelServiceImpl extends CrudServiceImpl<Model, ModelDTO, Long> imp
     }
 
     @Override
-    public ModelDTO createOrUpdate(ModelDTO dto) {
-        if (dto != null && modelRepository.existsByBrand_IdAndType_IdAndName(dto.getBrandId(),
+    public ModelDTO createOrUpdate(@NotNull ModelDTO dto) {
+        Long id = Objects.requireNonNullElse(dto.getId(), ID_FOR_CHECK);
+        if (modelRepository.existsByBrand_IdAndType_IdAndNameAndIdIsNot(dto.getBrandId(),
                 dto.getDeviceTypeId(),
-                dto.getName())) {
+                dto.getName(),
+                id)) {
             throw new ObjectAlreadyExist();
         }
         return super.createOrUpdate(dto);
     }
 
     @Override
-    public List<ModelDTO> findModelsByBrandId(Long id) {
+    public List<ModelDTO> findModelsByBrandId(@NotNull Long id) {
         return Optional.ofNullable(id)
                 .map(modelRepository::findAllByBrand_IdIsAndIsActiveTrue)
                 .map(ModelMapper.INSTANCE::toDTOList)

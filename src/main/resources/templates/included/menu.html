@@ -3,11 +3,11 @@
     <fieldset class="f1">
         <legend>Текущий аккаунт</legend>
         <div class="button button-fieldset">
-            <a style="color: white" th:href="@{/accounts/account-update/{id}(id=${id})}">Изменить данные аккаунта</a>
+            <a style="color: white" th:href="@{/accounts/account-update/{id}(id=${#authentication.principal.id})}">Изменить данные аккаунта</a>
         </div>
 
         <div class="button button-fieldset" sec:authorize="hasAuthority('SERVICE_CENTER')">
-            <a style="color: white" th:href="@{/service-centers/service-center-update/{id}(id=${serviceCenterId})}">Изменить
+            <a style="color: white" th:href="@{/service-centers/service-center-update/{id}(id=${#authentication.principal.serviceCenterId})}">Изменить
                 учетные данные</a>
         </div>
     </fieldset>
@@ -80,6 +80,9 @@
             <a style="color: white" th:href="@{/spare-parts}">Список запчастей</a>
         </div>
 
+        <div class="button button-fieldset">
+            <a style="color: white" th:href="@{/spare-part-orders}">Список заказов запчастей</a>
+        </div>
     </fieldset>
 
     <fieldset class="f1">

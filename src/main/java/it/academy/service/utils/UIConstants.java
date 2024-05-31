@@ -24,12 +24,14 @@ public class UIConstants {
     public static final String ADD_REPAIR_TYPE_PAGE = "addRepairType";
     public static final String UPDATE_REPAIR_TYPE_PAGE = "updateRepairType";
     public static final String MODEL_TABLE_PAGE = "/models/page/";
+    public static final String SPARE_PART_ORDER_TABLE_PAGE = "/spare-part-orders/page/";
     public static final String DEVICE_TYPE_TABLE_PAGE = "/device-types/page/";
     public static final String BRAND_TABLE_PAGE = "/brands/page/";
     public static final String SPARE_PART_TABLE_PAGE = "/spare-parts/page/";
     public static final String SPARE_PART_TABLE = "sparePartTable";
     public static final String ADD_SPARE_PART_PAGE = "addSparePart";
     public static final String UPDATE_SPARE_PART_PAGE = "updateSparePart";
+    public static final String UPDATE_SPARE_PART_ORDER_PAGE = "updateSparePartOrder";
     public static final String MODEL_TABLE = "modelTable";
     public static final String DEVICE_TYPE_TABLE = "deviceTypeTable";
     public static final String BRAND_TABLE = "brandTable";
@@ -44,6 +46,7 @@ public class UIConstants {
     public static final String ADD_SERVICE_CENTER_PAGE = "addServiceCenter";
     public static final String UPDATE_SERVICE_CENTER_PAGE = "updateServiceCenter";
     public static final String ACCOUNT_TABLE = "accountTable";
+    public static final String SPARE_PART_ORDER_TABLE = "sparePartOrderTable";
     public static final String ADD_SERVICE_CENTER_ACCOUNT_PAGE = "addServiceCenterAccount";
     public static final String ADD_ADMIN_ACCOUNT_PAGE = "addAdminAccount";
     public static final String UPDATE_ACCOUNT_PAGE = "updateAccount";
@@ -53,7 +56,6 @@ public class UIConstants {
     public static final String REPAIR_ID = "repairId";
     public static final String MODEL_ID = "modelId";
     public static final String REPAIR_NUMBER = "repairNumber";
-    public static final String REPAIR_STATUS = "status";
     public static final String CATEGORY_LIST = "categoryList";
     public static final String BRAND_LIST = "brandList";
     public static final String MODEL_LIST = "modelList";
@@ -63,6 +65,7 @@ public class UIConstants {
     public static final String REPAIR_TYPE_LIST = "repairTypeList";
     public static final String REPAIR_TYPE = "repairType";
     public static final String SPARE_PART = "sparePart";
+    public static final String SPARE_PART_ORDER = "sparePartOrder";
     public static final String MODEL = "model";
     public static final String DEVICE_TYPE = "deviceType";
     public static final String BRAND = "brand";
@@ -74,12 +77,12 @@ public class UIConstants {
 
     //redirects
     public static final String REPAIRS_PAGE_REDIRECT = "redirect:/repairs";
-    public static final String REPAIR_TYPES_PAGE_REDIRECT = "redirect:/repair-types";
     public static final String SPARE_PARTS_PAGE_REDIRECT = "redirect:/spare-parts";
     public static final String SERVICE_CENTERS_PAGE_REDIRECT = "redirect:/service-centers";
     public static final String ACCOUNTS_PAGE_REDIRECT = "redirect:/accounts";
     public static final String DEVICE_TYPES_PAGE_REDIRECT = "redirect:/device-types";
     public static final String BRANDS_PAGE_REDIRECT = "redirect:/brands";
+    public static final String SPARE_PART_ORDER_PAGE_REDIRECT = "redirect:/spare-part-orders";
 
     //message
     public static final String UPDATE_SUCCESSFULLY = "Обновление успешно";
@@ -93,5 +96,6 @@ public class UIConstants {
     public static final String USER_IS_BLOCKED = "Пользователь заблокирован!";
     public static final String DELETE_FAILED = "Удаление невозможно! Есть связанные записи";
     public static final String ORDER_IS_EMPTY = "Заказ не может быть пустой!";
+    public static final String DEPARTURE_DATE_IS_EMPTY = "Дата отправки не должна быть пустой!";
 
 }

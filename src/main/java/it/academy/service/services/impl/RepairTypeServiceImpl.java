@@ -11,9 +11,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 import static it.academy.service.utils.Constants.ID_FOR_CHECK;
+import static it.academy.service.utils.UIConstants.REPAIR_TYPE_ALREADY_EXISTS;
 import static it.academy.service.utils.UIConstants.REPAIR_TYPE_TABLE_PAGE;
 
 @Transactional
@@ -27,10 +29,11 @@ public class RepairTypeServiceImpl extends CrudServiceImpl<RepairType, RepairTyp
     }
 
     @Override
-    public RepairTypeDTO createOrUpdate(RepairTypeDTO dto) {
+    public RepairTypeDTO createOrUpdate(@NotNull RepairTypeDTO dto) {
         Long id = Objects.requireNonNullElse(dto.getId(), ID_FOR_CHECK);
         if (repository.existsByNameAndIdIsNot(dto.getName(), id)) {
-            throw new ObjectAlreadyExist();
+           dto.setErrorMessage(REPAIR_TYPE_ALREADY_EXISTS);
+           return dto;
         }
         return super.createOrUpdate(dto);
     }

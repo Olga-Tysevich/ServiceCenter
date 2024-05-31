@@ -2,7 +2,6 @@ package it.academy.service.services.impl;
 
 import it.academy.service.dto.AccountDTO;
 import it.academy.service.entity.Account;
-import it.academy.service.exceptions.EmailAlreadyRegistered;
 import it.academy.service.mappers.AccountMapper;
 import it.academy.service.repositories.AccountRepository;
 import it.academy.service.repositories.impl.AccountSpecification;
@@ -13,10 +12,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
-import java.util.Optional;
 
 import static it.academy.service.utils.Constants.ID_FOR_CHECK;
+import static it.academy.service.utils.UIConstants.EMAIL_ALREADY_EXISTS;
 import static it.academy.service.utils.UIConstants.SERVICE_CENTER_TABLE_PAGE;
 
 @Transactional
@@ -32,14 +32,15 @@ public class AccountServiceImpl extends CrudServiceImpl<Account, AccountDTO, Lon
     }
 
     @Override
-    public AccountDTO createOrUpdate(AccountDTO dto) {
-        return Optional.ofNullable(dto)
-                .map(mapper()::toEntity)
-                .map(this::checkEmail)
-                .map(this::setPassword)
-                .map(accountRepository::save)
-                .map(mapper()::toDTO)
-                .orElse(null);
+    public AccountDTO createOrUpdate(@NotNull AccountDTO dto) {
+        Long id = Objects.requireNonNullElse(dto.getId(), ID_FOR_CHECK);
+        if (accountRepository.existsByEmailAndIdIsNot(dto.getEmail(), id)) {
+            dto.setErrorMessage(EMAIL_ALREADY_EXISTS);
+            return dto;
+        }
+        Account account = mapper().toEntity(dto);
+        setPassword(account);
+        return mapper().toDTO(accountRepository.save(account));
     }
 
     @Override
@@ -52,28 +53,20 @@ public class AccountServiceImpl extends CrudServiceImpl<Account, AccountDTO, Lon
         return AccountSpecification.search(keyword);
     }
 
-    private Account checkEmail(Account account) {
-        Long id = Objects.requireNonNullElse(account.getId(), ID_FOR_CHECK);
-        if (accountRepository.existsByEmailAndIdIsNot(account.getEmail(), id)) {
-            throw new EmailAlreadyRegistered();
-        }
-        return account;
-    }
 
-    private Account setPassword(Account account) {
+    private void setPassword(Account account) {
         if (account.getId() != null && StringUtils.isBlank(account.getPassword())) {
             Account result = accountRepository.getById(account.getId());
             account.setPassword(result.getPassword());
-            return account;
+            return;
         }
-        return encodePassword(account);
+        encodePassword(account);
     }
 
-    private Account encodePassword(Account account) {
+    private void encodePassword(Account account) {
         if (account.getPassword() != null) {
             String encodedPassword = passwordEncoder.encode(account.getPassword());
             account.setPassword(encodedPassword);
         }
-        return account;
     }
 }

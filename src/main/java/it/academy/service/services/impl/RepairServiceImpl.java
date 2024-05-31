@@ -24,6 +24,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Comparator;
@@ -47,7 +49,7 @@ public class RepairServiceImpl implements RepairService {
     private final RepairSparePartRepository sparePartRepository;
 
     @Override
-    public RepairDTO createOrUpdate(RepairDTO repairDTO) {
+    public RepairDTO createOrUpdate(@NotNull RepairDTO repairDTO) {
         return Optional.ofNullable(repairDTO)
                 .map(RepairMapper.INSTANCE::toEntity)
                 .map(repair -> setModelToDevice(repair, repairDTO.getModelId()))

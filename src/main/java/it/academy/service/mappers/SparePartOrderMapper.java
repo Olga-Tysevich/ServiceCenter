@@ -6,6 +6,7 @@ import it.academy.service.entity.OrderItem;
 import it.academy.service.entity.Repair;
 import it.academy.service.entity.SparePart;
 import it.academy.service.entity.SparePartOrder;
+import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -15,8 +16,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Mapper
-public interface SparePartOrderMapper {
+@Mapper(builder = @Builder(disableBuilder = true))
+public interface SparePartOrderMapper extends CustomMapper<SparePartOrder, SparePartOrderDTO> {
 
     SparePartOrderMapper INSTANCE = Mappers.getMapper(SparePartOrderMapper.class);
 
@@ -65,5 +66,6 @@ public interface SparePartOrderMapper {
                             .build();
                 }).collect(Collectors.toSet());
     }
+
 }
 

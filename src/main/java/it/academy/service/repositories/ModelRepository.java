@@ -10,7 +10,7 @@ public interface ModelRepository extends CustomCrudRepository<Model, Long> {
 
     List<Model> findAllByBrand_IdIsAndIsActiveTrue(Long id);
 
-    boolean existsByBrand_IdAndType_IdAndName(Long brandId, Long typeId, String name);
+    boolean existsByBrand_IdAndType_IdAndNameAndIdIsNot(Long brandId, Long typeId, String name, Long id);
 
     List<Model> findAllByIsActiveTrue();
 

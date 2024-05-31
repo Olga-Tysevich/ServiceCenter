@@ -1,7 +1,9 @@
 package it.academy.service.services.auth;
 
+import it.academy.service.dto.AccountDTO;
 import it.academy.service.entity.Account;
 import it.academy.service.exceptions.UserIsBlocked;
+import it.academy.service.mappers.AccountMapper;
 import it.academy.service.repositories.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +25,9 @@ public class AccountDetailsServiceImpl implements UserDetailsService {
         if (!account.getIsActive()) {
             throw new UserIsBlocked();
         }
-        return new AccountDetailsImpl(account);
+
+        AccountDTO accountDTO = AccountMapper.INSTANCE.toDTO(account);
+        return new AccountDetailsImpl(accountDTO);
     }
 
 }

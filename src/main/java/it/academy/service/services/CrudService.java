@@ -6,7 +6,7 @@ public interface CrudService<T, ID> {
 
     T createOrUpdate(T dto);
 
-    boolean delete(ID id);
+    void delete(ID id);
 
     T findById(ID id);
 

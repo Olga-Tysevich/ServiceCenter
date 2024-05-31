@@ -4,7 +4,6 @@ import it.academy.service.dto.DeviceTypeDTO;
 import it.academy.service.dto.forms.TablePage;
 import it.academy.service.dto.validator.DtoValidator;
 import it.academy.service.entity.DeviceType_;
-import it.academy.service.exceptions.ObjectAlreadyExist;
 import it.academy.service.services.DeviceTypeService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -66,7 +65,7 @@ public class DeviceTypeController {
 
     @GetMapping("/device-type-delete/{id}")
     public String delete(Model model, @PathVariable(OBJECT_ID) Long id) {
-        try{
+        try {
             service.delete(id);
         } catch (Exception e) {
             model.addAttribute(ERROR_MESSAGE, DELETE_FAILED);
@@ -76,17 +75,14 @@ public class DeviceTypeController {
 
     private String createOrUpdate(Model model, @Valid DeviceTypeDTO deviceTypeDTO,
                                   BindingResult bindingResult, String formPage) {
-        boolean isValid = DtoValidator.isValid(model, deviceTypeDTO, DEVICE_TYPE, bindingResult);
-
-        if (isValid) {
-            try {
-                service.createOrUpdate(deviceTypeDTO);
+        if (DtoValidator.isValid(model, deviceTypeDTO, DEVICE_TYPE, bindingResult)) {
+            DeviceTypeDTO result = service.createOrUpdate(deviceTypeDTO);
+            if (StringUtils.isBlank(result.getErrorMessage())) {
                 return DEVICE_TYPES_PAGE_REDIRECT;
-            } catch (ObjectAlreadyExist e) {
-                model.addAttribute(ERROR_MESSAGE, DEVICE_TYPE_ALREADY_EXISTS);
-                model.addAttribute(DEVICE_TYPE, deviceTypeDTO);
             }
         }
+        model.addAttribute(ERROR_MESSAGE, DEVICE_TYPE_ALREADY_EXISTS);
+        model.addAttribute(DEVICE_TYPE, deviceTypeDTO);
         return formPage;
     }
 }

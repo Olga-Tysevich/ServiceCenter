@@ -20,4 +20,6 @@ public class BrandDTO {
 
     private Boolean isActive;
 
+    private String errorMessage;
+
 }

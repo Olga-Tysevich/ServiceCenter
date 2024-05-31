@@ -30,4 +30,6 @@ public class ModelDTO {
 
     private Boolean isActive;
 
+    private String errorMessage;
+
 }

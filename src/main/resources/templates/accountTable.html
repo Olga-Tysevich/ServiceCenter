@@ -5,6 +5,11 @@
     <title>Сервисный центр</title>
 </head>
 <body>
+<div th:if="${#authentication.principal.role == T(it.academy.service.entity.RoleEnum).SERVICE_CENTER}">
+    <script>
+        window.location.href = '/mainPage';
+    </script>
+</div>
 <section>
 
     <div th:replace="included/header"></div>

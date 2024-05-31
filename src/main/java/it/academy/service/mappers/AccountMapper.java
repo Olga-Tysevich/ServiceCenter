@@ -16,7 +16,7 @@ public interface AccountMapper extends CustomMapper<Account, AccountDTO> {
     AccountMapper INSTANCE = Mappers.getMapper(AccountMapper.class);
 
     @Mappings({
-            @Mapping(target = "password", ignore = true),
+//            @Mapping(target = "password", ignore = true),
             @Mapping(source = "serviceCenter.id", target = "serviceCenterId"),
             @Mapping(source = "serviceCenter.serviceName", target = "serviceCenterName")
     })

@@ -36,14 +36,11 @@ public abstract class CrudServiceImpl<R, T, ID> implements CrudService<T, ID> {
     }
 
     @Override
-    public boolean delete(ID id) {
-        if (id != null) {
-            repository.deleteById(id);
-            return repository.existsById(id);
-        }
-        return false;
+    public void delete(ID id) {
+        repository.deleteById(id);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public T findById(ID id) {
         return Optional.ofNullable(id)
@@ -52,6 +49,7 @@ public abstract class CrudServiceImpl<R, T, ID> implements CrudService<T, ID> {
                 .orElse(null);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public TablePage<T> findForPage(int pageNumber, String sortField, String sortDir, String keyword) {
         Sort sort = SortHelper.defineCurrentSort(sortField, sortDir);
@@ -81,6 +79,7 @@ public abstract class CrudServiceImpl<R, T, ID> implements CrudService<T, ID> {
     }
 
     protected abstract String getTablePagePath();
+
     protected abstract Specification<R> getSpecification(String keyword);
 
 }

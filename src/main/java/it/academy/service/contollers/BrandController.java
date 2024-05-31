@@ -4,7 +4,6 @@ import it.academy.service.dto.BrandDTO;
 import it.academy.service.dto.forms.TablePage;
 import it.academy.service.dto.validator.DtoValidator;
 import it.academy.service.entity.Brand_;
-import it.academy.service.exceptions.ObjectAlreadyExist;
 import it.academy.service.services.BrandService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -13,9 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
+
 import static it.academy.service.utils.Constants.*;
-import static it.academy.service.utils.Constants.OBJECT_ID;
 import static it.academy.service.utils.UIConstants.*;
 
 @Controller
@@ -65,7 +65,7 @@ public class BrandController {
 
     @GetMapping("/brand-delete/{id}")
     public String delete(Model model, @PathVariable(OBJECT_ID) Long id) {
-        try{
+        try {
             brandService.delete(id);
         } catch (Exception e) {
             model.addAttribute(ERROR_MESSAGE, DELETE_FAILED);
@@ -75,17 +75,14 @@ public class BrandController {
 
     private String createOrUpdate(Model model, @Valid BrandDTO brandDTO,
                                   BindingResult bindingResult, String formPage) {
-        boolean isValid = DtoValidator.isValid(model, brandDTO, BRAND, bindingResult);
-
-        if (isValid) {
-            try {
-                brandService.createOrUpdate(brandDTO);
+        if (DtoValidator.isValid(model, brandDTO, BRAND, bindingResult)) {
+            BrandDTO result = brandService.createOrUpdate(brandDTO);
+            if (StringUtils.isBlank(result.getErrorMessage())) {
                 return BRANDS_PAGE_REDIRECT;
-            } catch (ObjectAlreadyExist e) {
-                model.addAttribute(ERROR_MESSAGE, BRAND_ALREADY_EXISTS);
-                model.addAttribute(BRAND, brandDTO);
             }
+            model.addAttribute(ERROR_MESSAGE, result.getErrorMessage());
         }
+        model.addAttribute(BRAND, brandDTO);
         return formPage;
     }
 }

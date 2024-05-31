@@ -2,7 +2,6 @@ package it.academy.service.rest;
 
 import it.academy.service.dto.SparePartDTO;
 import it.academy.service.dto.validator.DtoValidator;
-import it.academy.service.exceptions.ObjectAlreadyExist;
 import it.academy.service.services.SparePartService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -15,7 +14,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 import static it.academy.service.utils.Constants.OBJECT_ID;
-import static it.academy.service.utils.UIConstants.*;
+import static it.academy.service.utils.UIConstants.UPDATE_SUCCESSFULLY;
 
 @RestController
 @RequestMapping("/spare-part-rest")
@@ -38,12 +37,11 @@ public class SparePartRestController {
         if (!StringUtils.isBlank(errors)) {
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
-        try {
-            sparePartService.createOrUpdate(sparePartDTO);
-            return new ResponseEntity<>(UPDATE_SUCCESSFULLY, HttpStatus.OK);
-        } catch (ObjectAlreadyExist e) {
-            return new ResponseEntity<>(SPARE_PART_ALREADY_EXISTS, HttpStatus.BAD_REQUEST);
+        SparePartDTO result = sparePartService.createOrUpdate(sparePartDTO);
+        if (StringUtils.isBlank(result.getErrorMessage())) {
+            return new ResponseEntity<>(result.getErrorMessage(), HttpStatus.BAD_REQUEST);
         }
+        return new ResponseEntity<>(UPDATE_SUCCESSFULLY, HttpStatus.OK);
     }
 
 }

@@ -17,4 +17,6 @@ public class DeviceTypeDTO {
 
     private Boolean isActive;
 
+    private String errorMessage;
+
 }

@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface SparePartRepository extends CustomCrudRepository<SparePart, Long> {
     List<SparePart> findAllByIsActiveTrueAndModelsContains(Model model);
+
+    Boolean existsByNameAndIdIsNot(String name, Long id);
 }

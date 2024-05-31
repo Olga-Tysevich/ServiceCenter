@@ -1,10 +1,9 @@
 package it.academy.service.contollers;
 
-import it.academy.service.dto.validator.DtoValidator;
 import it.academy.service.dto.RepairTypeDTO;
 import it.academy.service.dto.forms.TablePage;
+import it.academy.service.dto.validator.DtoValidator;
 import it.academy.service.entity.RepairType_;
-import it.academy.service.exceptions.ObjectAlreadyExist;
 import it.academy.service.services.RepairTypeService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -13,14 +12,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
+
 import static it.academy.service.utils.Constants.*;
 import static it.academy.service.utils.UIConstants.*;
 
 @Controller
 @RequestMapping("repair-types")
 @RequiredArgsConstructor
-public class RepairTypeController{
+public class RepairTypeController {
     private final RepairTypeService service;
 
     @GetMapping
@@ -47,10 +48,10 @@ public class RepairTypeController{
 
     @PostMapping("/repair-type-create")
     public String create(Model model, @Valid RepairTypeDTO repairTypeDTO, BindingResult bindingResult) {
-       return updateRepairType(model,
-               repairTypeDTO,
-               bindingResult,
-               ADD_REPAIR_TYPE_PAGE);
+        return updateRepairType(model,
+                repairTypeDTO,
+                bindingResult,
+                ADD_REPAIR_TYPE_PAGE);
     }
 
     @GetMapping("/repair-type-update/{id}")
@@ -70,7 +71,7 @@ public class RepairTypeController{
 
     @GetMapping("/repair-type-delete/{id}")
     public String delete(Model model, @PathVariable(OBJECT_ID) Long id) {
-        try{
+        try {
             service.delete(id);
         } catch (Exception e) {
             model.addAttribute(ERROR_MESSAGE, DELETE_FAILED);
@@ -82,19 +83,16 @@ public class RepairTypeController{
                                     RepairTypeDTO repairTypeDTO,
                                     BindingResult bindingResult,
                                     String formPath) {
-        if (!DtoValidator.isValid(model, repairTypeDTO, REPAIR_TYPE, bindingResult)) {
-            model.addAttribute(REPAIR_TYPE, repairTypeDTO);
-            return formPath;
+        if (DtoValidator.isValid(model, repairTypeDTO, REPAIR_TYPE, bindingResult)) {
+            RepairTypeDTO result = service.createOrUpdate(repairTypeDTO);
+            if (StringUtils.isBlank(result.getErrorMessage())) {
+                model.addAttribute(REPAIR_TYPE, repairTypeDTO);
+                return formPath;
+            }
         }
-        try {
-            service.createOrUpdate(repairTypeDTO);
-        } catch (ObjectAlreadyExist e) {
-            model.addAttribute(ERROR_MESSAGE, REPAIR_TYPE_ALREADY_EXISTS);
-            model.addAttribute(REPAIR_TYPE, repairTypeDTO);
-            return formPath;
-        }
-
-        return REPAIR_TYPES_PAGE_REDIRECT;
+        model.addAttribute(ERROR_MESSAGE, REPAIR_TYPE_ALREADY_EXISTS);
+        model.addAttribute(REPAIR_TYPE, repairTypeDTO);
+        return formPath;
     }
 
 }

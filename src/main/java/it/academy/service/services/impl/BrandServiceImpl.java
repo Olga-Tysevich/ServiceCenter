@@ -11,10 +11,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotNull;
+import java.util.Objects;
 import java.util.Optional;
 
 import static it.academy.service.utils.Constants.ID_FOR_CHECK;
-import static it.academy.service.utils.UIConstants.BRAND_TABLE_PAGE;
+import static it.academy.service.utils.UIConstants.*;
 
 @Transactional
 @Service
@@ -36,12 +38,11 @@ public class BrandServiceImpl extends CrudServiceImpl<Brand, BrandDTO, Long> imp
         return BrandSpecification.search(keyword);
     }
     @Override
-    public BrandDTO createOrUpdate(BrandDTO dto) {
-        Long id = Optional.ofNullable(dto)
-                .map(BrandDTO::getId)
-                .orElse(ID_FOR_CHECK);
-        if (dto != null && repository.existsByNameAndIdIsNot(dto.getName(), id)) {
-            throw new ObjectAlreadyExist();
+    public BrandDTO createOrUpdate(@NotNull BrandDTO dto) {
+        Long id = Objects.requireNonNullElse(dto.getId(), ID_FOR_CHECK);
+        if (repository.existsByNameAndIdIsNot(dto.getName(), id)) {
+            dto.setErrorMessage(BRAND_ALREADY_EXISTS);
+            return dto;
         }
         return super.createOrUpdate(dto);
     }

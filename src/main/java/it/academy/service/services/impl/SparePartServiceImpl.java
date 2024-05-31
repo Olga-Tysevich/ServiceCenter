@@ -14,9 +14,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static it.academy.service.utils.Constants.ID_FOR_CHECK;
+import static it.academy.service.utils.UIConstants.SPARE_PART_ALREADY_EXISTS;
 import static it.academy.service.utils.UIConstants.SPARE_PART_TABLE_PAGE;
 
 @Transactional
@@ -32,8 +35,13 @@ public class SparePartServiceImpl extends CrudServiceImpl<SparePart, SparePartDT
     }
 
     @Override
-    public SparePartDTO createOrUpdate(SparePartDTO dto) {
-        return Optional.ofNullable(dto)
+    public SparePartDTO createOrUpdate(@NotNull SparePartDTO dto) {
+        Long id = Objects.requireNonNullElse(dto.getId(), ID_FOR_CHECK);
+        if (sparePartRepository.existsByNameAndIdIsNot(dto.getName(), id)) {
+            dto.setErrorMessage(SPARE_PART_ALREADY_EXISTS);
+            return dto;
+        }
+        return Optional.of(dto)
                 .map(SparePartMapper.INSTANCE::toEntity)
                 .map(sparePartRepository::save)
                 .map(sp -> addSparePartToModels(sp, modelRepository.findAllById(dto.getModelIdList())))
@@ -80,7 +88,7 @@ public class SparePartServiceImpl extends CrudServiceImpl<SparePart, SparePartDT
     }
 
     @Override
-    public boolean delete(Long id) {
+    public void delete(Long id) {
         SparePart sparePart = sparePartRepository.getById(id);
         Iterator<Model> iterator = sparePart.getModels().iterator();
         while (iterator.hasNext()) {
@@ -91,7 +99,6 @@ public class SparePartServiceImpl extends CrudServiceImpl<SparePart, SparePartDT
         }
         sparePart.getModels().clear();
         sparePartRepository.delete(sparePart);
-        return sparePartRepository.existsById(id);
     }
 
     private SparePart addSparePartToModels(SparePart sparePart, List<Model> models) {

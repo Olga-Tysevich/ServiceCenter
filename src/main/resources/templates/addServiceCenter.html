@@ -19,7 +19,7 @@
 
                 <form th:action="@{/service-centers/service-center-update}" th:object="${serviceCenter}" method="post" id="add-sc-id">
                     <input type="hidden" name="id" th:value="*{id}">
-                    <input  type="hidden" name="isActive" th:value="*{isActive}">
+                    <input  type="hidden" name="isActive" th:value="*{true}">
 
                     <div class="f-input">
                         <label class="form-el">Сервисное имя:</label>
@@ -87,7 +87,7 @@
 
                 <div class="button-container">
                     <h1 style="color: red" th:if="${errorMessage != null}"
-                        th:val="${errorMessage}"></h1>
+                        th:text="${errorMessage}"></h1>
                 </div>
 
                 <div class="button-container">
