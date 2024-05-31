@@ -1,12 +1,14 @@
 package it.academy.service.contollers;
 
-import it.academy.service.dto.validator.DtoValidator;
 import it.academy.service.dto.RepairDTO;
 import it.academy.service.dto.RepairForTableDTO;
 import it.academy.service.dto.forms.RepairForm;
 import it.academy.service.dto.forms.RepairTypeForm;
 import it.academy.service.dto.forms.TablePage;
-import it.academy.service.entity.*;
+import it.academy.service.dto.validator.DtoValidator;
+import it.academy.service.entity.RepairCategory;
+import it.academy.service.entity.RepairStatus;
+import it.academy.service.entity.Repair_;
 import it.academy.service.services.RepairService;
 import it.academy.service.services.auth.AccountDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +19,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
+
 import static it.academy.service.utils.Constants.*;
-import static it.academy.service.utils.Constants.REPAIR_STATUS;
 import static it.academy.service.utils.UIConstants.*;
 
 @Controller
@@ -48,35 +51,27 @@ public class RepairController {
     @GetMapping("repair-create")
     public String showCreatePage(Authentication authentication, Model model) {
         Long serviceCenterId = ((AccountDetailsImpl) authentication.getPrincipal()).getServiceCenterId();
-        setRepairFormData(model, null);
+        RepairForm repairForm = repairService.getRepairForm(null);
+        setRepairFormData(model, repairForm);
         model.addAttribute(SERVICE_CENTER_ID, serviceCenterId);
         return ADD_REPAIR_PAGE;
     }
 
     @PostMapping("/repair-create")
     public String create(Model model, @Valid RepairDTO repairDTO, BindingResult bindingResult) {
-        if (!DtoValidator.isValid(model, repairDTO, REPAIR, bindingResult)) {
-            setRepairFormData(model, null);
-            return ADD_REPAIR_PAGE;
-        }
-        repairService.createOrUpdate(repairDTO);
-        return REPAIRS_PAGE_REDIRECT;
+        return createOrUpdate(model, repairDTO, bindingResult, ADD_REPAIR_PAGE);
     }
 
     @GetMapping("/repair-update/{id}")
     public String showUpdatePage(Model model, @PathVariable(OBJECT_ID) Long id) {
-        setRepairFormData(model, id);
+        RepairForm repairForm = repairService.getRepairForm(id);
+        setRepairFormData(model, repairForm);
         return UPDATE_REPAIR_PAGE;
     }
 
     @PostMapping("/repair-update")
     public String update(Model model, @Valid RepairDTO repairDTO, BindingResult bindingResult) {
-        if (!DtoValidator.isValid(model, repairDTO, REPAIR, bindingResult)) {
-            setRepairFormData(model, repairDTO.getBrandId());
-            return UPDATE_REPAIR_PAGE;
-        }
-        repairService.createOrUpdate(repairDTO);
-        return REPAIRS_PAGE_REDIRECT;
+        return createOrUpdate(model, repairDTO, bindingResult, UPDATE_REPAIR_PAGE);
     }
 
     @GetMapping("/repair-page/{id}")
@@ -109,9 +104,23 @@ public class RepairController {
         return REPAIR_PAGE;
     }
 
-    private void setRepairFormData(Model model, Long id) {
-        RepairForm repairForm = repairService.getRepairForm(id);
-        model.addAttribute(REPAIR_STATUS,repairForm.getRepair().getStatus());
+    private String createOrUpdate(Model model, RepairDTO repairDTO, BindingResult bindingResult, String formPage) {
+        if (!DtoValidator.isValid(model, repairDTO, REPAIR, bindingResult)) {
+            RepairForm repairForm = repairService.getRepairForm(repairDTO.getId());
+            setRepairFormData(model, repairForm);
+            return formPage;
+        }
+        RepairForm result = repairService.createOrUpdate(repairDTO);
+        if (StringUtils.isNotBlank(result.getRepair().getErrorMessage())) {
+            model.addAttribute(ERROR_MESSAGE, result.getRepair().getErrorMessage());
+            setRepairFormData(model, result);
+            return formPage;
+        }
+        return REPAIRS_PAGE_REDIRECT;
+    }
+
+    private void setRepairFormData(Model model, RepairForm repairForm) {
+        model.addAttribute(REPAIR_STATUS, repairForm.getRepair().getStatus());
         model.addAttribute(CATEGORY_LIST, RepairCategory.values());
         model.addAttribute(BRAND_LIST, repairForm.getBrandList());
         model.addAttribute(MODEL_LIST, repairForm.getModelList());

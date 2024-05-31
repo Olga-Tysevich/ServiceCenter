@@ -9,6 +9,8 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Pattern;
 import java.sql.Date;
 
 @Data
@@ -63,5 +65,7 @@ public class RepairDTO {
     private String buyerPhone;
 
     private RepairTypeDTO repairType;
+
+    private String errorMessage;
 
 }

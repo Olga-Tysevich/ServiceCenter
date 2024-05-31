@@ -10,7 +10,7 @@ import it.academy.service.entity.RepairStatus;
 
 public interface RepairService {
 
-    RepairDTO createOrUpdate(RepairDTO repairDTO);
+    RepairForm createOrUpdate(RepairDTO repairDTO);
 
     boolean completeRepair(CompleteRepairDTO completeRepairDTO);
 

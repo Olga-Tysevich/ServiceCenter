@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
-    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
     <title>Сервисный центр</title>
 </head>
 <body>
@@ -20,12 +20,12 @@
 
         <div>
             <div>
-                <form action="#" th:action="@{/accounts/page/1}" method="get">
+                <form action="#" th:action="@{/service-centers/page/1}" method="get">
                     <input type="hidden" name="sortDir" th:value="${tablePage.sortDir}"/>
                     <input type="hidden" name="sortField" th:value="${tablePage.sortField}"/>
 
                     <input class="search" type="search" name="keyword"
-                           placeholder="Найти по сервисному центру, email, имени, фамилии"
+                           placeholder="Найти по названию, адресу, email, телефону, УНП, ОКПО"
                            th:value="${tablePage.keyword}"/>
                     <input class="button light" type="submit" value="Найти">
                 </form>
@@ -34,43 +34,44 @@
             <div class="table-container">
 
                 <div th:switch="${tablePage.listForTable}">
+
                     <div class="button-container">
                         <h1 style="color: red" th:if="${errorMessage != null}"
                             th:text="${errorMessage}"></h1>
                     </div>
 
-                    <h2 th:case="null">Нет добавленных аккаунтов!</h2>
+                    <h2 th:case="null">Нет добавленных сервисных центров!</h2>
                     <div th:case="*">
                         <table id="repairs">
                             <thead>
                             <tr>
                                 <th>
-                                    <a th:href="@{'/accounts/page/' + ${tablePage.pageNum} + '?sortField=serviceCenter.serviceName&sortDir='
+                                    <a th:href="@{'/service-centers/page/' + ${tablePage.pageNum} + '?sortField=serviceName&sortDir='
                                     + ${tablePage.sortDir == 'ASC'? 'DESC' : 'ASC'} + '&keyword=' + ${tablePage.keyword}}">
-                                        Сервисный центр</a>
+                                        Сервис</a>
                                 </th>
                                 <th>
-                                    <a th:href="@{'/accounts/page/' + ${tablePage.pageNum} + '?sortField=role&sortDir='
+                                    <a th:href="@{'/service-centers/page/' + ${tablePage.pageNum} + '?sortField=requisites.email&sortDir='
                                     + ${tablePage.sortDir == 'ASC'? 'DESC' : 'ASC'} + '&keyword=' + ${tablePage.keyword}}">
-                                        Роль</a>
-                                </th>
-                                <th class="date">
-                                    <a th:href="@{'/accounts/page/' + ${tablePage.pageNum} + '?sortField=email&sortDir='
-                                    + ${tablePage.sortDir  == 'ASC'? 'DESC' : 'ASC'}+ '&keyword=' + ${tablePage.keyword}}">
                                         Email</a>
                                 </th>
-                                <th>
-                                    <a th:href="@{'/accounts/page/' + ${tablePage.pageNum} + '?sortField=userName&sortDir='
-                                    + ${tablePage.sortDir == 'ASC'? 'DESC' : 'ASC'} + '&keyword=' + ${tablePage.keyword}}">
-                                        Имя пользователя</a>
+                                <th class="date">
+                                    <a th:href="@{'/service-centers/page/' + ${tablePage.pageNum} + '?sortField=requisites.legalAddress&sortDir='
+                                    + ${tablePage.sortDir  == 'ASC'? 'DESC' : 'ASC'}+ '&keyword=' + ${tablePage.keyword}}">
+                                        Юр. Адрес</a>
+                                </th>
+                                <th class="date">
+                                    <a th:href="@{'/service-centers/page/' + ${tablePage.pageNum} + '?sortField=requisites.actualAddress&sortDir='
+                                    + ${tablePage.sortDir  == 'ASC'? 'DESC' : 'ASC'}+ '&keyword=' + ${tablePage.keyword}}">
+                                        Фактический Адрес</a>
+                                </th>
+                                <th class="date">
+                                    <a th:href="@{'/service-centers/page/' + ${tablePage.pageNum} + '?sortField=requisites.phone&sortDir='
+                                    + ${tablePage.sortDir  == 'ASC'? 'DESC' : 'ASC'}+ '&keyword=' + ${tablePage.keyword}}">
+                                        Телефон</a>
                                 </th>
                                 <th>
-                                    <a th:href="@{'/accounts/page/' + ${tablePage.pageNum} + '?sortField=userSurname&sortDir='
-                                    + ${tablePage.sortDir == 'ASC'? 'DESC' : 'ASC'} + '&keyword=' + ${tablePage.keyword}}">
-                                        Фамилия пользователя</a>
-                                </th>
-                                <th>
-                                    <a th:href="@{'/accounts/page/' + ${tablePage.pageNum} + '?sortField=isActive&sortDir='
+                                    <a th:href="@{'/service-centers/page/' + ${tablePage.pageNum} + '?sortField=isActive&sortDir='
                                     + ${tablePage.sortDir == 'ASC'? 'DESC' : 'ASC'} + '&keyword=' + ${tablePage.keyword}}">
                                         Активность</a>
                                 </th>
@@ -78,18 +79,18 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="account : ${tablePage.listForTable}">
-                                <td th:text="${account.serviceCenterName}"></td>
-                                <td th:text="${account.role}"></td>
-                                <td th:text="${account.email}"></td>
-                                <td th:text="${account.userName}"></td>
-                                <td th:text="${account.userSurname}"></td>
-                                <td th:text="${account.isActive}"></td>
-                                <td>
-                                    <a th:href="@{/accounts/account-update/{id}(id=${account.id})}">Редактировать</a>
+                            <tr th:each="serviceCenter : ${tablePage.listForTable}">
+                                <td th:text="${serviceCenter.serviceName}"></td>
+                                <td th:text="${serviceCenter.email}"></td>
+                                <td th:text="${serviceCenter.legalAddress}"></td>
+                                <td th:text="${serviceCenter.actualAddress}"></td>
+                                <td th:text="${serviceCenter.phone}"></td>
+                                <td th:text="${serviceCenter.isActive}"></td>
+                                <td sec:authorize="hasAuthority('ADMIN')">
+                                    <a th:href="@{/service-centers/service-center-update/{id}(id=${serviceCenter.id})}">Редактировать</a>
                                 </td>
-                                <td>
-                                    <a th:href="@{/accounts/account-delete/{id}(id=${account.id})}">Удалить</a>
+                                <td sec:authorize="hasAuthority('ADMIN')">
+                                    <a th:href="@{/service-centers/service-center-delete/{id}(id=${serviceCenter.id})}">Удалить</a>
                                 </td>
                             </tr>
                             </tbody>

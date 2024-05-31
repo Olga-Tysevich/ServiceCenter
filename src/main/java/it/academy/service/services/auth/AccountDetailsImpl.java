@@ -65,7 +65,7 @@ public class AccountDetailsImpl implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return account.getIsActive();
     }
 
     @Override

@@ -5,7 +5,6 @@ import it.academy.service.dto.forms.ModelForm;
 import it.academy.service.entity.Brand;
 import it.academy.service.entity.DeviceType;
 import it.academy.service.entity.Model;
-import it.academy.service.exceptions.ObjectAlreadyExist;
 import it.academy.service.mappers.BrandMapper;
 import it.academy.service.mappers.DeviceTypeMapper;
 import it.academy.service.mappers.ModelMapper;
@@ -24,6 +23,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static it.academy.service.utils.Constants.ID_FOR_CHECK;
+import static it.academy.service.utils.UIConstants.MODEL_ALREADY_EXISTS;
 import static it.academy.service.utils.UIConstants.MODEL_TABLE_PAGE;
 
 @Transactional
@@ -49,7 +49,7 @@ public class ModelServiceImpl extends CrudServiceImpl<Model, ModelDTO, Long> imp
                 dto.getDeviceTypeId(),
                 dto.getName(),
                 id)) {
-            throw new ObjectAlreadyExist();
+            dto.setErrorMessage(MODEL_ALREADY_EXISTS);
         }
         return super.createOrUpdate(dto);
     }

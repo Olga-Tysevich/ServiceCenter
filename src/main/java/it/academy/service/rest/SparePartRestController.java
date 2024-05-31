@@ -38,7 +38,7 @@ public class SparePartRestController {
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
         SparePartDTO result = sparePartService.createOrUpdate(sparePartDTO);
-        if (StringUtils.isBlank(result.getErrorMessage())) {
+        if (StringUtils.isNotBlank(result.getErrorMessage())) {
             return new ResponseEntity<>(result.getErrorMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(UPDATE_SUCCESSFULLY, HttpStatus.OK);

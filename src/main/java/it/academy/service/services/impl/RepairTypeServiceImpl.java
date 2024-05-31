@@ -2,7 +2,6 @@ package it.academy.service.services.impl;
 
 import it.academy.service.dto.RepairTypeDTO;
 import it.academy.service.entity.RepairType;
-import it.academy.service.exceptions.ObjectAlreadyExist;
 import it.academy.service.mappers.RepairTypeMapper;
 import it.academy.service.repositories.RepairTypeRepository;
 import it.academy.service.repositories.impl.RepairTypeSpecification;

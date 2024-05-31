@@ -34,8 +34,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import static it.academy.service.utils.Constants.DEFAULT_ID;
-import static it.academy.service.utils.UIConstants.PAGE_SIZE;
-import static it.academy.service.utils.UIConstants.REPAIR_TABLE_PAGE;
+import static it.academy.service.utils.Constants.ZERO;
+import static it.academy.service.utils.UIConstants.*;
 
 @Transactional
 @Service
@@ -49,12 +49,17 @@ public class RepairServiceImpl implements RepairService {
     private final RepairSparePartRepository sparePartRepository;
 
     @Override
-    public RepairDTO createOrUpdate(@NotNull RepairDTO repairDTO) {
-        return Optional.ofNullable(repairDTO)
+    public RepairForm createOrUpdate(@NotNull RepairDTO repairDTO) {
+        if (!checkDateOfSale(repairDTO.getDateOfSale())) {
+            repairDTO.setErrorMessage(INVALID_DATE_OF_SALE);
+            return getDataForRepairForm(repairDTO);
+        }
+
+        return Optional.of(repairDTO)
                 .map(RepairMapper.INSTANCE::toEntity)
                 .map(repair -> setModelToDevice(repair, repairDTO.getModelId()))
                 .map(repairRepository::save)
-                .map(RepairMapper.INSTANCE::toDTO)
+                .map(repair -> getRepairForm(repair.getId()))
                 .orElse(null);
     }
 
@@ -74,11 +79,7 @@ public class RepairServiceImpl implements RepairService {
                 .map(repairRepository::getById)
                 .map(RepairMapper.INSTANCE::toDTO)
                 .orElse(new RepairDTO());
-        Long brandId = Objects.requireNonNullElse(repair.getBrandId(), DEFAULT_ID);
-        List<Brand> brands = brandRepository.findAllByIsActiveIsTrue();
-        List<Model> models = modelRepository.findAllByBrand_IdIsAndIsActiveTrue(brandId);
-        return new RepairForm(BrandMapper.INSTANCE.toDTOList(brands),
-                ModelMapper.INSTANCE.toDTOList(models), repair);
+        return getDataForRepairForm(repair);
     }
 
     @Transactional(readOnly = true)
@@ -151,6 +152,18 @@ public class RepairServiceImpl implements RepairService {
         Long repairTypeId = completeRepairDTO.getRepairTypeId();
         setRepairType(repairId, repairTypeId);
         return true;
+    }
+
+    private RepairForm getDataForRepairForm(RepairDTO repairDTO) {
+        Long brandId = Objects.requireNonNullElse(repairDTO.getBrandId(), DEFAULT_ID);
+        List<Brand> brands = brandRepository.findAllByIsActiveIsTrue();
+        List<Model> models = modelRepository.findAllByBrand_IdIsAndIsActiveTrue(brandId);
+        return new RepairForm(BrandMapper.INSTANCE.toDTOList(brands),
+                ModelMapper.INSTANCE.toDTOList(models), repairDTO);
+    }
+
+    private boolean checkDateOfSale(Date date) {
+        return date.compareTo(new java.util.Date()) < ZERO;
     }
 
     private Repair changeRepairStatus(Repair repair, RepairStatus repairStatus) {

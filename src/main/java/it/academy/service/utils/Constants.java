@@ -7,6 +7,7 @@ public class Constants {
     public static final int FIRST_PAGE = 1;
     public static final Long ID_FOR_CHECK = 0L;
     public static final Long DEFAULT_ID = 1L;
+    public static final Integer ZERO = 0;
     public static final String PAGE_NUM = "pageNum";
     public static final String SORT_FIELD = "sortField";
     public static final String SORT_DIR = "sortDir";

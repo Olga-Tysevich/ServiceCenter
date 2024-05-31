@@ -2,7 +2,6 @@ package it.academy.service.services.impl;
 
 import it.academy.service.dto.BrandDTO;
 import it.academy.service.entity.Brand;
-import it.academy.service.exceptions.ObjectAlreadyExist;
 import it.academy.service.mappers.BrandMapper;
 import it.academy.service.repositories.BrandRepository;
 import it.academy.service.repositories.impl.BrandSpecification;

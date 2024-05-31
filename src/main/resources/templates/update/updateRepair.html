@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
-    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Сервисный центр</title>
 </head>
@@ -14,15 +14,16 @@
         <div class="table-container">
 
             <div class="forms-container lf">
-                <h2>Создание ремонта</h2>
+                <h2>Изменение ремонта</h2>
 
-                <form th:action="@{/repairs/repair-create}" th:object="${repair}" method="post" id="create-repair">
-                    <input sec:authorize="hasAuthority('SERVICE_CENTER')" type="hidden"name="serviceCenterId"
-                           th:value="${#authentication.principal.serviceCenterId}"/>
+                <form th:action="@{/repairs/repair-update}" th:object="${repair}" method="post" id="update-repair">
+                    <input type="hidden" name="id" th:field="*{id}">
+                    <input type="hidden" name="serviceCenterId" th:field="*{serviceCenterId}">
+                    <input class="f-form" type="hidden" th:field="*{status}" name="status">
 
                     <div class="f-input">
                         <label class="form-el">Статус ремонта:</label>
-                        <input class="f-form" type="text" th:value="${status}" name="status">
+                        <input class="f-form" type="text" th:field="*{status}" name="status" disabled>
                     </div>
 
                     <div class="f-input">
@@ -30,8 +31,8 @@
                         <select class="f-form" name="category" size="1">
                             <option th:each="category : ${categoryList}"
                                     th:value="${category.name()}"
-                                    th:text="${category}">
-                                <!--                                    th:selected="${category == repair.category}"-->
+                                    th:text="${category}"
+                                    th:selected="${category == repair.category}">
                             </option>
                         </select>
                     </div>
@@ -41,8 +42,8 @@
                         <select class="f-form" name="brandId" size="1">
                             <option th:each="brand : ${brandList}"
                                     th:value="${brand.id}"
-                                    th:text="${brand.name}">
-                                <!--                                    th:selected="${brand.id == repair.brandId}"-->
+                                    th:text="${brand.name}"
+                                    th:selected="${brand.id == repair.brandId}">
                             </option>
                         </select>
                     </div>
@@ -52,8 +53,8 @@
                         <select class="f-form" name="modelId" size="1">
                             <option th:each="model : ${modelList}"
                                     th:value="${model.id}"
-                                    th:text="${model.name}">
-                                <!--                                    th:selected="${model.id == repair.modelId}"-->
+                                    th:text="${model.name}"
+                                    th:selected="${model.id == repair.modelId}">
                             </option>
                         </select>
                     </div>
@@ -114,8 +115,15 @@
                 </div>
 
                 <div class="button-container">
-                    <input class="button button-fieldset" type="submit" value="Сохранить" form="create-repair"/>
-                    <button class="button button-fieldset" onclick="location.href='/repairs'">Отмена</button>
+                    <input class="button button-fieldset" type="submit" value="Сохранить" form="update-repair"/>
+                    <button class="button button-fieldset" sec:authorize="hasAuthority('SERVICE_CENTER')"
+                            onclick="location.href='/repairs'">Отмена</button>
+
+                    <div class="button button-fieldset" sec:authorize="hasAuthority('ADMIN')">
+                    <a style="color: white"
+                       th:href="@{/repairs/repair-page/{id}(id=${repair.id})}">Отмена</a>
+                    </div>
+
                 </div>
 
             </div>

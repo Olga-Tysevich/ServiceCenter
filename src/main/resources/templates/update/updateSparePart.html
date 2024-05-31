@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
-    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Сервисный центр</title>
 </head>
@@ -15,11 +15,23 @@
         <div class="table-container">
 
             <div class="forms-container lf">
-                <h2>Создание запчасти</h2>
+                <h2>Изменение запчасти</h2>
 
                 <form th:action="@{/spare-parts/spare-part-create}" th:object="${sparePart}" method="post"
                       id="create-spare-part-id">
-                    <input type="hidden" name="isActive" th:value="${true}">
+                    <input type="hidden" name="id" th:value="*{id}" id="id">
+
+                    <div class="f-input" sec:authorize="hasAuthority('ADMIN')">
+                        <div class="radio-container-rp">
+                            <label>Активный: </label>
+                            <label>да: </label>
+                            <input type="radio" name="isActive" th:checked="${sparePart.isActive == true}"
+                                   th:value="true">
+                            <label>нет: </label>
+                            <input type="radio" name="isActive" th:checked="${sparePart.isActive == false}"
+                                   th:value="false">
+                        </div>
+                    </div>
 
                     <div class="f-input">
                         <label class="form-el">Наименование:</label>

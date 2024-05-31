@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Data
 @Builder
@@ -27,6 +28,7 @@ public class AccountDTO {
     private RoleEnum role;
 
     @NotEmpty(message = "Email не может быть пустым!")
+    @Pattern(regexp = "^[a-zA-Z0-9-.]+@([a-zA-Z-]+\\\\.)+[a-zA-Z-]{2,4}$", message = "Некорректный формат email!")
     private String email;
 
     @NotEmpty(message = "Имя пользователя не может быть пустым!")
