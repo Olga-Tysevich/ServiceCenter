@@ -9,7 +9,7 @@ import it.academy.service.dto.forms.RepairTypeForm;
 import it.academy.service.dto.forms.TablePage;
 import it.academy.service.entity.*;
 import it.academy.service.entity.embeddable.StockSparePartPK;
-import it.academy.service.exceptions.ObjectNotFound;
+import it.academy.service.exceptions.*;
 import it.academy.service.mappers.*;
 import it.academy.service.repositories.*;
 import it.academy.service.repositories.impl.RepairSpecification;
@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 import static it.academy.service.utils.Constants.DEFAULT_ID;
 import static it.academy.service.utils.Constants.ZERO;
 import static it.academy.service.utils.UIConstants.*;
@@ -191,9 +192,12 @@ public class RepairServiceImpl implements RepairService {
 
     private void setRepairType(Long repairId, Long repairTypeId) {
         Repair repair = repairRepository.findById(repairId).orElse(null);
+        if (repair == null) {
+            throw new RepairNotFound();
+        }
         RepairType repairType = repairTypeRepository.findById(repairTypeId).orElse(null);
-        if (repair == null || repairType == null) {
-            throw new IllegalArgumentException();
+        if (repairType == null) {
+            throw new RepairTypeNotFound();
         }
         repair.setRepairType(repairType);
         repair.setStatus(RepairStatus.COMPLETED);
@@ -223,7 +227,7 @@ public class RepairServiceImpl implements RepairService {
                 .filter(sp -> !sparePartRepository.existsById(sp.getPrimaryKey()))
                 .collect(Collectors.toList());
         if (filteredSpareParts.isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new SparePartListIsEmpty();
         }
         filteredSpareParts.stream()
                 .map(RepairSparePartMapper.INSTANCE::toStockSparePart)
@@ -236,7 +240,7 @@ public class RepairServiceImpl implements RepairService {
         int quantityForDelete = forRemove.getQuantity();
         StockSparePart stockSparePart = stockSparePartRepository.getById(primaryKey);
         if (stockSparePart.getQuantity() < quantityForDelete) {
-            throw new IllegalArgumentException();
+            throw new InvalidSparePartQuantity();
         }
 
         if (stockSparePart.getQuantity() == quantityForDelete) {
