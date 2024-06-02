@@ -87,10 +87,14 @@
                                 <td th:text="${serviceCenter.phone}"></td>
                                 <td th:text="${serviceCenter.isActive}"></td>
                                 <td sec:authorize="hasAuthority('ADMIN')">
-                                    <a th:href="@{/service-centers/service-center-update/{id}(id=${serviceCenter.id})}">Редактировать</a>
+                                    <a th:href="@{'/service-centers/service-center-update/' + ${serviceCenter.id} + '?pageNum=' + ${tablePage.pageNum} +
+                                        '&sortField=' + ${tablePage.sortField} + '&sortDir=' + ${tablePage.sortDir}
+                                        + '&keyword=' + ${tablePage.keyword}}">Редактировать</a>
                                 </td>
                                 <td sec:authorize="hasAuthority('ADMIN')">
-                                    <a th:href="@{/service-centers/service-center-delete/{id}(id=${serviceCenter.id})}">Удалить</a>
+                                    <a th:href="@{'/service-centers/service-center-delete/' + ${serviceCenter.id} + '?pageNum=' + ${tablePage.pageNum} +
+                                        '&sortField=' + ${tablePage.sortField} + '&sortDir=' + ${tablePage.sortDir}
+                                        + '&keyword=' + ${tablePage.keyword}}">Удалить</a>
                                 </td>
                             </tr>
                             </tbody>

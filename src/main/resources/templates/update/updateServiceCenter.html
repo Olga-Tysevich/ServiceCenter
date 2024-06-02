@@ -17,10 +17,19 @@
             <div class="forms-container lf">
                 <h2>Изменение данных сервисного центра</h2>
 
-                <form th:action="@{/service-centers/service-center-update}" th:object="${serviceCenter}" method="post" id="update-sc-id">
+                <form th:action="@{/service-centers/service-center-update}" th:object="${serviceCenter}" method="post"
+                      id="update-sc-id">
+
+                    <input type="hidden" name="pageNum" th:value="${lastPage.pageNum}">
+                    <input type="hidden" name="sortField" th:value="${lastPage.sortField}">
+                    <input type="hidden" name="sortDir" th:value="${lastPage.sortDir}">
+                    <input type="hidden" name="keyword" th:value="${lastPage.keyword}">
+
                     <input type="hidden" name="id" th:value="*{id}">
-                    <input sec:authorize="hasAuthority('SERVICE_CENTER')" type="hidden" name="serviceName" th:value="*{serviceName}">
-                    <input sec:authorize="hasAuthority('SERVICE_CENTER')" type="hidden" name="isActive" th:value="*{isActive}">
+                    <input sec:authorize="hasAuthority('SERVICE_CENTER')" type="hidden" name="serviceName"
+                           th:value="*{serviceName}">
+                    <input sec:authorize="hasAuthority('SERVICE_CENTER')" type="hidden" name="isActive"
+                           th:value="*{isActive}">
 
                     <div class="f-input" sec:authorize="hasAuthority('ADMIN')">
                         <div class="radio-container-rp">
@@ -105,7 +114,11 @@
 
                 <div class="button-container">
                     <input class="button button-fieldset" type="submit" value="Сохранить" form="update-sc-id"/>
-                    <button class="button button-fieldset" onclick="location.href='/service-centers'">Отмена</button>
+                    <!--                    <button class="button button-fieldset" onclick="location.href='/service-centers'">Отмена</button>-->
+                    <div class="button button-fieldset">
+                        <a style="color: white" th:href="@{'/service-centers/page/' + ${lastPage.pageNum} + '?sortField=' + ${lastPage.sortField} + '&sortDir='
+                                    + ${lastPage.sortDir} + '&keyword=' + ${lastPage.keyword}}">Отмена</a>
+                    </div>
                 </div>
 
             </div>

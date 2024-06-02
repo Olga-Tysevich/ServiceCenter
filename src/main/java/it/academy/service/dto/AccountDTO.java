@@ -28,7 +28,7 @@ public class AccountDTO {
     private RoleEnum role;
 
     @NotEmpty(message = "Email не может быть пустым!")
-    @Pattern(regexp = "^[a-zA-Z0-9-.]+@([a-zA-Z-]+\\\\.)+[a-zA-Z-]{2,4}$", message = "Некорректный формат email!")
+    @Pattern(regexp = "^[a-zA-Z0-9-.]+@([a-zA-Z-]+\\.)+[a-zA-Z-]{2,4}$", message = "Ведите email в формате email@mail.com")
     private String email;
 
     @NotEmpty(message = "Имя пользователя не может быть пустым!")

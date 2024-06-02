@@ -18,6 +18,12 @@
                 <h2>Изменение типа устройства</h2>
 
                 <form th:action="@{/device-types/device-type-create}" th:object="${deviceType}" method="post" id="update-device-type-id">
+
+                    <input type="hidden" name="pageNum" th:value="${lastPage.pageNum}">
+                    <input type="hidden" name="sortField" th:value="${lastPage.sortField}">
+                    <input type="hidden" name="sortDir" th:value="${lastPage.sortDir}">
+                    <input type="hidden" name="keyword" th:value="${lastPage.keyword}">
+
                     <input type="hidden" name="id" th:value="*{id}">
 
                     <div class="f-input" sec:authorize="hasAuthority('ADMIN')">
@@ -46,7 +52,10 @@
 
                 <div class="button-container">
                     <input class="button button-fieldset" type="submit" value="Сохранить" form="update-device-type-id"/>
-                    <button class="button button-fieldset" onclick="location.href='/device-types'">Отмена</button>
+                    <div class="button button-fieldset">
+                        <a style="color: white" th:href="@{'/device-types/page/' + ${lastPage.pageNum} + '?sortField=' + ${lastPage.sortField} + '&sortDir='
+                                    + ${lastPage.sortDir} + '&keyword=' + ${lastPage.keyword}}">Отмена</a>
+                    </div>
                 </div>
 
             </div>

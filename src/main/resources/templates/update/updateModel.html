@@ -18,6 +18,12 @@
                 <h2>Изменение модели</h2>
 
                 <form th:action="@{/models/model-create}" th:object="${model}" method="post">
+
+                    <input type="hidden" name="pageNum" th:value="${lastPage.pageNum}">
+                    <input type="hidden" name="sortField" th:value="${lastPage.sortField}">
+                    <input type="hidden" name="sortDir" th:value="${lastPage.sortDir}">
+                    <input type="hidden" name="keyword" th:value="${lastPage.keyword}">
+
                     <input type="hidden" name="id" th:value="*{id}" id="id">
 
                     <div class="f-input" sec:authorize="hasAuthority('ADMIN')">
@@ -67,7 +73,10 @@
 
                 <div class="button-container">
                     <input class="button button-fieldset" type="submit" value="Сохранить" onclick="updateModel()"/>
-                    <button class="button button-fieldset" onclick="location.href='/models'">Отмена</button>
+                    <div class="button button-fieldset">
+                        <a style="color: white" th:href="@{'/models/page/' + ${lastPage.pageNum} + '?sortField=' + ${lastPage.sortField} + '&sortDir='
+                                    + ${lastPage.sortDir} + '&keyword=' + ${lastPage.keyword}}">Отмена</a>
+                    </div>
                 </div>
 
             </div>

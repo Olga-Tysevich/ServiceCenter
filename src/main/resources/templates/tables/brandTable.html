@@ -58,10 +58,14 @@
                                 <td th:text="${brand.name}"></td>
                                 <td th:text="${brand.isActive}"></td>
                                 <td sec:authorize="hasAuthority('ADMIN')">
-                                    <a th:href="@{/brands/brand-update/{id}(id=${brand.id})}">Редактировать</a>
+                                    <a th:href="@{'/brands/brand-update/' + ${brand.id} + '?pageNum=' + ${tablePage.pageNum} +
+                                        '&sortField=' + ${tablePage.sortField} + '&sortDir=' + ${tablePage.sortDir}
+                                        + '&keyword=' + ${tablePage.keyword}}">Редактировать</a>
                                 </td>
                                 <td sec:authorize="hasAuthority('ADMIN')">
-                                    <a th:href="@{/brands/brand-delete/{id}(id=${brand.id})}">Удалить</a>
+                                    <a th:href="@{'/brands/brand-delete/' + ${brand.id} + '?pageNum=' + ${tablePage.pageNum} +
+                                        '&sortField=' + ${tablePage.sortField} + '&sortDir=' + ${tablePage.sortDir}
+                                        + '&keyword=' + ${tablePage.keyword}}">Удалить</a>
                                 </td>
                             </tr>
                             </tbody>

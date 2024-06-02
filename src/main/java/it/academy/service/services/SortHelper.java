@@ -7,7 +7,7 @@ import org.springframework.data.domain.Sort;
 public class SortHelper {
 
     public Sort defineCurrentSort(String sortField, String sortDir) {
-        return sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+        return Sort.Direction.ASC.name().equalsIgnoreCase(sortDir) ? Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
     }
 

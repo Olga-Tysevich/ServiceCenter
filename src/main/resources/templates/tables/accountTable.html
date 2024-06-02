@@ -86,10 +86,14 @@
                                 <td th:text="${account.userSurname}"></td>
                                 <td th:text="${account.isActive}"></td>
                                 <td>
-                                    <a th:href="@{/accounts/account-update/{id}(id=${account.id})}">Редактировать</a>
+                                    <a th:href="@{'/accounts/account-update/' + ${account.id} + '?pageNum=' + ${tablePage.pageNum} +
+                                        '&sortField=' + ${tablePage.sortField} + '&sortDir=' + ${tablePage.sortDir}
+                                        + '&keyword=' + ${tablePage.keyword}}">Редактировать</a>
                                 </td>
                                 <td>
-                                    <a th:href="@{/accounts/account-delete/{id}(id=${account.id})}">Удалить</a>
+                                    <a th:href="@{'/accounts/account-delete/' + ${account.id} + '?pageNum=' + ${tablePage.pageNum} +
+                                        '&sortField=' + ${tablePage.sortField} + '&sortDir=' + ${tablePage.sortDir}
+                                        + '&keyword=' + ${tablePage.keyword}}">Удалить</a>
                                 </td>
                             </tr>
                             </tbody>

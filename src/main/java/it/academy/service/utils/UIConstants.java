@@ -56,6 +56,7 @@ public class UIConstants {
     public static final String BRAND_TABLE_PAGE = "/brands/page/";
     public static final String SPARE_PART_TABLE_PAGE = "/spare-parts/page/";
     public static final String SERVICE_CENTER_TABLE_PAGE = "/service-centers/page/";
+    public static final String ACCOUNT_TABLE_PAGE = "/service-centers/page/";
     //redirects
     public static final String REPAIRS_PAGE_REDIRECT = "redirect:/repairs";
     public static final String SPARE_PARTS_PAGE_REDIRECT = "redirect:/spare-parts";
@@ -66,6 +67,7 @@ public class UIConstants {
     public static final String SPARE_PART_ORDER_PAGE_REDIRECT = "redirect:/spare-part-orders";
 
     //attributes
+    public static final String LAST_PAGE = "lastPage";
     public static final String REPAIR = "repair";
     public static final String REPAIR_ID = "repairId";
     public static final String REPAIR_NUMBER = "repairNumber";

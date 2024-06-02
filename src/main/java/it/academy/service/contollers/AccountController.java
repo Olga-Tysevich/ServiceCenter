@@ -2,6 +2,7 @@ package it.academy.service.contollers;
 
 import it.academy.service.dto.AccountDTO;
 import it.academy.service.dto.ServiceCenterDTO;
+import it.academy.service.dto.TablePageReq;
 import it.academy.service.dto.forms.TablePage;
 import it.academy.service.dto.validator.DtoValidator;
 import it.academy.service.entity.Account_;
@@ -28,18 +29,15 @@ public class AccountController {
     private final AccountService service;
     private final ServiceCenterService serviceCenterService;
 
-    @GetMapping
+        @GetMapping
     public String showPage(Model model) {
-        return showPage(model, FIRST_PAGE, Account_.ID, Sort.Direction.DESC.name(), StringUtils.EMPTY);
+        return showPage(model, new TablePageReq(FIRST_PAGE, Account_.ID, Sort.Direction.DESC.name(), StringUtils.EMPTY));
     }
 
     @GetMapping("/page/{pageNum}")
-    public String showPage(Model model,
-                           @PathVariable(PAGE_NUM) int pageNum,
-                           @RequestParam(SORT_FIELD) String sortField,
-                           @RequestParam(SORT_DIR) String sortDir,
-                           @RequestParam(KEYWORD) String keyword) {
-        TablePage<AccountDTO> page = service.findForPage(pageNum, sortField, sortDir, keyword);
+    public String showPage(Model model, @ModelAttribute TablePageReq tablePageReq) {
+        TablePage<AccountDTO> page = service.findForPage(tablePageReq.getPageNum(), tablePageReq.getSortField(),
+                tablePageReq.getSortDir(), tablePageReq.getKeyword());
         model.addAttribute(TABLE_PAGE, page);
         return ACCOUNT_TABLE;
     }
@@ -60,20 +58,22 @@ public class AccountController {
 
     @PostMapping("/account-create")
     public String create(Model model, @Valid AccountDTO accountDTO, BindingResult bindingResult) {
-        String formPage = accountDTO.getServiceCenterId() == null ?
-                ADD_ADMIN_ACCOUNT_PAGE : ADD_SERVICE_CENTER_ACCOUNT_PAGE;
-        return createOrUpdate(model, accountDTO, bindingResult, formPage);
+        return createOrUpdate(model, accountDTO, bindingResult, ADD_ADMIN_ACCOUNT_PAGE);
     }
 
     @GetMapping("/account-update/{id}")
-    public String showUpdatePage(Model model, @PathVariable(OBJECT_ID) Long id) {
+    public String showUpdatePage(Model model, @PathVariable(OBJECT_ID) Long id, @ModelAttribute TablePageReq tablePageReq) {
         AccountDTO accountDTO = service.findById(id);
         model.addAttribute(ACCOUNT, accountDTO);
+        model.addAttribute(LAST_PAGE, tablePageReq);
         return UPDATE_ACCOUNT_PAGE;
     }
 
     @PostMapping("/account-update")
-    public String update(Model model, @Valid AccountDTO accountDTO, BindingResult bindingResult) {
+    public String update(Model model, @Valid AccountDTO accountDTO,
+                         BindingResult bindingResult,
+                         @ModelAttribute TablePageReq tablePageReq) {
+        model.addAttribute(LAST_PAGE, tablePageReq);
         return createOrUpdate(model, accountDTO, bindingResult, UPDATE_ACCOUNT_PAGE);
     }
 

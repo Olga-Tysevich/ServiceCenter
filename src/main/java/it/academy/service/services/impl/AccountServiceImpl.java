@@ -16,8 +16,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 import static it.academy.service.utils.Constants.ID_FOR_CHECK;
-import static it.academy.service.utils.UIConstants.EMAIL_ALREADY_EXISTS;
-import static it.academy.service.utils.UIConstants.SERVICE_CENTER_TABLE_PAGE;
+import static it.academy.service.utils.UIConstants.*;
 
 @Transactional
 @Service
@@ -45,7 +44,7 @@ public class AccountServiceImpl extends CrudServiceImpl<Account, AccountDTO, Lon
 
     @Override
     protected String getTablePagePath() {
-        return SERVICE_CENTER_TABLE_PAGE;
+        return ACCOUNT_TABLE_PAGE;
     }
 
     @Override

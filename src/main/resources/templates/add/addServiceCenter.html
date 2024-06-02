@@ -17,7 +17,8 @@
             <div class="forms-container lf">
                 <h2>Создание сервисного центра</h2>
 
-                <form th:action="@{/service-centers/service-center-update}" th:object="${serviceCenter}" method="post" id="add-sc-id">
+                <form th:action="@{/service-centers/service-center-create}" th:object="${serviceCenter}" method="post" id="add-sc-id">
+
                     <input type="hidden" name="id" th:value="*{id}">
                     <input  type="hidden" name="isActive" th:value="*{true}">
 

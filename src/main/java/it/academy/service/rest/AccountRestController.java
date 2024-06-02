@@ -24,7 +24,7 @@ public class AccountRestController {
     private final AccountService service;
 
     @PostMapping("/create-service-center-account")
-    public ResponseEntity<String> createOrder(@RequestBody @Valid AccountDTO accountDTO, BindingResult bindingResult) {
+    public ResponseEntity<String> createAccount(@RequestBody @Valid AccountDTO accountDTO, BindingResult bindingResult) {
         String errors = DtoValidator.getErrors(bindingResult);
         if (!StringUtils.isBlank(errors)) {
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);

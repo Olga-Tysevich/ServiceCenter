@@ -6,8 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Data
 @Builder
@@ -42,9 +42,12 @@ public class ServiceCenterDTO {
     private String actualAddress;
 
     @NotBlank(message = "Телефон не может быть пустым!")
+    @Pattern(regexp = "^(\\+375|80) ?(29|25|44|33) ?(\\d{3})\\-?(\\d{2})\\-?(\\d{2})$",
+            message = "Номер телефона должен быть в формате +375 29 111-11-11/80 29 111-11-11")
     private String phone;
 
     @NotBlank(message = "Email не может быть пустым!")
+    @Pattern(regexp = "^[a-zA-Z0-9-.]+@([a-zA-Z-]+\\.)+[a-zA-Z-]{2,4}$", message = "Ведите email в формате email@mail.com")
     private String email;
 
     @NotNull(message = "Учетные данные не могут быть пустыми!")

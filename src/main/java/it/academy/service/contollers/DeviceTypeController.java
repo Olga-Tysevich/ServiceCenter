@@ -1,6 +1,7 @@
 package it.academy.service.contollers;
 
 import it.academy.service.dto.DeviceTypeDTO;
+import it.academy.service.dto.TablePageReq;
 import it.academy.service.dto.forms.TablePage;
 import it.academy.service.dto.validator.DtoValidator;
 import it.academy.service.entity.DeviceType_;
@@ -26,16 +27,13 @@ public class DeviceTypeController {
 
     @GetMapping
     public String showPage(Model model) {
-        return showPage(model, FIRST_PAGE, DeviceType_.NAME, Sort.Direction.ASC.name(), StringUtils.EMPTY);
+        return showPage(model, new TablePageReq(FIRST_PAGE, DeviceType_.NAME, Sort.Direction.ASC.name(), StringUtils.EMPTY));
     }
 
     @GetMapping("/page/{pageNum}")
-    public String showPage(Model model,
-                           @PathVariable(PAGE_NUM) int pageNum,
-                           @RequestParam(SORT_FIELD) String sortField,
-                           @RequestParam(SORT_DIR) String sortDir,
-                           @RequestParam(KEYWORD) String keyword) {
-        TablePage<DeviceTypeDTO> page = service.findForPage(pageNum, sortField, sortDir, keyword);
+    public String showPage(Model model, @ModelAttribute TablePageReq tablePageReq) {
+        TablePage<DeviceTypeDTO> page = service.findForPage(tablePageReq.getPageNum(), tablePageReq.getSortField(),
+                tablePageReq.getSortDir(), tablePageReq.getKeyword());
         model.addAttribute(TABLE_PAGE, page);
         return DEVICE_TYPE_TABLE;
     }
@@ -52,14 +50,18 @@ public class DeviceTypeController {
     }
 
     @GetMapping("/device-type-update/{id}")
-    public String showUpdatePage(Model model, @PathVariable(OBJECT_ID) Long id) {
+    public String showUpdatePage(Model model, @PathVariable(OBJECT_ID) Long id, @ModelAttribute TablePageReq tablePageReq) {
         DeviceTypeDTO deviceTypeDTO = service.findById(id);
         model.addAttribute(DEVICE_TYPE, deviceTypeDTO);
+        model.addAttribute(LAST_PAGE, tablePageReq);
         return UPDATE_DEVICE_TYPE_PAGE;
     }
 
     @PostMapping("/device-type-update")
-    public String update(Model model, @Valid DeviceTypeDTO deviceTypeDTO, BindingResult bindingResult) {
+    public String update(Model model, @Valid DeviceTypeDTO deviceTypeDTO,
+                         BindingResult bindingResult,
+                         @ModelAttribute TablePageReq tablePageReq) {
+        model.addAttribute(LAST_PAGE, tablePageReq);
         return createOrUpdate(model, deviceTypeDTO, bindingResult, UPDATE_DEVICE_TYPE_PAGE);
     }
 

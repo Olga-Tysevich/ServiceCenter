@@ -2,6 +2,7 @@ package it.academy.service.contollers;
 
 import it.academy.service.dto.RepairDTO;
 import it.academy.service.dto.RepairForTableDTO;
+import it.academy.service.dto.TablePageReq;
 import it.academy.service.dto.forms.RepairForm;
 import it.academy.service.dto.forms.RepairTypeForm;
 import it.academy.service.dto.forms.TablePage;
@@ -33,17 +34,14 @@ public class RepairController {
 
     @GetMapping
     public String showRepairsPage(Authentication authentication, Model model) {
-        return showPage(authentication, model, FIRST_PAGE, Repair_.START_DATE, Sort.Direction.DESC.name(), StringUtils.EMPTY);
+        return showPage(authentication, model, new TablePageReq(FIRST_PAGE, Repair_.START_DATE, Sort.Direction.DESC.name(), StringUtils.EMPTY));
     }
 
     @GetMapping("/page/{pageNum}")
-    public String showPage(Authentication authentication, Model model,
-                           @PathVariable(PAGE_NUM) int pageNum,
-                           @RequestParam(SORT_FIELD) String sortField,
-                           @RequestParam(SORT_DIR) String sortDir,
-                           @RequestParam(KEYWORD) String keyword) {
+    public String showPage(Authentication authentication, Model model, @ModelAttribute TablePageReq tablePageReq) {
         Long serviceCenterId = ((AccountDetailsImpl) authentication.getPrincipal()).getServiceCenterId();
-        TablePage<RepairForTableDTO> page = repairService.findForPage(serviceCenterId, pageNum, sortField, sortDir, keyword);
+        TablePage<RepairForTableDTO> page = repairService.findForPage(serviceCenterId, tablePageReq.getPageNum(), tablePageReq.getSortField(),
+                tablePageReq.getSortDir(), tablePageReq.getKeyword());
         model.addAttribute(TABLE_PAGE, page);
         return REPAIR_TABLE;
     }
@@ -107,12 +105,14 @@ public class RepairController {
     private String createOrUpdate(Model model, RepairDTO repairDTO, BindingResult bindingResult, String formPage) {
         if (!DtoValidator.isValid(model, repairDTO, REPAIR, bindingResult)) {
             RepairForm repairForm = repairService.getRepairForm(repairDTO.getId());
+            repairForm.setRepair(repairDTO);
             setRepairFormData(model, repairForm);
             return formPage;
         }
         RepairForm result = repairService.createOrUpdate(repairDTO);
         if (StringUtils.isNotBlank(result.getRepair().getErrorMessage())) {
             model.addAttribute(ERROR_MESSAGE, result.getRepair().getErrorMessage());
+            result.setRepair(repairDTO);
             setRepairFormData(model, result);
             return formPage;
         }

@@ -17,7 +17,7 @@
                 <h2>Создание ремонта</h2>
 
                 <form th:action="@{/repairs/repair-create}" th:object="${repair}" method="post" id="create-repair">
-                    <input sec:authorize="hasAuthority('SERVICE_CENTER')" type="hidden"name="serviceCenterId"
+                    <input sec:authorize="hasAuthority('SERVICE_CENTER')" type="hidden" name="serviceCenterId"
                            th:value="${#authentication.principal.serviceCenterId}"/>
 
                     <div class="f-input">

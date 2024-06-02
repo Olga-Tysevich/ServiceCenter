@@ -21,18 +21,18 @@
     <include file="29.03.2024-create-table-repairs-spare-parts-v1.0.xml" relativeToChangelogFile="true"/>
     <include file="29.03.2024-create-table-stock-spare-parts-v1.0.xml" relativeToChangelogFile="true"/>
 
-    <include file="add/28.05.2024-add-service-centers-v1.0.xml" relativeToChangelogFile="true"/>
-    <include file="add/28.05.2024-add-accounts-v1.0.xml" relativeToChangelogFile="true"/>
-    <include file="add/28.05.2024-add-brands-v1.0.xml" relativeToChangelogFile="true"/>
-    <include file="add/28.05.2024-add-device-types-v1.0.xml" relativeToChangelogFile="true"/>
-    <include file="add/28.05.2024-add-models-v1.0.xml" relativeToChangelogFile="true"/>
-    <include file="add/28.05.2024-add-spare-parts-v1.0.xml" relativeToChangelogFile="true"/>
-    <include file="add/28.05.2024-add-models-spare-parts-v1.0.xml" relativeToChangelogFile="true"/>
-    <include file="add/28.05.2024-add-repair-types-v1.0.xml" relativeToChangelogFile="true"/>
-    <include file="add/28.05.2024-add-devices-v1.0.xml" relativeToChangelogFile="true"/>
-    <include file="add/28.05.2024-add-repairs-v1.0.xml" relativeToChangelogFile="true"/>
-    <include file="add/28.05.2024-add-orders-v1.0.xml" relativeToChangelogFile="true"/>
-    <include file="add/28.05.2024-add-order-items-v1.0.xml" relativeToChangelogFile="true"/>
-    <include file="add/28.05.2024-add-stock-spare-parts-v1.0.xml" relativeToChangelogFile="true"/>
+<!--    <include file="add/28.05.2024-add-service-centers-v1.0.xml" relativeToChangelogFile="true"/>-->
+<!--    <include file="add/28.05.2024-add-accounts-v1.0.xml" relativeToChangelogFile="true"/>-->
+<!--    <include file="add/28.05.2024-add-brands-v1.0.xml" relativeToChangelogFile="true"/>-->
+<!--    <include file="add/28.05.2024-add-device-types-v1.0.xml" relativeToChangelogFile="true"/>-->
+<!--    <include file="add/28.05.2024-add-models-v1.0.xml" relativeToChangelogFile="true"/>-->
+<!--    <include file="add/28.05.2024-add-spare-parts-v1.0.xml" relativeToChangelogFile="true"/>-->
+<!--    <include file="add/28.05.2024-add-models-spare-parts-v1.0.xml" relativeToChangelogFile="true"/>-->
+<!--    <include file="add/28.05.2024-add-repair-types-v1.0.xml" relativeToChangelogFile="true"/>-->
+<!--    <include file="add/28.05.2024-add-devices-v1.0.xml" relativeToChangelogFile="true"/>-->
+<!--    <include file="add/28.05.2024-add-repairs-v1.0.xml" relativeToChangelogFile="true"/>-->
+<!--    <include file="add/28.05.2024-add-orders-v1.0.xml" relativeToChangelogFile="true"/>-->
+<!--    <include file="add/28.05.2024-add-order-items-v1.0.xml" relativeToChangelogFile="true"/>-->
+<!--    <include file="add/28.05.2024-add-stock-spare-parts-v1.0.xml" relativeToChangelogFile="true"/>-->
 
 </databaseChangeLog>

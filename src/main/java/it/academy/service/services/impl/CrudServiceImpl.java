@@ -44,7 +44,7 @@ public abstract class CrudServiceImpl<R, T, ID> implements CrudService<T, ID> {
     @Override
     public T findById(ID id) {
         return Optional.ofNullable(id)
-                .map(repository::getById)
+                .flatMap(repository::findById)
                 .map(mapper::toDTO)
                 .orElse(null);
     }

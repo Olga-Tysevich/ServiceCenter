@@ -1,6 +1,7 @@
 package it.academy.service.contollers;
 
 import it.academy.service.dto.BrandDTO;
+import it.academy.service.dto.TablePageReq;
 import it.academy.service.dto.forms.TablePage;
 import it.academy.service.dto.validator.DtoValidator;
 import it.academy.service.entity.Brand_;
@@ -26,16 +27,13 @@ public class BrandController {
 
     @GetMapping
     public String showPage(Model model) {
-        return showPage(model, FIRST_PAGE, Brand_.NAME, Sort.Direction.ASC.name(), StringUtils.EMPTY);
+        return showPage(model, new TablePageReq(FIRST_PAGE, Brand_.NAME, Sort.Direction.ASC.name(), StringUtils.EMPTY));
     }
 
     @GetMapping("/page/{pageNum}")
-    public String showPage(Model model,
-                           @PathVariable(PAGE_NUM) int pageNum,
-                           @RequestParam(SORT_FIELD) String sortField,
-                           @RequestParam(SORT_DIR) String sortDir,
-                           @RequestParam(KEYWORD) String keyword) {
-        TablePage<BrandDTO> page = brandService.findForPage(pageNum, sortField, sortDir, keyword);
+    public String showPage(Model model, @ModelAttribute TablePageReq tablePageReq) {
+        TablePage<BrandDTO> page = brandService.findForPage(tablePageReq.getPageNum(), tablePageReq.getSortField(),
+                tablePageReq.getSortDir(), tablePageReq.getKeyword());
         model.addAttribute(TABLE_PAGE, page);
         return BRAND_TABLE;
     }
@@ -52,14 +50,18 @@ public class BrandController {
     }
 
     @GetMapping("/brand-update/{id}")
-    public String showUpdatePage(Model model, @PathVariable(OBJECT_ID) Long id) {
+    public String showUpdatePage(Model model, @PathVariable(OBJECT_ID) Long id, @ModelAttribute TablePageReq tablePageReq) {
         BrandDTO brandDTO = brandService.findById(id);
         model.addAttribute(BRAND, brandDTO);
+        model.addAttribute(LAST_PAGE, tablePageReq);
         return UPDATE_BRAND_PAGE;
     }
 
     @PostMapping("/brand-update")
-    public String update(Model model, @Valid BrandDTO brandDTO, BindingResult bindingResult) {
+    public String update(Model model, @Valid BrandDTO brandDTO,
+                         BindingResult bindingResult,
+                         @ModelAttribute TablePageReq tablePageReq) {
+        model.addAttribute(LAST_PAGE, tablePageReq);
         return createOrUpdate(model, brandDTO, bindingResult, UPDATE_BRAND_PAGE);
     }
 

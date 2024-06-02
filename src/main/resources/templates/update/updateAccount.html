@@ -18,6 +18,12 @@
                 <h2>Изменение данных аккаунта</h2>
 
                 <form th:action="@{/accounts/account-update}" th:object="${account}" method="post" id="update-account-id">
+
+                    <input type="hidden" name="pageNum" th:value="${lastPage.pageNum}">
+                    <input type="hidden" name="sortField" th:value="${lastPage.sortField}">
+                    <input type="hidden" name="sortDir" th:value="${lastPage.sortDir}">
+                    <input type="hidden" name="keyword" th:value="${lastPage.keyword}">
+
                     <input type="hidden" name="id" th:value="*{id}">
                     <input type="hidden" name="role" th:value="*{role}">
                     <input type="hidden" name="serviceCenterId" th:value="*{serviceCenterId}">
@@ -86,7 +92,10 @@
 
                 <div class="button-container">
                     <input class="button button-fieldset" type="submit" value="Сохранить" form="update-account-id"/>
-                    <button class="button button-fieldset" onclick="location.href='/accounts'">Отмена</button>
+                    <div class="button button-fieldset">
+                    <a style="color: white" th:href="@{'/accounts/page/' + ${lastPage.pageNum} + '?sortField=' + ${lastPage.sortField} + '&sortDir='
+                                    + ${lastPage.sortDir} + '&keyword=' + ${lastPage.keyword}}">Отмена</a>
+                    </div>
                 </div>
 
             </div>

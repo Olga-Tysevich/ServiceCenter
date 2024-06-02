@@ -70,10 +70,14 @@
                                 <td th:text="${model.deviceTypeName}"></td>
                                 <td th:text="${model.isActive}"></td>
                                 <td sec:authorize="hasAuthority('ADMIN')">
-                                    <a th:href="@{/models/model-update/{id}(id=${model.id})}">Редактировать</a>
+                                    <a th:href="@{'/models/model-update/' + ${model.id} + '?pageNum=' + ${tablePage.pageNum} +
+                                        '&sortField=' + ${tablePage.sortField} + '&sortDir=' + ${tablePage.sortDir}
+                                        + '&keyword=' + ${tablePage.keyword}}">Редактировать</a>
                                 </td>
                                 <td sec:authorize="hasAuthority('ADMIN')">
-                                    <a th:href="@{/models/model-delete/{id}(id=${model.id})}">Удалить</a>
+                                    <a th:href="@{'/models/model-delete/' + ${model.id} + '?pageNum=' + ${tablePage.pageNum} +
+                                        '&sortField=' + ${tablePage.sortField} + '&sortDir=' + ${tablePage.sortDir}
+                                        + '&keyword=' + ${tablePage.keyword}}">Удалить</a>
                                 </td>
                             </tr>
                             </tbody>

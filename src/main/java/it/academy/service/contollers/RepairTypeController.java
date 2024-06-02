@@ -1,6 +1,7 @@
 package it.academy.service.contollers;
 
 import it.academy.service.dto.RepairTypeDTO;
+import it.academy.service.dto.TablePageReq;
 import it.academy.service.dto.forms.TablePage;
 import it.academy.service.dto.validator.DtoValidator;
 import it.academy.service.entity.RepairType_;
@@ -26,16 +27,13 @@ public class RepairTypeController {
 
     @GetMapping
     public String showPage(Model model) {
-        return showRepairTypesPage(model, FIRST_PAGE, RepairType_.NAME, Sort.Direction.ASC.name(), StringUtils.EMPTY);
+        return showRepairTypesPage(model, new TablePageReq(FIRST_PAGE, RepairType_.NAME, Sort.Direction.ASC.name(), StringUtils.EMPTY));
     }
 
     @GetMapping("/page/{pageNum}")
-    public String showRepairTypesPage(Model model,
-                                      @PathVariable(PAGE_NUM) int pageNum,
-                                      @RequestParam(SORT_FIELD) String sortField,
-                                      @RequestParam(SORT_DIR) String sortDir,
-                                      @RequestParam(KEYWORD) String keyword) {
-        TablePage<RepairTypeDTO> page = service.findForPage(pageNum, sortField, sortDir, keyword);
+    public String showRepairTypesPage(Model model, @ModelAttribute TablePageReq tablePageReq) {
+        TablePage<RepairTypeDTO> page = service.findForPage(tablePageReq.getPageNum(), tablePageReq.getSortField(),
+                tablePageReq.getSortDir(), tablePageReq.getKeyword());
         model.addAttribute(TABLE_PAGE, page);
         return REPAIR_TYPE_TABLE;
     }
@@ -55,14 +53,17 @@ public class RepairTypeController {
     }
 
     @GetMapping("/repair-type-update/{id}")
-    public String showUpdatePage(Model model, @PathVariable(OBJECT_ID) Long id) {
+    public String showUpdatePage(Model model, @PathVariable(OBJECT_ID) Long id, @ModelAttribute TablePageReq tablePageReq) {
         RepairTypeDTO repairTypeDTO = service.findById(id);
         model.addAttribute(REPAIR_TYPE, repairTypeDTO);
+        model.addAttribute(LAST_PAGE, tablePageReq);
         return UPDATE_REPAIR_TYPE_PAGE;
     }
 
     @PostMapping("/repair-type-update")
-    public String update(Model model, @Valid RepairTypeDTO repairTypeDTO, BindingResult bindingResult) {
+    public String update(Model model, @Valid RepairTypeDTO repairTypeDTO, BindingResult bindingResult,
+                         @ModelAttribute TablePageReq tablePageReq) {
+        model.addAttribute(LAST_PAGE, tablePageReq);
         return updateRepairType(model,
                 repairTypeDTO,
                 bindingResult,

@@ -58,10 +58,14 @@
                                 <td th:text="${deviceType.name}"></td>
                                 <td th:text="${deviceType.isActive}"></td>
                                 <td sec:authorize="hasAuthority('ADMIN')">
-                                    <a th:href="@{/device-types/device-type-update/{id}(id=${deviceType.id})}">Редактировать</a>
+                                    <a th:href="@{'/device-types/device-type-update/' + ${deviceType.id} + '?pageNum=' + ${tablePage.pageNum} +
+                                        '&sortField=' + ${tablePage.sortField} + '&sortDir=' + ${tablePage.sortDir}
+                                        + '&keyword=' + ${tablePage.keyword}}">Редактировать</a>
                                 </td>
                                 <td sec:authorize="hasAuthority('ADMIN')">
-                                    <a th:href="@{/device-types/device-type-delete/{id}(id=${deviceType.id})}">Удалить</a>
+                                    <a th:href="@{'/device-types/device-type-delete/' + ${deviceType.id} + '?pageNum=' + ${tablePage.pageNum} +
+                                        '&sortField=' + ${tablePage.sortField} + '&sortDir=' + ${tablePage.sortDir}
+                                        + '&keyword=' + ${tablePage.keyword}}">Удалить</a>
                                 </td>
                             </tr>
                             </tbody>

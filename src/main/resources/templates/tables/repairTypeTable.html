@@ -70,10 +70,14 @@
                                 <td th:text="${repairType.level}"></td>
                                 <td th:text="${repairType.isActive}"></td>
                                 <td sec:authorize="hasAuthority('ADMIN')">
-                                    <a th:href="@{/repair-types/repair-type-update/{id}(id=${repairType.id})}">Редактировать</a>
+                                    <a th:href="@{'/repair-types/repair-type-update/' + ${repairType.id} + '?pageNum=' + ${tablePage.pageNum} +
+                                        '&sortField=' + ${tablePage.sortField} + '&sortDir=' + ${tablePage.sortDir}
+                                        + '&keyword=' + ${tablePage.keyword}}">Редактировать</a>
                                 </td>
                                 <td sec:authorize="hasAuthority('ADMIN')">
-                                    <a th:href="@{/repair-types/repair-type-delete/{id}(id=${repairType.id})}">Удалить</a>
+                                    <a th:href="@{'/repair-types/repair-type-delete/' + ${repairType.id} + '?pageNum=' + ${tablePage.pageNum} +
+                                        '&sortField=' + ${tablePage.sortField} + '&sortDir=' + ${tablePage.sortDir}
+                                        + '&keyword=' + ${tablePage.keyword}}">Удалить</a>
                                 </td>
                             </tr>
                             </tbody>

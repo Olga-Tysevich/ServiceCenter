@@ -19,5 +19,8 @@ public class Constants {
     public static final String SPACE = " ";
     public static final String OBJECT_ID = "id";
     public static final String REPAIR_STATUS = "status";
+    public static final String METHOD_STARTED = "Method started: ";
+    public static final String METHOD_FINISHED = "Method finished: ";
+    public static final String EXCEPTION_IN_METHOD = "Exception in method: ";
 
 }
