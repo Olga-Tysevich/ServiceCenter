@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Builder
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "stock_spare_parts")
-public class StockSparePart {
+public class StockSparePart implements Serializable {
 
     @EmbeddedId
     private StockSparePartPK primaryKey;

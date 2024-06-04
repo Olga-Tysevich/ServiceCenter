@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Builder
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "repairs_spare_parts")
 @Entity
-public class RepairSparePart {
+public class RepairSparePart implements Serializable {
 
     @EmbeddedId
     private RepairSparePartPK primaryKey;

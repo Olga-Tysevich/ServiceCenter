@@ -66,7 +66,7 @@ class DeviceTypeControllerTest {
 
     @Test
     void showCreateAdminPageTest() throws Exception {
-        mockMvc.perform(get("/brands/brand-create"))
+        mockMvc.perform(get("/device-types/device-type-create"))
                 .andExpect(status().isOk())
                 .andExpect(view().name(ADD_DEVICE_TYPE_PAGE));
     }
@@ -82,7 +82,7 @@ class DeviceTypeControllerTest {
 
         mockMvc.perform(request)
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/deviceTypes"));
+                .andExpect(redirectedUrl("/device-types"));
     }
 
 
@@ -119,7 +119,7 @@ class DeviceTypeControllerTest {
     void deleteTest() throws Exception {
         mockMvc.perform(get("/device-types/device-type-delete/{id}", FIRST_ID))
                 .andExpect(status().isOk())
-                .andExpect(view().name(BRAND_TABLE));
+                .andExpect(view().name(DEVICE_TYPE_TABLE));
     }
 
 }
