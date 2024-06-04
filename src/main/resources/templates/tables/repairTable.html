@@ -36,7 +36,8 @@
                             <tr>
 
                                 <th sec:authorize="hasAuthority('ADMIN')">
-                                    <a th:href="@{'/repairs/page/' + ${pageNum} + '?sortField=serviceCenter.serviceName&sortDir=' + ${sortDir}}">
+                                    <a th:href="@{'/repairs/page/' + ${tablePage.pageNum} + '?sortField=serviceCenter.serviceName&sortDir='
+                                    + ${tablePage.sortDir == 'ASC'? 'DESC' : 'ASC'} + '&keyword=' + ${tablePage.keyword}}">
                                         Сервисный центр
                                     </a>
                                 </th>

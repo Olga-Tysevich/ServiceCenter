@@ -15,7 +15,7 @@
 
         <div>
             <div>
-                <form action="#" th:action="@{/orders/page/1}" method="get">
+                <form action="#" th:action="@{/spare-part-orders/page/1}" method="get">
                     <input type="hidden" name="sortDir" th:value="${tablePage.sortDir}"/>
                     <input type="hidden" name="sortField" th:value="${tablePage.sortField}"/>
 
@@ -41,27 +41,27 @@
                             <thead>
                             <tr>
                                 <th>
-                                    <a th:href="@{'/orders/page/' + ${tablePage.pageNum} + '?sortField=id&sortDir='
+                                    <a th:href="@{'/spare-part-orders/page/' + ${tablePage.pageNum} + '?sortField=id&sortDir='
                                     + ${tablePage.sortDir == 'ASC'? 'DESC' : 'ASC'} + '&keyword=' + ${tablePage.keyword}}">
                                         Номер</a>
                                 </th>
                                 <th>
-                                    <a th:href="@{'/orders/page/' + ${tablePage.pageNum} + '?sortField=repair.repairNumber&sortDir='
+                                    <a th:href="@{'/spare-part-orders/page/' + ${tablePage.pageNum} + '?sortField=repair.repairNumber&sortDir='
                                     + ${tablePage.sortDir == 'ASC'? 'DESC' : 'ASC'} + '&keyword=' + ${tablePage.keyword}}">
                                         Номер ремонта</a>
                                 </th>
                                 <th>
-                                    <a th:href="@{'/service-centers/page/' + ${tablePage.pageNum} + '?sortField=orderDate&sortDir='
+                                    <a th:href="@{'/spare-part-orders/page/' + ${tablePage.pageNum} + '?sortField=orderDate&sortDir='
                                     + ${tablePage.sortDir == 'ASC'? 'DESC' : 'ASC'} + '&keyword=' + ${tablePage.keyword}}">
                                         Дата заказа</a>
                                 </th>
                                 <th class="date">
-                                    <a th:href="@{'/service-centers/page/' + ${tablePage.pageNum} + '?sortField=departureDate&sortDir='
+                                    <a th:href="@{'/spare-part-orders/page/' + ${tablePage.pageNum} + '?sortField=departureDate&sortDir='
                                     + ${tablePage.sortDir  == 'ASC'? 'DESC' : 'ASC'}+ '&keyword=' + ${tablePage.keyword}}">
                                         Дата отправки</a>
                                 </th>
                                 <th class="date">
-                                    <a th:href="@{'/service-centers/page/' + ${tablePage.pageNum} + '?sortField=deliveryDate&sortDir='
+                                    <a th:href="@{'/spare-part-orders/page/' + ${tablePage.pageNum} + '?sortField=deliveryDate&sortDir='
                                     + ${tablePage.sortDir  == 'ASC'? 'DESC' : 'ASC'}+ '&keyword=' + ${tablePage.keyword}}">
                                         Дата получения</a>
                                 </th>

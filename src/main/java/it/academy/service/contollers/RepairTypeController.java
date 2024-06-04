@@ -88,7 +88,7 @@ public class RepairTypeController {
             RepairTypeDTO result = service.createOrUpdate(repairTypeDTO);
             if (StringUtils.isBlank(result.getErrorMessage())) {
                 model.addAttribute(REPAIR_TYPE, repairTypeDTO);
-                return formPath;
+                return showPage(model);
             }
         }
         model.addAttribute(ERROR_MESSAGE, REPAIR_TYPE_ALREADY_EXISTS);

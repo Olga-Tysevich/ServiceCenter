@@ -61,15 +61,11 @@ public class SparePartOrderController {
     @GetMapping("/show-repair-orders/{id}")
     public String showOrdersPage(Model model,
                                  @PathVariable(OBJECT_ID) Long repairId,
-                                 @RequestParam(value = SORT_FIELD, defaultValue = SparePartOrder_.ORDER_DATE) String sortField,
-                                 @RequestParam(value = SORT_DIR, defaultValue = ASC) String sortDir,
                                  @RequestParam(REPAIR_NUMBER) String repairNumber) {
         List<SparePartOrderDTO> orders = orderService.getListByRepairId(repairId);
         model.addAttribute(REPAIR_ID, repairId);
         model.addAttribute(REPAIR_NUMBER, repairNumber);
         model.addAttribute(ORDER_LIST, orders);
-        model.addAttribute(SORT_FIELD, sortField);
-        model.addAttribute(SORT_DIR, sortDir);
         return REPAIR_ORDER_LIST_PAGE;
     }
 

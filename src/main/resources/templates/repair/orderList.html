@@ -18,7 +18,8 @@
                 <legend th:text="${'Ремонт No.' + repairNumber}"></legend>
 
                 <div class="button button-fieldset">
-                    <a th:href="@{/repairs/repair-page/{id}(id=${repairId})}">Вернуться в ремонт</a>
+                    <a style="color: white" th:href="@{/repairs/repair-page/{id}(id=${repairId})}">Вернуться в
+                        ремонт</a>
                 </div>
 
                 <button class="button button-fieldset" onclick="location.href='/repairs'">На главную</button>
@@ -35,21 +36,17 @@
                         <thead>
                         <tr>
                             <th>
-                                <a th:href="@{'/show-orders/' + repairNumber + '?sortField=id&sortDir=' + ${sortDir}}">
-                                    Номер заказа</a>
+                                <p> Номер заказа</p>
                             </th>
 
                             <th>
-                                <a th:href="@{'/show-orders/' + repairNumber + '?sortField=orderDate&sortDir=' + ${sortDir}}">
-                                    Дата заказа</a>
+                                <p> Дата заказа</p>
                             </th>
                             <th class="date">
-                                <a th:href="@{'/show-orders/' + repairNumber + '?sortField=departureDate&sortDir=' + ${sortDir}}">
-                                    Дата отправки</a>
+                                <p> Дата отправки</p>
                             </th>
                             <th>
-                                <a th:href="@{'/show-orders/' + repairNumber + '?sortField=deliveryDate&sortDir=' + ${sortDir}}">
-                                    Дата доставки</a>
+                                <p> Дата доставки</p>
                             </th>
                             <th class="menu">Управление</th>
                         </tr>
@@ -67,7 +64,7 @@
                                     <div class="form-container order-form">
                                         <div class="order-container">
                                             <div class="f-input right">
-                                            <button class="close">X</button>
+                                                <button class="close">X</button>
                                             </div>
 
                                             <div class="f-input">
