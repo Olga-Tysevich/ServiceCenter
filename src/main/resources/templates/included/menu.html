@@ -8,7 +8,8 @@
         </div>
 
         <div class="button button-fieldset" sec:authorize="hasAuthority('SERVICE_CENTER')">
-            <a style="color: white" th:href="@{/service-centers/service-center-update/{id}(id=${#authentication.principal.serviceCenterId})}">Изменить
+            <a style="color: white" th:href="@{'/service-centers/service-center-update/' + ${#authentication.principal.serviceCenterId}
+            + '?pageNum=1&sortField=serviceName&sortDir=ASC&keyword='}">Изменить
                 учетные данные</a>
         </div>
     </fieldset>

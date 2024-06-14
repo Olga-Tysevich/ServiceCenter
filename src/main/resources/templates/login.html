@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
     <title>Сервисный центр</title>
 </head>
 <body>
@@ -16,19 +16,14 @@
         <div class="form-container">
             <form th:action="@{/login}" method="post">
                 <div class="container">
-                    <label class="form-el" for="username">Логин:</label>
-                    <br><input class="form-el" type="text" id="username" name="username" value="admin@mail.ru" placeholder="Логин:">
-                    <div style="color: red" th:if="${param.error}">
-                        Такого логина не существует!
-                    </div>
-                    <div th:if="${param.logout}">
-                        Вы вышли из программы.
-                    </div>
+                    <label class="form-el" for="username">Email:</label>
+                    <br><input class="form-el" type="text" id="username" name="username" value="admin@mail.ru" placeholder="Email:">
+
                     <br><br>
                     <label class="form-el" for="password">Пароль:</label>
                     <br><input class="form-el" type="password" id="password" name="password" value="User8707!" placeholder="Пароль:">
                     <div style="color: red" th:if="${param.error}">
-                        Неверный пароль!
+                        Неверный логин или пароль!
                     </div>
 
                     <div class="button-container">

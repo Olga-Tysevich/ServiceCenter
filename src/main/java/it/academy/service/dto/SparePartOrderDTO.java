@@ -31,6 +31,7 @@ public class SparePartOrderDTO {
 
     private Date deliveryDate;
 
+    @NotEmpty
     private List<OrderItemDTO> orderItems;
 
     private String errorMessage;

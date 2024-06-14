@@ -29,7 +29,7 @@ public class AccountController {
     private final AccountService service;
     private final ServiceCenterService serviceCenterService;
 
-        @GetMapping
+    @GetMapping
     public String showPage(Model model) {
         return showPage(model, new TablePageReq(FIRST_PAGE, Account_.ID, Sort.Direction.DESC.name(), StringUtils.EMPTY));
     }
