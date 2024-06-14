@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 import static it.academy.service.utils.UIConstants.UPDATE_SUCCESSFULLY;
 
 @RestController
@@ -22,7 +24,7 @@ public class SparePartOrderRestController {
     private final SparePartOrderService orderService;
 
     @PostMapping("/create-order")
-    public ResponseEntity<String> createOrder(@RequestBody SparePartOrderDTO orderDTO, BindingResult bindingResult) {
+    public ResponseEntity<String> createOrder(@RequestBody @Valid SparePartOrderDTO orderDTO, BindingResult bindingResult) {
         String errors = DtoValidator.getErrors(bindingResult);
         if (!StringUtils.isBlank(errors)) {
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);

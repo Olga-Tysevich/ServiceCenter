@@ -25,12 +25,15 @@
 
                     <div class="f-input">
                         <label class="form-el">Дата отправки</label>
-                        <input class="f-form" required type="date" th:field="*{departureDate}" name="departureDate">
+                        <input required class="f-form" type="date" th:field="*{departureDate}" name="departureDate"
+                               th:disabled="${sparePartOrder.departureDate != null}">
+                        <input th:if="${sparePartOrder.departureDate != null}" type="hidden" name="departureDate" th:value="*{departureDate}">
+
                     </div>
 
                     <div class="f-input" th:if="${sparePartOrder.departureDate != null}">
                         <label class="form-el">Дата доставки</label>
-                        <input class="f-form" required type="date" th:field="*{deliveryDate}" name="deliveryDate">
+                        <input required class="f-form"  type="date" th:field="*{deliveryDate}" name="deliveryDate">
                     </div>
 
                     <table id="order-items">
@@ -41,9 +44,13 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="orderItem : ${sparePartOrder.orderItems}">
-                            <td th:text="${orderItem.name}"></td>
-                            <td th:text="${orderItem.quantity}"></td>
+                        <tr th:each="orderItem, item : *{orderItems}">
+                            <input type="hidden" th:field="*{orderItems[__${item.index}__].id}"/>
+                            <input type="hidden" th:field="*{orderItems[__${item.index}__].sparePartId}"/>
+                            <input type="hidden" th:field="*{orderItems[__${item.index}__].name}"/>
+                            <input type="hidden" th:field="*{orderItems[__${item.index}__].quantity}"/>
+                            <td th:text="${orderItem.name}"> </td>
+                            <td th:text="${orderItem.quantity}"> </td>
                         </tr>
                         </tbody>
                     </table>

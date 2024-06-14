@@ -65,7 +65,7 @@
                                     + ${tablePage.sortDir  == 'ASC'? 'DESC' : 'ASC'}+ '&keyword=' + ${tablePage.keyword}}">
                                         Дата получения</a>
                                 </th>
-                                <th class="menu">Управление</th>
+                                <th sec:authorize="hasAuthority('ADMIN')" class="menu">Управление</th>
                             </tr>
                             </thead>
                             <tbody>

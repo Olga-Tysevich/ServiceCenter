@@ -70,6 +70,7 @@ public class SparePartOrderServiceImpl extends CrudServiceImpl<SparePartOrder, S
     private SparePartOrderDTO createSparePartOrder(SparePartOrderDTO orderDTO) {
         if (orderDTO.getOrderItems().isEmpty()) {
             orderDTO.setErrorMessage(ORDER_IS_EMPTY);
+            return orderDTO;
         }
 
         SparePartOrder order = SparePartOrderMapper.INSTANCE.toEntity(orderDTO);

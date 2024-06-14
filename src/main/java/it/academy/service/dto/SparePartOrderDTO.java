@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
@@ -22,7 +21,6 @@ public class SparePartOrderDTO {
     @NotNull
     private Long repairId;
 
-    @NotBlank
     private String repairNumber;
 
     private Date orderDate;
@@ -31,7 +29,7 @@ public class SparePartOrderDTO {
 
     private Date deliveryDate;
 
-    @NotEmpty
+    @NotEmpty(message = "В заказе должна быть хотя бы одна запчасть!")
     private List<OrderItemDTO> orderItems;
 
     private String errorMessage;

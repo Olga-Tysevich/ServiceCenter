@@ -31,6 +31,7 @@ function closeOrderForm() {
 
 function createOrder() {
     let repairId = $('#id').val();
+    let repairNumber = $('#repairNumber').val();
     let orderItems = [];
 
     $('tr.order-item').each(function () {
@@ -57,11 +58,11 @@ function createOrder() {
         contentType: 'application/json',
         data: JSON.stringify(data),
         success: function (response) {
-            showMessage(response, 'GREEN');
             let orderItems = $('#order-body-id');
             orderItems.find('tr').each(function () {
                 $(this).remove();
             });
+            window.location.href = '/spare-part-orders/show-repair-orders/' + repairId + '?repairNumber=' + repairNumber;
         },
         error: function (xhr, status, error) {
             if (xhr.status === 400) {
@@ -71,16 +72,9 @@ function createOrder() {
                 $('#message-block-id').show();
             } else {
                 let errorBlock = $('#message-id');
-                errorBlock.text("Что-то пошло не так");
+                errorBlock.text("Ошибка сервера, попробуйте позднее");
                 errorBlock.css('color', 'RED');
             }
         }
     });
-}
-
-function showMessage(message, color) {
-    let messageContainer = $('#message-id');
-    messageContainer.text(message);
-    messageContainer.css('color', color);
-    $('#message-block-id').show();
 }

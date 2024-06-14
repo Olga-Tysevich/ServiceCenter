@@ -1,6 +1,7 @@
 <div class="form-container r-form">
     <div class="rc-form" id="spare-part-order_id">
         <input type="hidden" th:field="${repair.id}" name="repairId">
+        <input type="hidden" th:field="${repair.repairNumber}" name="repairNumber">
         <input type="hidden" th:field="${repair.modelId}" name="modelId">
 
         <div class="f-input" style="display: none" id="message-block-id">
