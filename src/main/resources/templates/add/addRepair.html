@@ -20,10 +20,7 @@
                     <input sec:authorize="hasAuthority('SERVICE_CENTER')" type="hidden" name="serviceCenterId"
                            th:value="${#authentication.principal.serviceCenterId}"/>
 
-                    <div class="f-input">
-                        <label class="form-el">Статус ремонта:</label>
-                        <input class="f-form" type="text" th:value="${status}" name="status">
-                    </div>
+                        <input class="f-form" type="hidden" th:value="${status}" name="status">
 
                     <div class="f-input">
                         <label class="form-el">Категория ремонта:</label>
@@ -31,7 +28,6 @@
                             <option th:each="category : ${categoryList}"
                                     th:value="${category.name()}"
                                     th:text="${category}">
-                                <!--                                    th:selected="${category == repair.category}"-->
                             </option>
                         </select>
                     </div>
@@ -42,7 +38,6 @@
                             <option th:each="brand : ${brandList}"
                                     th:value="${brand.id}"
                                     th:text="${brand.name}">
-                                <!--                                    th:selected="${brand.id == repair.brandId}"-->
                             </option>
                         </select>
                     </div>
@@ -53,7 +48,6 @@
                             <option th:each="model : ${modelList}"
                                     th:value="${model.id}"
                                     th:text="${model.name}">
-                                <!--                                    th:selected="${model.id == repair.modelId}"-->
                             </option>
                         </select>
                     </div>
