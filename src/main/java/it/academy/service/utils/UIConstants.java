@@ -46,7 +46,11 @@ public class UIConstants {
     public static final String REPAIR_SPARE_PARTS_PAGE = "repair/repairSpareParts";
     //common
     public static final String LOGIN_PAGE = "login";
+    public static final String LOGIN_PAGE_ERROR = "/login?error=true";
+    public static final String CSS_STYLES_PATH = "/css/style.css";
+    public static final String LOGIN_PAGE_PATH = "/login";
     public static final String MAIN_PAGE = "mainPage";
+    public static final String MAIN_PAGE_PATH = "/mainPage";
     //tables-urls
     public static final String REPAIR_TABLE_PAGE = "/repairs/page/";
     public static final String REPAIR_TYPE_TABLE_PAGE = "/repair-types/page/";

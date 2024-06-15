@@ -10,6 +10,8 @@ import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.util.List;
 
+import static it.academy.service.utils.Constants.ORDER_ITEMS_IS_EMPTY;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -29,7 +31,7 @@ public class SparePartOrderDTO {
 
     private Date deliveryDate;
 
-    @NotEmpty(message = "В заказе должна быть хотя бы одна запчасть!")
+    @NotEmpty(message = ORDER_ITEMS_IS_EMPTY)
     private List<OrderItemDTO> orderItems;
 
     private String errorMessage;

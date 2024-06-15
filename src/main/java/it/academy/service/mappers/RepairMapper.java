@@ -1,6 +1,6 @@
 package it.academy.service.mappers;
 
-import it.academy.service.dto.RepairDTO;
+import it.academy.service.dto.RepairForFormsDTO;
 import it.academy.service.dto.RepairForTableDTO;
 import it.academy.service.entity.*;
 import it.academy.service.entity.embeddable.Buyer;
@@ -51,7 +51,7 @@ public interface RepairMapper {
             @Mapping(source = "device.buyer.surname", target = "buyerSurname"),
             @Mapping(source = "device.buyer.phone", target = "buyerPhone")
     })
-    RepairDTO toDTO(Repair repair);
+    RepairForFormsDTO toDTO(Repair repair);
 
     @Mappings({
             @Mapping(source = "id", target = "id"),
@@ -65,9 +65,9 @@ public interface RepairMapper {
             @Mapping(target = "startDate", ignore = true),
             @Mapping(target = "endDate", ignore = true)
     })
-    Repair toEntity(RepairDTO repairDTO);
+    Repair toEntity(RepairForFormsDTO repairForFormsDTO);
 
-    List<RepairDTO> toDTOList(List<Repair> repairs);
+    List<RepairForFormsDTO> toDTOList(List<Repair> repairs);
 
     default String categoryToName(RepairCategory category) {
         return category.name();
@@ -90,19 +90,19 @@ public interface RepairMapper {
                 .build();
     }
 
-    default Device getDevice(RepairDTO repairDTO) {
+    default Device getDevice(RepairForFormsDTO repairForFormsDTO) {
         return Device.builder()
-                .serialNumber(repairDTO.getSerialNumber())
+                .serialNumber(repairForFormsDTO.getSerialNumber())
                 .buyer(Buyer.builder()
-                        .name(repairDTO.getBuyerName())
-                        .surname(repairDTO.getBuyerSurname())
-                        .phone(repairDTO.getBuyerPhone())
+                        .name(repairForFormsDTO.getBuyerName())
+                        .surname(repairForFormsDTO.getBuyerSurname())
+                        .phone(repairForFormsDTO.getBuyerPhone())
                         .build())
                 .salesman(Salesman.builder()
-                        .name(repairDTO.getSalesmanName())
-                        .phone(repairDTO.getSalesmanPhone())
+                        .name(repairForFormsDTO.getSalesmanName())
+                        .phone(repairForFormsDTO.getSalesmanPhone())
                         .build())
-                .dateOfSale(repairDTO.getDateOfSale())
+                .dateOfSale(repairForFormsDTO.getDateOfSale())
                 .build();
     }
 }

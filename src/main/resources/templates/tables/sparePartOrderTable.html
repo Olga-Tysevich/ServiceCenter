@@ -77,9 +77,13 @@
                                 <td th:text="${order.deliveryDate}"></td>
                                 <td sec:authorize="hasAuthority('ADMIN')">
                                     <a th:if="${order.departureDate == null}"
-                                       th:href="@{'/spare-part-orders/spare-part-order-update/' + ${order.id}}">Отправка</a>
+                                       th:href="@{'/spare-part-orders/spare-part-order-update/' + ${order.id} + '?pageNum=' + ${tablePage.pageNum} +
+                                        '&sortField=' + ${tablePage.sortField} + '&sortDir=' + ${tablePage.sortDir}
+                                        + '&keyword=' + ${tablePage.keyword}}">Отправка</a>
                                     <a th:if="${order.departureDate != null && order.deliveryDate == null}"
-                                       th:href="@{'/spare-part-orders/spare-part-order-update/' + ${order.id}}">Указать дату доставки</a>
+                                       th:href="@{'/spare-part-orders/spare-part-order-update/' + ${order.id} + '?pageNum=' + ${tablePage.pageNum} +
+                                        '&sortField=' + ${tablePage.sortField} + '&sortDir=' + ${tablePage.sortDir}
+                                        + '&keyword=' + ${tablePage.keyword}}">Указать дату доставки</a>
                                 </td>
                             </tr>
                             </tbody>

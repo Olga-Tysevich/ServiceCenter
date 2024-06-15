@@ -11,6 +11,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import static it.academy.service.utils.Constants.*;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -24,17 +26,17 @@ public class AccountDTO {
 
     private String serviceCenterName;
 
-    @NotNull(message = "Некорректная роль!")
+    @NotNull(message = INVALID_ROLE)
     private RoleEnum role;
 
-    @NotEmpty(message = "Email не может быть пустым!")
-    @Pattern(regexp = "^[a-zA-Z0-9-.]+@([a-zA-Z-]+\\.)+[a-zA-Z-]{2,4}$", message = "Ведите email в формате email@mail.com")
+    @NotEmpty(message = EMAIL_IS_EMPTY)
+    @Pattern(regexp = EMAIL_REGEX, message = INVALID_EMAIL)
     private String email;
 
-    @NotEmpty(message = "Имя пользователя не может быть пустым!")
+    @NotEmpty(message = USER_NAME_IS_EMPTY)
     private String userName;
 
-    @NotEmpty(message = "Фамилия пользователя не может быть пустой!")
+    @NotEmpty(message = LAST_NAME_IS_EMPTY)
     private String userSurname;
 
     private String password;

@@ -17,8 +17,14 @@
             <div class="forms-container lf">
                 <h2>Изменение запчасти</h2>
 
-                <form th:action="@{/spare-parts/spare-part-create}" th:object="${sparePart}" method="post"
+                <form th:action="@{/spare-parts/spare-part-update}" th:object="${sparePart}" method="post"
                       id="create-spare-part-id">
+
+                    <input type="hidden" name="pageNum" th:value="${lastPage.pageNum}" id="pageNumId">
+                    <input type="hidden" name="sortField" th:value="${lastPage.sortField}" id="sortFieldId">
+                    <input type="hidden" name="sortDir" th:value="${lastPage.sortDir}" id="sortDirId">
+                    <input type="hidden" name="keyword" th:value="${lastPage.keyword}" id="keywordId">
+
                     <input type="hidden" name="id" th:value="*{id}" id="id">
 
                     <div class="f-input" sec:authorize="hasAuthority('ADMIN')">

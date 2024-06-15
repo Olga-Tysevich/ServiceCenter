@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import static it.academy.service.utils.Constants.NAME_IS_EMPTY;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -15,15 +17,15 @@ public class ModelDTO {
 
     private Long id;
 
-    @NotBlank(message = "Название модели не может быть пустым!")
+    @NotBlank(message = NAME_IS_EMPTY)
     private String name;
 
-    @NotNull(message = "Ошибка при выборе бренда!")
+    @NotNull
     private Long brandId;
 
     private String brandName;
 
-    @NotNull(message = "Ошибка при выборе типа устройства!")
+    @NotNull
     private Long deviceTypeId;
 
     private String deviceTypeName;

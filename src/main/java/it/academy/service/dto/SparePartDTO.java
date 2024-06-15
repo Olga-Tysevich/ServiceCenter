@@ -9,6 +9,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
+import static it.academy.service.utils.Constants.MODELS_IS_EMPTY;
+import static it.academy.service.utils.Constants.NAME_IS_EMPTY;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -17,12 +20,12 @@ public class SparePartDTO {
 
     private Long id;
 
-    @NotBlank(message = "Название не может быть пустым!")
+    @NotBlank(message = NAME_IS_EMPTY)
     private String name;
 
     private Boolean isActive;
 
-    @NotEmpty(message = "Нужно выбрать хотя бы одну модель!")
+    @NotEmpty(message = MODELS_IS_EMPTY)
     private List<Long> modelIdList;
 
     private String errorMessage;

@@ -1,6 +1,7 @@
 package it.academy.service.contollers;
 
 import it.academy.service.dto.SparePartOrderDTO;
+import it.academy.service.dto.TablePageReq;
 import it.academy.service.dto.forms.TablePage;
 import it.academy.service.dto.validator.DtoValidator;
 import it.academy.service.entity.SparePartOrder_;
@@ -25,29 +26,33 @@ public class SparePartOrderController {
 
     @GetMapping
     public String showPage(Model model) {
-        return showPage(model, FIRST_PAGE, SparePartOrder_.ID, Sort.Direction.DESC.name(), StringUtils.EMPTY);
+        return showPage(model, new TablePageReq(FIRST_PAGE, SparePartOrder_.ID, Sort.Direction.DESC.name(), StringUtils.EMPTY));
     }
 
     @GetMapping("/page/{pageNum}")
-    public String showPage(Model model,
-                           @PathVariable(PAGE_NUM) int pageNum,
-                           @RequestParam(SORT_FIELD) String sortField,
-                           @RequestParam(SORT_DIR) String sortDir,
-                           @RequestParam(KEYWORD) String keyword) {
-        TablePage<SparePartOrderDTO> page = orderService.findForPage(pageNum, sortField, sortDir, keyword);
+    public String showPage(Model model, @ModelAttribute TablePageReq tablePageReq) {
+        TablePage<SparePartOrderDTO> page = orderService.findForPage(tablePageReq.getPageNum(), tablePageReq.getSortField(),
+                tablePageReq.getSortDir(), tablePageReq.getKeyword());
         model.addAttribute(TABLE_PAGE, page);
         return SPARE_PART_ORDER_TABLE;
     }
 
+
     @GetMapping("/spare-part-order-update/{id}")
-    public String showUpdatePage(Model model, @PathVariable(OBJECT_ID) Long id) {
+    public String showUpdatePage(Model model,
+                                 @PathVariable(OBJECT_ID) Long id,
+                                 @ModelAttribute TablePageReq tablePageReq) {
         SparePartOrderDTO sparePartOrderDTO = orderService.findById(id);
         model.addAttribute(SPARE_PART_ORDER, sparePartOrderDTO);
+        model.addAttribute(LAST_PAGE, tablePageReq);
         return UPDATE_SPARE_PART_ORDER_PAGE;
     }
 
     @PostMapping("/spare-part-order-update")
-    public String update(Model model, @Valid SparePartOrderDTO sparePartOrderDTO, BindingResult bindingResult) {
+    public String update(Model model,
+                         @Valid SparePartOrderDTO sparePartOrderDTO,
+                         BindingResult bindingResult,
+                         @ModelAttribute TablePageReq tablePageReq) {
         if (DtoValidator.isValid(model, sparePartOrderDTO, SPARE_PART_ORDER, bindingResult)) {
             SparePartOrderDTO result = orderService.createOrUpdate(sparePartOrderDTO);
             if (StringUtils.isBlank(result.getErrorMessage())) {
@@ -55,7 +60,7 @@ public class SparePartOrderController {
             }
             model.addAttribute(ERROR_MESSAGE, result.getErrorMessage());
         }
-        return showUpdatePage(model, sparePartOrderDTO.getId());
+        return showUpdatePage(model, sparePartOrderDTO.getId(), tablePageReq);
     }
 
     @GetMapping("/show-repair-orders/{id}")

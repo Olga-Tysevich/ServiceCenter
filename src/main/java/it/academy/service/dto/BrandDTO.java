@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 
+import static it.academy.service.utils.Constants.NAME_IS_EMPTY;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -15,7 +17,7 @@ public class BrandDTO {
 
     private Long id;
 
-    @NotBlank(message = "Название не должно быть пустым!")
+    @NotBlank(message = NAME_IS_EMPTY)
     private String name;
 
     private Boolean isActive;

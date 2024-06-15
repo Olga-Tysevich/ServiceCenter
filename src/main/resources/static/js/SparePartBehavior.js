@@ -1,4 +1,9 @@
 function updateSparePart() {
+    let pageNum = $('#pageNumId').val();
+    let sortField = $('#sortFieldId').val();
+    let sortDir = $('#sortDirId').val();
+    let keyword = $('#keywordId').val();
+
     let isActive = $('input[name="isActive"]').val();
     let id = $('#id').val();
     let name = $('#sp-name').val();
@@ -12,6 +17,10 @@ function updateSparePart() {
     });
 
     let data = {
+        pageNum: pageNum,
+        sortField: sortField,
+        sortDir: sortDir,
+        keyword: keyword,
         id: id,
         name: name,
         modelIdList: modelsId,
@@ -32,10 +41,10 @@ function updateSparePart() {
                 errorBlock.text(xhr.responseText);
                 errorBlock.css('color', 'RED');
             } else {
-                    let errorBlock = $('#error');
-                    errorBlock.text("Что-то пошло не так");
-                    errorBlock.css('color', 'RED');
-                }
+                let errorBlock = $('#error');
+                errorBlock.text("Что-то пошло не так");
+                errorBlock.css('color', 'RED');
+            }
         }
     });
 }

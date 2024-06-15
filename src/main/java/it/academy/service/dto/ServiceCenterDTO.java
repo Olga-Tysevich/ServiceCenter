@@ -9,51 +9,52 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import static it.academy.service.utils.Constants.*;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ServiceCenterDTO {
-
     private Long id;
 
-    @NotBlank(message = "Имя сервисного центра не может быть пустым!")
+    @NotBlank(message = NAME_IS_EMPTY)
     private String serviceName;
 
-    @NotBlank(message = "Название банка не может быть пустым!")
+    @NotBlank(message = BANK_NAME_IS_EMPTY)
     private String bankName;
 
-    @NotBlank(message = "Банковский аккаунт не может быть пустым!")
+    @NotBlank(message = BANK_ACCOUNT_IS_EMPTY)
     private String bankAccount;
 
-    @NotBlank(message = "Код банка не может быть пустым!")
+    @NotBlank(message = BANK_CODE_IS_EMPTY)
     private String bankCode;
 
-    @NotBlank(message = "Адреес банка не может быть пустым!")
+    @NotBlank(message = BANK_ADDRESS_IS_EMPTY)
     private String bankAddress;
 
-    @NotBlank(message = "Название сервисного центра не может быть пустым!")
+    @NotBlank(message = FULL_NAME_IS_EMPTY)
     private String fullName;
 
-    @NotBlank(message = "Юр. адрес не может быть пустым!")
+    @NotBlank(message = LEGAL_ADDRESS_IS_EMPTY)
     private String legalAddress;
 
-    @NotBlank(message = "Фактический адрес не может быть пустым!")
+    @NotBlank(message = ACTUAL_ADDRESS_IS_EMPTY)
     private String actualAddress;
 
-    @NotBlank(message = "Телефон не может быть пустым!")
-    @Pattern(regexp = "^(\\+375|80) ?(29|25|44|33) ?(\\d{3})\\-?(\\d{2})\\-?(\\d{2})$",
-            message = "Номер телефона должен быть в формате +375 29 111-11-11/80 29 111-11-11")
+    @NotBlank(message = PHONE_IS_EMPTY)
+    @Pattern(regexp = PHONE_REGEX,
+            message = INVALID_PHONE_NUMBER)
     private String phone;
 
-    @NotBlank(message = "Email не может быть пустым!")
-    @Pattern(regexp = "^[a-zA-Z0-9-.]+@([a-zA-Z-]+\\.)+[a-zA-Z-]{2,4}$", message = "Ведите email в формате email@mail.com")
+    @NotBlank(message = EMAIL_IS_EMPTY)
+    @Pattern(regexp = EMAIL_REGEX, message = INVALID_EMAIL)
     private String email;
 
-    @NotNull(message = "Учетные данные не могут быть пустыми!")
+    @NotNull(message = TAXPAYER_NUMBER_IS_EMPTY)
     private Integer taxpayerNumber;
 
-    @NotNull(message = "Учетные данные не могут быть пустыми!")
+    @NotNull(message = REGISTRATION_IS_EMPTY)
     private Integer registrationNumber;
 
     private Boolean isActive;

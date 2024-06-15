@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
+import static it.academy.service.utils.Constants.*;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -15,13 +17,13 @@ public class RepairTypeDTO {
 
     private Long id;
 
-    @NotNull(message = "Тип ремонта не может быть пустым!")
+    @NotNull(message = NAME_IS_EMPTY)
     private String name;
 
-    @NotNull(message = "Код не может быть пустым!")
+    @NotNull(message = CODE_IS_EMPTY)
     private String code;
 
-    @NotNull(message = "Уровень не может быть пустым!")
+    @NotNull(message = LEVEL_IS_EMPTY)
     private String level;
 
     private Boolean isActive;

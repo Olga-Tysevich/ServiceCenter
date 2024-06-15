@@ -2,7 +2,7 @@ package it.academy.service.dto.forms;
 
 import it.academy.service.dto.BrandDTO;
 import it.academy.service.dto.ModelDTO;
-import it.academy.service.dto.RepairDTO;
+import it.academy.service.dto.RepairForFormsDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,5 +17,5 @@ import java.util.List;
 public class RepairForm {
     private List<BrandDTO> brandList;
     private List<ModelDTO> modelList;
-    private RepairDTO repair;
+    private RepairForFormsDTO repair;
 }

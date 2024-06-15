@@ -1,5 +1,6 @@
 package it.academy.service.contollers;
 
+import it.academy.service.dto.TablePageReq;
 import it.academy.service.dto.forms.SparePartForm;
 import it.academy.service.dto.validator.DtoValidator;
 import it.academy.service.dto.SparePartDTO;
@@ -27,16 +28,13 @@ public class SparePartController {
 
     @GetMapping
     public String showPage(Model model) {
-        return showSparePartsPage(model, FIRST_PAGE, SparePart_.NAME, Sort.Direction.ASC.name(), StringUtils.EMPTY);
+        return showSparePartsPage(model,  new TablePageReq(FIRST_PAGE, SparePart_.NAME, Sort.Direction.ASC.name(), StringUtils.EMPTY));
     }
 
     @GetMapping("/page/{pageNum}")
-    public String showSparePartsPage(Model model,
-                                     @PathVariable(PAGE_NUM) int pageNum,
-                                     @RequestParam(SORT_FIELD) String sortField,
-                                     @RequestParam(SORT_DIR) String sortDir,
-                                     @RequestParam(KEYWORD) String keyword) {
-        TablePage<SparePartDTO> page = service.findForPage(pageNum, sortField, sortDir, keyword);
+    public String showSparePartsPage(Model model, @ModelAttribute TablePageReq tablePageReq) {
+        TablePage<SparePartDTO> page = service.findForPage(tablePageReq.getPageNum(), tablePageReq.getSortField(),
+                tablePageReq.getSortDir(), tablePageReq.getKeyword());
         model.addAttribute(TABLE_PAGE, page);
         return SPARE_PART_TABLE;
     }
@@ -60,17 +58,23 @@ public class SparePartController {
     }
 
     @GetMapping("/spare-part-update/{id}")
-    public String showUpdatePage(Model model, @PathVariable(OBJECT_ID) Long id) {
+    public String showUpdatePage(Model model,
+                                 @PathVariable(OBJECT_ID) Long id,
+                                 @ModelAttribute TablePageReq tablePageReq) {
         SparePartForm form = service.getSparePartForm(id);
         model.addAttribute(MODEL_LIST, form.getModels());
         model.addAttribute(SPARE_PART, form.getSparePart());
+        model.addAttribute(LAST_PAGE, tablePageReq);
         return UPDATE_SPARE_PART_PAGE;
     }
 
     @PostMapping("/spare-part-update")
-    public String update(Model model, @Valid SparePartDTO sparePartDTO, BindingResult bindingResult) {
+    public String update(Model model,
+                         @Valid SparePartDTO sparePartDTO,
+                         BindingResult bindingResult,
+                         @ModelAttribute TablePageReq tablePageReq) {
+        model.addAttribute(LAST_PAGE, tablePageReq);
         if (DtoValidator.isValid(model, sparePartDTO, SPARE_PART, bindingResult)) {
-
             model.addAttribute(SPARE_PART, sparePartDTO);
             return UPDATE_SPARE_PART_PAGE;
         }

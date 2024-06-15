@@ -1,7 +1,7 @@
 package it.academy.service.services.impl;
 
 import it.academy.service.dto.CompleteRepairDTO;
-import it.academy.service.dto.RepairDTO;
+import it.academy.service.dto.RepairForFormsDTO;
 import it.academy.service.dto.RepairForTableDTO;
 import it.academy.service.dto.RepairSparePartDTO;
 import it.academy.service.dto.forms.RepairForm;
@@ -50,15 +50,15 @@ public class RepairServiceImpl implements RepairService {
     private final RepairSparePartRepository sparePartRepository;
 
     @Override
-    public RepairForm createOrUpdate(@NotNull RepairDTO repairDTO) {
-        if (!checkDateOfSale(repairDTO.getDateOfSale())) {
-            repairDTO.setErrorMessage(INVALID_DATE_OF_SALE);
-            return getDataForRepairForm(repairDTO);
+    public RepairForm createOrUpdate(@NotNull RepairForFormsDTO repairForFormsDTO) {
+        if (!checkDateOfSale(repairForFormsDTO.getDateOfSale())) {
+            repairForFormsDTO.setErrorMessage(INVALID_DATE_OF_SALE);
+            return getDataForRepairForm(repairForFormsDTO);
         }
 
-        return Optional.of(repairDTO)
+        return Optional.of(repairForFormsDTO)
                 .map(RepairMapper.INSTANCE::toEntity)
-                .map(repair -> setModelToDevice(repair, repairDTO.getModelId()))
+                .map(repair -> setModelToDevice(repair, repairForFormsDTO.getModelId()))
                 .map(repairRepository::save)
                 .map(repair -> getRepairForm(repair.getId()))
                 .orElse(null);
@@ -66,7 +66,7 @@ public class RepairServiceImpl implements RepairService {
 
     @Transactional(readOnly = true)
     @Override
-    public RepairDTO findById(Long id) {
+    public RepairForFormsDTO findById(Long id) {
         return Optional.ofNullable(id)
                 .map(repairRepository::getById)
                 .map(RepairMapper.INSTANCE::toDTO)
@@ -76,10 +76,10 @@ public class RepairServiceImpl implements RepairService {
     @Transactional(readOnly = true)
     @Override
     public RepairForm getRepairForm(Long id) {
-        RepairDTO repair = Optional.ofNullable(id)
+        RepairForFormsDTO repair = Optional.ofNullable(id)
                 .map(repairRepository::getById)
                 .map(RepairMapper.INSTANCE::toDTO)
-                .orElse(new RepairDTO());
+                .orElse(new RepairForFormsDTO());
         return getDataForRepairForm(repair);
     }
 
@@ -129,7 +129,7 @@ public class RepairServiceImpl implements RepairService {
     }
 
     @Override
-    public RepairDTO changeStatus(Long id, RepairStatus repairStatus) {
+    public RepairForFormsDTO changeStatus(Long id, RepairStatus repairStatus) {
         return Optional.ofNullable(id)
                 .map(repairRepository::getById)
                 .map(r -> changeRepairStatus(r, repairStatus))
@@ -155,12 +155,12 @@ public class RepairServiceImpl implements RepairService {
         return true;
     }
 
-    private RepairForm getDataForRepairForm(RepairDTO repairDTO) {
-        Long brandId = Objects.requireNonNullElse(repairDTO.getBrandId(), DEFAULT_ID);
+    private RepairForm getDataForRepairForm(RepairForFormsDTO repairForFormsDTO) {
+        Long brandId = Objects.requireNonNullElse(repairForFormsDTO.getBrandId(), DEFAULT_ID);
         List<Brand> brands = brandRepository.findAllByIsActiveIsTrue();
         List<Model> models = modelRepository.findAllByBrand_IdIsAndIsActiveTrue(brandId);
         return new RepairForm(BrandMapper.INSTANCE.toDTOList(brands),
-                ModelMapper.INSTANCE.toDTOList(models), repairDTO);
+                ModelMapper.INSTANCE.toDTOList(models), repairForFormsDTO);
     }
 
     private boolean checkDateOfSale(Date date) {

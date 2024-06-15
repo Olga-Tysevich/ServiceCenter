@@ -58,10 +58,14 @@
                                 <td th:text="${sparePart.name}"></td>
                                 <td th:text="${sparePart.isActive}"></td>
                                 <td sec:authorize="hasAuthority('ADMIN')">
-                                    <a th:href="@{/spare-parts/spare-part-update/{id}(id=${sparePart.id})}">Редактировать</a>
+                                    <a th:href="@{'/spare-parts/spare-part-update/' + ${sparePart.id} + '?pageNum=' + ${tablePage.pageNum} +
+                                        '&sortField=' + ${tablePage.sortField} + '&sortDir=' + ${tablePage.sortDir}
+                                        + '&keyword=' + ${tablePage.keyword}}">Редактировать</a>
                                 </td>
                                 <td sec:authorize="hasAuthority('ADMIN')">
-                                    <a th:href="@{/spare-parts/spare-part-delete/{id}(id=${sparePart.id})}">Удалить</a>
+                                    <a th:href="@{'/spare-parts/spare-part-delete/' + ${sparePart.id} + '?pageNum=' + ${tablePage.pageNum} +
+                                        '&sortField=' + ${tablePage.sortField} + '&sortDir=' + ${tablePage.sortDir}
+                                        + '&keyword=' + ${tablePage.keyword}}">Удалить</a>
                                 </td>
                             </tr>
                             </tbody>

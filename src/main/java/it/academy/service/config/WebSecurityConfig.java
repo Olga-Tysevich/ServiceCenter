@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import static it.academy.service.utils.UIConstants.*;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -29,19 +31,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/css/style.css").permitAll()
-                .antMatchers("/login").permitAll()
+                .antMatchers(CSS_STYLES_PATH).permitAll()
+                .antMatchers(LOGIN_PAGE_PATH).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/mainPage", true)
-                .failureUrl("/login?error=true")
+                .loginPage(LOGIN_PAGE_PATH)
+                .defaultSuccessUrl(MAIN_PAGE_PATH, true)
+                .failureUrl(LOGIN_PAGE_ERROR)
                 .permitAll()
                 .and()
                 .logout()
                 .permitAll()
-                .logoutSuccessUrl("/login");
+                .logoutSuccessUrl(LOGIN_PAGE_PATH);
     }
 
     @Autowired

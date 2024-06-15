@@ -1,6 +1,6 @@
 package it.academy.service.contollers;
 
-import it.academy.service.dto.RepairDTO;
+import it.academy.service.dto.RepairForFormsDTO;
 import it.academy.service.dto.RepairForTableDTO;
 import it.academy.service.dto.TablePageReq;
 import it.academy.service.dto.forms.RepairForm;
@@ -56,8 +56,8 @@ public class RepairController {
     }
 
     @PostMapping("/repair-create")
-    public String create(Model model, @Valid RepairDTO repairDTO, BindingResult bindingResult) {
-        return createOrUpdate(model, repairDTO, bindingResult, ADD_REPAIR_PAGE);
+    public String create(Model model, @Valid RepairForFormsDTO repairForFormsDTO, BindingResult bindingResult) {
+        return createOrUpdate(model, repairForFormsDTO, bindingResult, ADD_REPAIR_PAGE);
     }
 
     @GetMapping("/repair-update/{id}")
@@ -68,13 +68,13 @@ public class RepairController {
     }
 
     @PostMapping("/repair-update")
-    public String update(Model model, @Valid RepairDTO repairDTO, BindingResult bindingResult) {
-        return createOrUpdate(model, repairDTO, bindingResult, UPDATE_REPAIR_PAGE);
+    public String update(Model model, @Valid RepairForFormsDTO repairForFormsDTO, BindingResult bindingResult) {
+        return createOrUpdate(model, repairForFormsDTO, bindingResult, UPDATE_REPAIR_PAGE);
     }
 
     @GetMapping("/repair-page/{id}")
     public String showRepairPage(Model model, @PathVariable(OBJECT_ID) Long id) {
-        RepairDTO repair = repairService.findById(id);
+        RepairForFormsDTO repair = repairService.findById(id);
         model.addAttribute(REPAIR, repair);
         return REPAIR_PAGE;
     }
@@ -97,22 +97,22 @@ public class RepairController {
     public String changeStatus(Model model,
                                @PathVariable(OBJECT_ID) Long id,
                                @PathVariable(REPAIR_STATUS) RepairStatus status) {
-        RepairDTO repairDTO = repairService.changeStatus(id, status);
-        model.addAttribute(REPAIR, repairDTO);
+        RepairForFormsDTO repairForFormsDTO = repairService.changeStatus(id, status);
+        model.addAttribute(REPAIR, repairForFormsDTO);
         return REPAIR_PAGE;
     }
 
-    private String createOrUpdate(Model model, RepairDTO repairDTO, BindingResult bindingResult, String formPage) {
-        if (!DtoValidator.isValid(model, repairDTO, REPAIR, bindingResult)) {
-            RepairForm repairForm = repairService.getRepairForm(repairDTO.getId());
-            repairForm.setRepair(repairDTO);
+    private String createOrUpdate(Model model, RepairForFormsDTO repairForFormsDTO, BindingResult bindingResult, String formPage) {
+        if (!DtoValidator.isValid(model, repairForFormsDTO, REPAIR, bindingResult)) {
+            RepairForm repairForm = repairService.getRepairForm(repairForFormsDTO.getId());
+            repairForm.setRepair(repairForFormsDTO);
             setRepairFormData(model, repairForm);
             return formPage;
         }
-        RepairForm result = repairService.createOrUpdate(repairDTO);
+        RepairForm result = repairService.createOrUpdate(repairForFormsDTO);
         if (StringUtils.isNotBlank(result.getRepair().getErrorMessage())) {
             model.addAttribute(ERROR_MESSAGE, result.getRepair().getErrorMessage());
-            result.setRepair(repairDTO);
+            result.setRepair(repairForFormsDTO);
             setRepairFormData(model, result);
             return formPage;
         }
