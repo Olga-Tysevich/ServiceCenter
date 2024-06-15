@@ -40,7 +40,7 @@ $(document).ready(function () {
 
                 },
                 error: function () {
-                    $('#error_id').text('Нет доступных запчастей для данной модели!').show();
+                    $('#message_block_id').text('Нет доступных запчастей для данной модели!').show();
                 }
             })
         } else {
