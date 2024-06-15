@@ -32,9 +32,10 @@ public class BrandServiceImpl extends CrudServiceImpl<Brand, BrandDTO, Long> imp
     }
 
     @Override
-    protected Specification<Brand> getSpecification(String keyword) {
+    protected Specification<Brand> getSpecification(Long serviceCenterId, String keyword) {
         return BrandSpecification.search(keyword);
     }
+
     @Override
     public BrandDTO createOrUpdate(@NotNull BrandDTO dto) {
         Long id = Objects.requireNonNullElse(dto.getId(), ID_FOR_CHECK);

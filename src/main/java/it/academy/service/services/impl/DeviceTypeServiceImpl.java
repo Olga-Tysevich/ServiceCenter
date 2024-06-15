@@ -30,7 +30,7 @@ public class DeviceTypeServiceImpl extends CrudServiceImpl<DeviceType, DeviceTyp
     }
 
     @Override
-    protected Specification<DeviceType> getSpecification(String keyword) {
+    protected Specification<DeviceType> getSpecification(Long serviceCenterId, String keyword) {
         return DeviceTypeSpecification.search(keyword);
     }
 

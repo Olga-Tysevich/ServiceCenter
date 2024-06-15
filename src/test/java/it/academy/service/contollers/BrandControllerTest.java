@@ -1,6 +1,7 @@
 package it.academy.service.contollers;
 
 import it.academy.service.dto.BrandDTO;
+import it.academy.service.dto.TablePageReq;
 import it.academy.service.dto.forms.TablePage;
 import it.academy.service.services.BrandService;
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
 import static it.academy.service.utils.Constants.TABLE_PAGE;
 import static it.academy.service.utils.UIConstants.*;
 import static it.academy.utils.MockConstant.*;
@@ -47,8 +49,9 @@ class BrandControllerTest {
     void showPageTest() throws Exception {
 
         TablePage<BrandDTO> pageForDisplay = mock(TablePage.class);
+        TablePageReq req = new TablePageReq(null, FIRST_PAGE, BRAND_SORT_FIELD, Sort.Direction.ASC.name(), StringUtils.EMPTY);
 
-        when(brandService.findForPage(FIRST_PAGE, BRAND_SORT_FIELD, Sort.Direction.ASC.name(), StringUtils.EMPTY)).thenReturn(pageForDisplay);
+        when(brandService.findForPage(req)).thenReturn(pageForDisplay);
 
         mockMvc.perform(get("/brands/page/{pageNum}", FIRST_PAGE)
                 .param(SORT_FIELD, BRAND_SORT_FIELD)
@@ -58,8 +61,7 @@ class BrandControllerTest {
                 .andExpect(view().name(BRAND_TABLE))
                 .andExpect(model().attribute(TABLE_PAGE, pageForDisplay));
 
-        verify(brandService, times(1)).findForPage(FIRST_PAGE, BRAND_SORT_FIELD,
-                Sort.Direction.ASC.name(), StringUtils.EMPTY);
+        verify(brandService, times(1)).findForPage(req);
     }
 
 

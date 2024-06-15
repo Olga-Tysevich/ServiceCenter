@@ -1,6 +1,7 @@
 package it.academy.service.services.impl;
 
 import it.academy.service.dto.ServiceCenterDTO;
+import it.academy.service.dto.TablePageReq;
 import it.academy.service.dto.forms.TablePage;
 import it.academy.service.repositories.AccountRepository;
 import it.academy.service.repositories.ServiceCenterRepository;
@@ -86,11 +87,14 @@ class ServiceCenterServiceImplTest {
         forSave.get(0).setServiceName(SERVICE_CENTER_NAME_FOR_SEARCH);
         forSave.forEach(serviceCenterService::createOrUpdate);
 
-        TablePage<ServiceCenterDTO> firstPageWithoutSearch =
-                serviceCenterService.findForPage(FIRST_PAGE, SERVICE_CENTER_SORT_FIELD, Sort.Direction.ASC.name(), StringUtils.EMPTY);
+        TablePageReq req = new TablePageReq(null, FIRST_PAGE, SERVICE_CENTER_SORT_FIELD, Sort.Direction.ASC.name(), StringUtils.EMPTY);
 
-        TablePage<ServiceCenterDTO> pageDataByServiceName =
-                serviceCenterService.findForPage(FIRST_PAGE, SERVICE_CENTER_SORT_FIELD, Sort.Direction.ASC.name(), SERVICE_CENTER_NAME_FOR_SEARCH);
+        TablePage<ServiceCenterDTO> firstPageWithoutSearch =
+                serviceCenterService.findForPage(req);
+
+        TablePageReq reqByServiceName = new TablePageReq(null, FIRST_PAGE, SERVICE_CENTER_SORT_FIELD, Sort.Direction.ASC.name(), SERVICE_CENTER_NAME_FOR_SEARCH);
+
+        TablePage<ServiceCenterDTO> pageDataByServiceName = serviceCenterService.findForPage(reqByServiceName);
 
         Assertions.assertEquals(firstPageWithoutSearch.getListForTable().size(), PAGE_SIZE);
         Assertions.assertEquals(pageDataByServiceName.getListForTable().size(), PAGE_SIZE_BY_SEARCH);

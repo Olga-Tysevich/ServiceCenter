@@ -83,7 +83,7 @@ public class SparePartServiceImpl extends CrudServiceImpl<SparePart, SparePartDT
     }
 
     @Override
-    protected Specification<SparePart> getSpecification(String keyword) {
+    protected Specification<SparePart> getSpecification(Long serviceCenterId, String keyword) {
         return SparePartSpecification.search(keyword);
     }
 

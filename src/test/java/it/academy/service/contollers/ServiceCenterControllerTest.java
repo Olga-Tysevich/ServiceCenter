@@ -1,6 +1,7 @@
 package it.academy.service.contollers;
 
 import it.academy.service.dto.ServiceCenterDTO;
+import it.academy.service.dto.TablePageReq;
 import it.academy.service.dto.forms.TablePage;
 import it.academy.service.services.ServiceCenterService;
 import org.apache.commons.lang3.StringUtils;
@@ -48,8 +49,9 @@ class ServiceCenterControllerTest {
     void showPageTest() throws Exception {
 
         TablePage<ServiceCenterDTO> pageForDisplay = mock(TablePage.class);
+        TablePageReq req = new TablePageReq(null, FIRST_PAGE, SERVICE_CENTER_SORT_FIELD, Sort.Direction.ASC.name(), StringUtils.EMPTY);
 
-        when(serviceCenterService.findForPage(FIRST_PAGE, SERVICE_CENTER_SORT_FIELD, Sort.Direction.ASC.name(), StringUtils.EMPTY)).thenReturn(pageForDisplay);
+        when(serviceCenterService.findForPage(req)).thenReturn(pageForDisplay);
 
         mockMvc.perform(get("/service-centers/page/{pageNum}", FIRST_PAGE)
                 .param(SORT_FIELD, SERVICE_CENTER_SORT_FIELD)
@@ -59,8 +61,7 @@ class ServiceCenterControllerTest {
                 .andExpect(view().name(SERVICE_CENTER_TABLE))
                 .andExpect(model().attribute(TABLE_PAGE, pageForDisplay));
 
-        verify(serviceCenterService, times(1)).findForPage(FIRST_PAGE, SERVICE_CENTER_SORT_FIELD,
-                Sort.Direction.ASC.name(), StringUtils.EMPTY);
+        verify(serviceCenterService, times(1)).findForPage(req);
     }
 
 

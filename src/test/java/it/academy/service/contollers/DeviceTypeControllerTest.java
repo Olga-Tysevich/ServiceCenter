@@ -1,6 +1,7 @@
 package it.academy.service.contollers;
 
 import it.academy.service.dto.DeviceTypeDTO;
+import it.academy.service.dto.TablePageReq;
 import it.academy.service.dto.forms.TablePage;
 import it.academy.service.services.DeviceTypeService;
 import org.apache.commons.lang3.StringUtils;
@@ -48,8 +49,9 @@ class DeviceTypeControllerTest {
     void showPageTest() throws Exception {
 
         TablePage<DeviceTypeDTO> pageForDisplay = mock(TablePage.class);
+        TablePageReq req = new TablePageReq(null, FIRST_PAGE, DEVICE_TYPE_SORT_FIELD, Sort.Direction.ASC.name(), StringUtils.EMPTY);
 
-        when(deviceTypeService.findForPage(FIRST_PAGE, DEVICE_TYPE_SORT_FIELD, Sort.Direction.ASC.name(), StringUtils.EMPTY)).thenReturn(pageForDisplay);
+        when(deviceTypeService.findForPage(req)).thenReturn(pageForDisplay);
 
         mockMvc.perform(get("/device-types/page/{pageNum}", FIRST_PAGE)
                 .param(SORT_FIELD, DEVICE_TYPE_SORT_FIELD)
@@ -59,8 +61,7 @@ class DeviceTypeControllerTest {
                 .andExpect(view().name(DEVICE_TYPE_TABLE))
                 .andExpect(model().attribute(TABLE_PAGE, pageForDisplay));
 
-        verify(deviceTypeService, times(1)).findForPage(FIRST_PAGE, DEVICE_TYPE_SORT_FIELD,
-                Sort.Direction.ASC.name(), StringUtils.EMPTY);
+        verify(deviceTypeService, times(1)).findForPage(req);
     }
 
 

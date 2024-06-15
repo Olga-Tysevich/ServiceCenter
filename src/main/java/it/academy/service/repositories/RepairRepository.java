@@ -11,5 +11,5 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RepairRepository extends JpaRepository<Repair, Long>, JpaSpecificationExecutor<Repair> {
+public interface RepairRepository extends CustomCrudRepository<Repair, Long> {
 }

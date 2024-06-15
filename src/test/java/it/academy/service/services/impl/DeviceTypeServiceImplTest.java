@@ -1,6 +1,7 @@
 package it.academy.service.services.impl;
 
 import it.academy.service.dto.DeviceTypeDTO;
+import it.academy.service.dto.TablePageReq;
 import it.academy.service.dto.forms.TablePage;
 import it.academy.service.repositories.DeviceTypeRepository;
 import it.academy.service.services.DeviceTypeService;
@@ -17,7 +18,8 @@ import org.springframework.data.domain.Sort;
 import java.util.List;
 
 import static it.academy.utils.MockConstant.*;
-import static it.academy.utils.MockUtils.*;
+import static it.academy.utils.MockUtils.buildDeviceType;
+import static it.academy.utils.MockUtils.buildDeviceTypeList;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @AutoConfigureDataJdbc
@@ -70,11 +72,14 @@ class DeviceTypeServiceImplTest {
         accounts.get(0).setName(DEVICE_TYPE_NEW_NAME);
         accounts.forEach(deviceTypeService::createOrUpdate);
 
-        TablePage<DeviceTypeDTO> firstPageWithoutSearch =
-                deviceTypeService.findForPage(FIRST_PAGE, DEVICE_TYPE_SORT_FIELD, Sort.Direction.ASC.name(), StringUtils.EMPTY);
+        TablePageReq req = new TablePageReq(null, FIRST_PAGE, DEVICE_TYPE_SORT_FIELD, Sort.Direction.ASC.name(), StringUtils.EMPTY);
 
-        TablePage<DeviceTypeDTO> pageDataByName =
-                deviceTypeService.findForPage(FIRST_PAGE, DEVICE_TYPE_SORT_FIELD, Sort.Direction.ASC.name(), DEVICE_TYPE_NEW_NAME);
+        TablePage<DeviceTypeDTO> firstPageWithoutSearch =
+                deviceTypeService.findForPage(req);
+
+        TablePageReq reqByDeviceTypeName = new TablePageReq(null, FIRST_PAGE, DEVICE_TYPE_SORT_FIELD, Sort.Direction.ASC.name(), DEVICE_TYPE_NEW_NAME);
+
+        TablePage<DeviceTypeDTO> pageDataByName = deviceTypeService.findForPage(reqByDeviceTypeName);
 
         Assertions.assertEquals(firstPageWithoutSearch.getListForTable().size(), PAGE_SIZE);
         Assertions.assertEquals(pageDataByName.getListForTable().size(), PAGE_SIZE_BY_SEARCH);

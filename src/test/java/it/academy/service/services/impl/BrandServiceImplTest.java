@@ -1,6 +1,7 @@
 package it.academy.service.services.impl;
 
 import it.academy.service.dto.BrandDTO;
+import it.academy.service.dto.TablePageReq;
 import it.academy.service.dto.forms.TablePage;
 import it.academy.service.repositories.BrandRepository;
 import it.academy.service.services.BrandService;
@@ -71,11 +72,15 @@ class BrandServiceImplTest {
         accounts.get(0).setName(BRAND_NEW_NAME);
         accounts.forEach(brandService::createOrUpdate);
 
+        TablePageReq req = new TablePageReq(null, FIRST_PAGE, BRAND_SORT_FIELD, Sort.Direction.ASC.name(), StringUtils.EMPTY);
+
         TablePage<BrandDTO> firstPageWithoutSearch =
-                brandService.findForPage(FIRST_PAGE, BRAND_SORT_FIELD, Sort.Direction.ASC.name(), StringUtils.EMPTY);
+                brandService.findForPage(req);
+
+        TablePageReq reqByBrandName = new TablePageReq(null, FIRST_PAGE, BRAND_SORT_FIELD, Sort.Direction.ASC.name(), BRAND_NEW_NAME);
 
         TablePage<BrandDTO> pageDataByName =
-                brandService.findForPage(FIRST_PAGE, BRAND_SORT_FIELD, Sort.Direction.ASC.name(), BRAND_NEW_NAME);
+                brandService.findForPage(reqByBrandName);
 
         Assertions.assertEquals(firstPageWithoutSearch.getListForTable().size(), PAGE_SIZE);
         Assertions.assertEquals(pageDataByName.getListForTable().size(), PAGE_SIZE_BY_SEARCH);

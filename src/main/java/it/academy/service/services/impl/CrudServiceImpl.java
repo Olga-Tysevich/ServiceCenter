@@ -1,5 +1,6 @@
 package it.academy.service.services.impl;
 
+import it.academy.service.dto.TablePageReq;
 import it.academy.service.dto.forms.TablePage;
 import it.academy.service.mappers.CustomMapper;
 import it.academy.service.repositories.CustomCrudRepository;
@@ -51,21 +52,21 @@ public abstract class CrudServiceImpl<R, T, ID> implements CrudService<T, ID> {
 
     @Transactional(readOnly = true)
     @Override
-    public TablePage<T> findForPage(int pageNumber, String sortField, String sortDir, String keyword) {
-        Sort sort = SortHelper.defineCurrentSort(sortField, sortDir);
-        Specification<R> spec = getSpecification(keyword);
+    public TablePage<T> findForPage(TablePageReq tablePageReq) {
+        Sort sort = SortHelper.defineCurrentSort(tablePageReq.getSortField(), tablePageReq.getSortDir());
+        Specification<R> spec = getSpecification(tablePageReq.getServiceCenterId(), tablePageReq.getKeyword());
 
-        Pageable pageRequest = PageRequest.of(pageNumber - 1, PAGE_SIZE, sort);
+        Pageable pageRequest = PageRequest.of(tablePageReq.getPageNum() - 1, PAGE_SIZE, sort);
         Page<R> temp = repository.findAll(spec, pageRequest);
 
         List<T> dtoList = mapper.toDTOList(temp.getContent());
         return TablePage.<T>builder()
                 .listForTable(dtoList)
                 .totalPages(temp.getTotalPages())
-                .pageNum(pageNumber)
-                .sortDir(sortDir)
-                .sortField(sortField)
-                .keyword(keyword)
+                .pageNum(tablePageReq.getPageNum())
+                .sortDir(tablePageReq.getSortDir())
+                .sortField(tablePageReq.getSortField())
+                .keyword(tablePageReq.getKeyword())
                 .paginationUrl(getTablePagePath())
                 .build();
     }
@@ -80,6 +81,6 @@ public abstract class CrudServiceImpl<R, T, ID> implements CrudService<T, ID> {
 
     protected abstract String getTablePagePath();
 
-    protected abstract Specification<R> getSpecification(String keyword);
+    protected abstract Specification<R> getSpecification(Long serviceCenterId, String keyword);
 
 }

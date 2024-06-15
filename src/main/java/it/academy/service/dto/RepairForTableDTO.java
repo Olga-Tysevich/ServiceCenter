@@ -11,7 +11,7 @@ import java.sql.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RepairForTableDTO {
+public class RepairForTableDTO implements RepairDTO{
 
     private Long id;
 

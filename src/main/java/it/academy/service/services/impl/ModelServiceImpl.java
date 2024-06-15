@@ -81,7 +81,7 @@ public class ModelServiceImpl extends CrudServiceImpl<Model, ModelDTO, Long> imp
     }
 
     @Override
-    protected Specification<Model> getSpecification(String keyword) {
+    protected Specification<Model> getSpecification(Long serviceCenterId, String keyword) {
         return ModelSpecification.search(keyword);
     }
 }

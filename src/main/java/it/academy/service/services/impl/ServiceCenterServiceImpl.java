@@ -51,7 +51,7 @@ public class ServiceCenterServiceImpl extends CrudServiceImpl<ServiceCenter, Ser
     }
 
     @Override
-    protected Specification<ServiceCenter> getSpecification(String keyword) {
+    protected Specification<ServiceCenter> getSpecification(Long serviceCenterId, String keyword) {
         return ServiceCenterSpecification.search(keyword);
     }
 

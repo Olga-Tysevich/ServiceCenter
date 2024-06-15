@@ -2,6 +2,7 @@ package it.academy.service.services.impl;
 
 import it.academy.service.dto.AccountDTO;
 import it.academy.service.dto.ServiceCenterDTO;
+import it.academy.service.dto.TablePageReq;
 import it.academy.service.dto.forms.TablePage;
 import it.academy.service.entity.RoleEnum;
 import it.academy.service.mappers.ServiceCenterMapper;
@@ -92,11 +93,16 @@ class AccountServiceImplTest {
         accounts.get(0).setUserName(ACCOUNT_NEW_USER_NAME);
         accounts.forEach(accountService::createOrUpdate);
 
+        TablePageReq req = new TablePageReq(null, FIRST_PAGE, ACCOUNT_SORT_FIELD, Sort.Direction.ASC.name(), StringUtils.EMPTY);
+
         TablePage<AccountDTO> firstPageWithoutSearch =
-                accountService.findForPage(FIRST_PAGE, ACCOUNT_SORT_FIELD, Sort.Direction.ASC.name(), StringUtils.EMPTY);
+                accountService.findForPage(req);
+
+
+        TablePageReq reqByUserName = new TablePageReq(null, FIRST_PAGE, ACCOUNT_SORT_FIELD, Sort.Direction.ASC.name(), ACCOUNT_NEW_USER_NAME);
 
         TablePage<AccountDTO> pageDataByUserName =
-                accountService.findForPage(FIRST_PAGE, ACCOUNT_SORT_FIELD, Sort.Direction.ASC.name(), ACCOUNT_NEW_USER_NAME);
+                accountService.findForPage(reqByUserName);
 
         Assertions.assertEquals(firstPageWithoutSearch.getListForTable().size(), PAGE_SIZE);
         Assertions.assertEquals(pageDataByUserName.getListForTable().size(), PAGE_SIZE_BY_SEARCH);

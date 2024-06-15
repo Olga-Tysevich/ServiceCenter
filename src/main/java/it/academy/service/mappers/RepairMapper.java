@@ -1,5 +1,6 @@
 package it.academy.service.mappers;
 
+import it.academy.service.dto.RepairDTO;
 import it.academy.service.dto.RepairForFormsDTO;
 import it.academy.service.dto.RepairForTableDTO;
 import it.academy.service.entity.*;
@@ -10,12 +11,14 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static it.academy.service.utils.Constants.DEVICE_DESCRIPTION_PATTERN;
 
 @Mapper
-public interface RepairMapper {
+public interface RepairMapper extends CustomMapper<Repair, RepairDTO> {
 
     RepairMapper INSTANCE = Mappers.getMapper(RepairMapper.class);
 
@@ -55,10 +58,10 @@ public interface RepairMapper {
 
     @Mappings({
             @Mapping(source = "id", target = "id"),
-            @Mapping(expression = "java(getServiceCenter(repairDTO.getServiceCenterId()))",target = "serviceCenter"),
+            @Mapping(expression = "java(getServiceCenter(repairForFormsDTO.getServiceCenterId()))",target = "serviceCenter"),
             @Mapping(source = "status", target = "status"),
             @Mapping(source = "category", target = "category"),
-            @Mapping(expression = "java(getDevice(repairDTO))", target = "device"),
+            @Mapping(expression = "java(getDevice(repairForFormsDTO))", target = "device"),
             @Mapping(source = "defectDescription", target = "defectDescription"),
             @Mapping(source = "repairNumber", target = "repairNumber"),
             @Mapping(target = "repairType", ignore = true),
@@ -67,7 +70,16 @@ public interface RepairMapper {
     })
     Repair toEntity(RepairForFormsDTO repairForFormsDTO);
 
-    List<RepairForFormsDTO> toDTOList(List<Repair> repairs);
+    default List<RepairDTO> toDTOList(List<Repair> repairs) {
+        if ( repairs == null ) {
+            return null;
+        }
+
+        return repairs.stream()
+                .map(this::toDTOForTable)
+                .collect(Collectors.toList());
+    }
+
 
     default String categoryToName(RepairCategory category) {
         return category.name();

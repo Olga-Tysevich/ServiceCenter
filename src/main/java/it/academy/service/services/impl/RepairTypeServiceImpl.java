@@ -43,7 +43,7 @@ public class RepairTypeServiceImpl extends CrudServiceImpl<RepairType, RepairTyp
     }
 
     @Override
-    protected Specification<RepairType> getSpecification(String keyword) {
+    protected Specification<RepairType> getSpecification(Long serviceCenterId, String keyword) {
         return RepairTypeSpecification.search(keyword);
     }
 

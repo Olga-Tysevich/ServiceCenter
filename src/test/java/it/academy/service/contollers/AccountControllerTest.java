@@ -1,6 +1,7 @@
 package it.academy.service.contollers;
 
 import it.academy.service.dto.AccountDTO;
+import it.academy.service.dto.TablePageReq;
 import it.academy.service.dto.forms.TablePage;
 import it.academy.service.entity.RoleEnum;
 import it.academy.service.services.AccountService;
@@ -49,8 +50,9 @@ class AccountControllerTest {
     void showPageTest() throws Exception {
 
         TablePage<AccountDTO> pageForDisplay = mock(TablePage.class);
+        TablePageReq req = new TablePageReq(null, FIRST_PAGE, ACCOUNT_SORT_FIELD, Sort.Direction.ASC.name(), StringUtils.EMPTY);
 
-        when(accountService.findForPage(FIRST_PAGE, ACCOUNT_SORT_FIELD, Sort.Direction.ASC.name(), StringUtils.EMPTY)).thenReturn(pageForDisplay);
+        when(accountService.findForPage(req)).thenReturn(pageForDisplay);
 
         mockMvc.perform(get("/accounts/page/{pageNum}", FIRST_PAGE)
                 .param(SORT_FIELD, ACCOUNT_SORT_FIELD)
@@ -60,8 +62,7 @@ class AccountControllerTest {
                 .andExpect(view().name(ACCOUNT_TABLE))
                 .andExpect(model().attribute(TABLE_PAGE, pageForDisplay));
 
-        verify(accountService, times(1)).findForPage(FIRST_PAGE, ACCOUNT_SORT_FIELD,
-                Sort.Direction.ASC.name(), StringUtils.EMPTY);
+        verify(accountService, times(1)).findForPage(req);
     }
 
 

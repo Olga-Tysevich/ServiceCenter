@@ -6,9 +6,11 @@ import it.academy.service.dto.forms.TablePage;
 import it.academy.service.dto.validator.DtoValidator;
 import it.academy.service.entity.RepairType_;
 import it.academy.service.services.RepairTypeService;
+import it.academy.service.services.auth.AccountDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,14 +28,16 @@ public class RepairTypeController {
     private final RepairTypeService service;
 
     @GetMapping
-    public String showPage(Model model) {
-        return showRepairTypesPage(model, new TablePageReq(FIRST_PAGE, RepairType_.NAME, Sort.Direction.ASC.name(), StringUtils.EMPTY));
+    public String showPage(Authentication authentication, Model model) {
+        Long serviceCenterId = ((AccountDetailsImpl) authentication.getPrincipal()).getServiceCenterId();
+        return showPage(authentication, model, new TablePageReq(serviceCenterId, FIRST_PAGE, RepairType_.NAME, Sort.Direction.ASC.name(), StringUtils.EMPTY));
     }
 
     @GetMapping("/page/{pageNum}")
-    public String showRepairTypesPage(Model model, @ModelAttribute TablePageReq tablePageReq) {
-        TablePage<RepairTypeDTO> page = service.findForPage(tablePageReq.getPageNum(), tablePageReq.getSortField(),
-                tablePageReq.getSortDir(), tablePageReq.getKeyword());
+    public String showPage(Authentication authentication, Model model, @ModelAttribute TablePageReq tablePageReq) {
+        Long serviceCenterId = ((AccountDetailsImpl) authentication.getPrincipal()).getServiceCenterId();
+        tablePageReq.setServiceCenterId(serviceCenterId);
+        TablePage<RepairTypeDTO> page = service.findForPage(tablePageReq);
         model.addAttribute(TABLE_PAGE, page);
         return REPAIR_TYPE_TABLE;
     }
@@ -71,13 +75,13 @@ public class RepairTypeController {
     }
 
     @GetMapping("/repair-type-delete/{id}")
-    public String delete(Model model, @PathVariable(OBJECT_ID) Long id) {
+    public String delete(Authentication authentication, Model model, @PathVariable(OBJECT_ID) Long id) {
         try {
             service.delete(id);
         } catch (Exception e) {
             model.addAttribute(ERROR_MESSAGE, DELETE_FAILED);
         }
-        return showPage(model);
+        return showPage(authentication, model);
     }
 
     private String updateRepairType(Model model,
@@ -88,7 +92,7 @@ public class RepairTypeController {
             RepairTypeDTO result = service.createOrUpdate(repairTypeDTO);
             if (StringUtils.isBlank(result.getErrorMessage())) {
                 model.addAttribute(REPAIR_TYPE, repairTypeDTO);
-                return showPage(model);
+                return REPAIR_TYPES_PAGE_REDIRECT;
             }
         }
         model.addAttribute(ERROR_MESSAGE, REPAIR_TYPE_ALREADY_EXISTS);

@@ -16,7 +16,7 @@ import static it.academy.service.utils.Constants.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RepairForFormsDTO {
+public class RepairForFormsDTO implements RepairDTO{
 
     private Long id;
 

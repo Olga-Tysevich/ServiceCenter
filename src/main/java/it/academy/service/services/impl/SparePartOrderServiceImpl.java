@@ -9,7 +9,6 @@ import it.academy.service.mappers.SparePartOrderMapper;
 import it.academy.service.repositories.RepairRepository;
 import it.academy.service.repositories.SparePartOrderRepository;
 import it.academy.service.repositories.StockSparePartRepository;
-import it.academy.service.repositories.impl.SparePartOrderSpecification;
 import it.academy.service.services.SparePartOrderService;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -63,8 +62,8 @@ public class SparePartOrderServiceImpl extends CrudServiceImpl<SparePartOrder, S
     }
 
     @Override
-    protected Specification<SparePartOrder> getSpecification(String keyword) {
-        return SparePartOrderSpecification.search(keyword);
+    protected Specification<SparePartOrder> getSpecification(Long serviceCenterId, String keyword) {
+        return null;
     }
 
     private SparePartOrderDTO createSparePartOrder(SparePartOrderDTO orderDTO) {

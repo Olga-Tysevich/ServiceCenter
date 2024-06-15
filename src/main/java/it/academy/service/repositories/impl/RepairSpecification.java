@@ -9,15 +9,15 @@ import java.util.List;
 
 public class RepairSpecification {
 
-    public static Specification<Repair> searchByServiceCenter(Long serviceCenterId, String keyword) {
-        return getSearch(serviceCenterId, keyword);
-    }
+//    public static Specification<Repair> searchByServiceCenter(Long serviceCenterId, String keyword) {
+//        return getSearch(serviceCenterId, keyword);
+//    }
 
-    public static Specification<Repair> search(String keyword) {
-        return getSearch(null, keyword);
-    }
+//    public static Specification<Repair> search(String keyword) {
+//        return getSearch(null, keyword);
+//    }
 
-    private static Specification<Repair> getSearch(Long serviceCenterId, String keyword) {
+    public static Specification<Repair> search(Long serviceCenterId, String keyword) {
         return (Specification<Repair>) (root, query, cb) -> {
             if (StringUtils.isBlank(keyword) && serviceCenterId != null) {
                 return cb.equal(root.join(Repair_.SERVICE_CENTER).get(ServiceCenter_.ID), serviceCenterId);

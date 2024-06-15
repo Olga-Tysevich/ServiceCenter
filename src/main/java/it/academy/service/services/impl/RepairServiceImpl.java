@@ -1,9 +1,6 @@
 package it.academy.service.services.impl;
 
-import it.academy.service.dto.CompleteRepairDTO;
-import it.academy.service.dto.RepairForFormsDTO;
-import it.academy.service.dto.RepairForTableDTO;
-import it.academy.service.dto.RepairSparePartDTO;
+import it.academy.service.dto.*;
 import it.academy.service.dto.forms.RepairForm;
 import it.academy.service.dto.forms.RepairTypeForm;
 import it.academy.service.dto.forms.TablePage;
@@ -15,12 +12,6 @@ import it.academy.service.repositories.*;
 import it.academy.service.repositories.impl.RepairSpecification;
 import it.academy.service.repositories.impl.StockSparePartSpecification;
 import it.academy.service.services.RepairService;
-import it.academy.service.services.SortHelper;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,8 +31,7 @@ import static it.academy.service.utils.UIConstants.*;
 
 @Transactional
 @Service
-@RequiredArgsConstructor
-public class RepairServiceImpl implements RepairService {
+public class RepairServiceImpl extends CrudServiceImpl<Repair, RepairDTO, Long> implements RepairService {
     private final RepairRepository repairRepository;
     private final BrandRepository brandRepository;
     private final ModelRepository modelRepository;
@@ -49,8 +39,23 @@ public class RepairServiceImpl implements RepairService {
     private final StockSparePartRepository stockSparePartRepository;
     private final RepairSparePartRepository sparePartRepository;
 
+    public RepairServiceImpl(RepairRepository repository, RepairRepository repairRepository,
+                             BrandRepository brandRepository, ModelRepository modelRepository,
+                             RepairTypeRepository repairTypeRepository, StockSparePartRepository stockSparePartRepository,
+                             RepairSparePartRepository sparePartRepository) {
+        super(repository, RepairMapper.INSTANCE);
+        this.repairRepository = repairRepository;
+        this.brandRepository = brandRepository;
+        this.modelRepository = modelRepository;
+        this.repairTypeRepository = repairTypeRepository;
+        this.stockSparePartRepository = stockSparePartRepository;
+        this.sparePartRepository = sparePartRepository;
+    }
+
+
     @Override
-    public RepairForm createOrUpdate(@NotNull RepairForFormsDTO repairForFormsDTO) {
+    public RepairDTO createOrUpdate(@NotNull RepairDTO repairDTO) {
+        RepairForFormsDTO repairForFormsDTO = (RepairForFormsDTO) repairDTO;
         if (!checkDateOfSale(repairForFormsDTO.getDateOfSale())) {
             repairForFormsDTO.setErrorMessage(INVALID_DATE_OF_SALE);
             return getDataForRepairForm(repairForFormsDTO);
@@ -67,10 +72,18 @@ public class RepairServiceImpl implements RepairService {
     @Transactional(readOnly = true)
     @Override
     public RepairForFormsDTO findById(Long id) {
-        return Optional.ofNullable(id)
-                .map(repairRepository::getById)
-                .map(RepairMapper.INSTANCE::toDTO)
+        return (RepairForFormsDTO) Optional.ofNullable(super.findById(id))
                 .orElse(null);
+    }
+
+    @Override
+    protected String getTablePagePath() {
+        return REPAIR_TABLE_PAGE;
+    }
+
+    @Override
+    protected Specification<Repair> getSpecification(Long serviceCenterId, String keyword) {
+        return RepairSpecification.search(serviceCenterId, keyword);
     }
 
     @Transactional(readOnly = true)
@@ -83,31 +96,9 @@ public class RepairServiceImpl implements RepairService {
         return getDataForRepairForm(repair);
     }
 
-    @Transactional(readOnly = true)
     @Override
-    public TablePage<RepairForTableDTO> findForPage(Long serviceCenterId,
-                                                    int pageNumber,
-                                                    String sortField,
-                                                    String sortDir,
-                                                    String keyword) {
-        Sort sort = SortHelper.defineCurrentSort(sortField, sortDir);
-        Specification<Repair> spec = serviceCenterId != null ?
-                RepairSpecification.searchByServiceCenter(serviceCenterId, keyword)
-                : RepairSpecification.search(keyword);
-
-        Pageable pageRequest = PageRequest.of(pageNumber - 1, PAGE_SIZE, sort);
-        Page<Repair> temp = repairRepository.findAll(spec, pageRequest);
-
-        List<RepairForTableDTO> repairs = RepairMapper.INSTANCE.toDTOListForTable(temp.getContent());
-        return TablePage.<RepairForTableDTO>builder()
-                .listForTable(repairs)
-                .totalPages(temp.getTotalPages())
-                .pageNum(pageNumber)
-                .sortDir(sortDir)
-                .sortField(sortField)
-                .keyword(keyword)
-                .paginationUrl(REPAIR_TABLE_PAGE)
-                .build();
+    public TablePage<RepairDTO> findForPage(TablePageReq tablePageReq) {
+        return super.findForPage(tablePageReq);
     }
 
     @Transactional(readOnly = true)

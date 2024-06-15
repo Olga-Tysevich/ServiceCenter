@@ -10,7 +10,7 @@ import java.util.List;
 
 public class AccountSpecification {
 
-    public static Specification<Account> search(String keyword) {
+    public static Specification<Account> search(Long serviceCenterId, String keyword) {
         return (Specification<Account>) (root, query, cb) -> {
             if (StringUtils.isBlank(keyword)) {
                 return cb.and(cb.notEqual(root.get(Account_.ROLE).as(String.class), RoleEnum.ADMIN.name()));
@@ -29,6 +29,9 @@ public class AccountSpecification {
                 searchPredicates.add(cb.or(fieldPredicates.toArray(new Predicate[0])));
             }
             searchPredicates.add(cb.and(cb.notEqual(root.get(Account_.ROLE).as(String.class), RoleEnum.ADMIN.name())));
+            if (serviceCenterId != null) {
+                searchPredicates.add(cb.and(cb.equal(root.join(Account_.SERVICE_CENTER).get(ServiceCenter_.ID), serviceCenterId)));
+            }
 
             return cb.and(searchPredicates.toArray(new Predicate[0]));
         };

@@ -48,10 +48,9 @@ public class AccountServiceImpl extends CrudServiceImpl<Account, AccountDTO, Lon
     }
 
     @Override
-    protected Specification<Account> getSpecification(String keyword) {
-        return AccountSpecification.search(keyword);
+    protected Specification<Account> getSpecification(Long serviceCenterId, String keyword) {
+        return AccountSpecification.search(serviceCenterId, keyword);
     }
-
 
     private void setPassword(Account account) {
         if (account.getId() != null && StringUtils.isBlank(account.getPassword())) {

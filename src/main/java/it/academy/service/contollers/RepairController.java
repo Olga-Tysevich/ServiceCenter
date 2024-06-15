@@ -1,5 +1,6 @@
 package it.academy.service.contollers;
 
+import it.academy.service.dto.RepairDTO;
 import it.academy.service.dto.RepairForFormsDTO;
 import it.academy.service.dto.RepairForTableDTO;
 import it.academy.service.dto.TablePageReq;
@@ -34,14 +35,15 @@ public class RepairController {
 
     @GetMapping
     public String showRepairsPage(Authentication authentication, Model model) {
-        return showPage(authentication, model, new TablePageReq(FIRST_PAGE, Repair_.START_DATE, Sort.Direction.DESC.name(), StringUtils.EMPTY));
+        Long serviceCenterId = ((AccountDetailsImpl) authentication.getPrincipal()).getServiceCenterId();
+        return showPage(authentication, model, new TablePageReq(serviceCenterId, FIRST_PAGE, Repair_.START_DATE, Sort.Direction.DESC.name(), StringUtils.EMPTY));
     }
 
     @GetMapping("/page/{pageNum}")
     public String showPage(Authentication authentication, Model model, @ModelAttribute TablePageReq tablePageReq) {
         Long serviceCenterId = ((AccountDetailsImpl) authentication.getPrincipal()).getServiceCenterId();
-        TablePage<RepairForTableDTO> page = repairService.findForPage(serviceCenterId, tablePageReq.getPageNum(), tablePageReq.getSortField(),
-                tablePageReq.getSortDir(), tablePageReq.getKeyword());
+        tablePageReq.setServiceCenterId(serviceCenterId);
+        TablePage<RepairDTO> page = repairService.findForPage(tablePageReq);
         model.addAttribute(TABLE_PAGE, page);
         return REPAIR_TABLE;
     }
@@ -109,7 +111,7 @@ public class RepairController {
             setRepairFormData(model, repairForm);
             return formPage;
         }
-        RepairForm result = repairService.createOrUpdate(repairForFormsDTO);
+        RepairForm result = (RepairForm) repairService.createOrUpdate(repairForFormsDTO);
         if (StringUtils.isNotBlank(result.getRepair().getErrorMessage())) {
             model.addAttribute(ERROR_MESSAGE, result.getRepair().getErrorMessage());
             result.setRepair(repairForFormsDTO);

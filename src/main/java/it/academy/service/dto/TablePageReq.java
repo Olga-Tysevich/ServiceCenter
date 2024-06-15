@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class TablePageReq {
 
+    private Long serviceCenterId;
+
     private int pageNum;
 
     private String sortField;
