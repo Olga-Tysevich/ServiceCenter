@@ -107,9 +107,10 @@ public class UIConstants {
     public static final String REPAIR_TYPE_ALREADY_EXISTS = "Тип ремонта уже добавлен!";
     public static final String DELETE_FAILED = "Удаление невозможно! Есть связанные записи";
     public static final String ORDER_IS_EMPTY = "Заказ не может быть пустой!";
+    public static final String INVALID_ORDER_DATA = "Количество каждой запчасти в заказе не может быть меньше 1!";
     public static final String INVALID_DATE = "Указана некорректная дата! Дата не может быть ранее сегодняшней!";
     public static final String INVALID_DATE_OF_SALE = "Дата продажи не может быть познее сегодняшней!";
-    public static final String INVALID_SPARE_PART_QUANTITY = "Указанное количество запчастей превышает количество на складе!";
+    public static final String INVALID_SPARE_PART_QUANTITY = "Указанно некорректное количество запчастей!";
     public static final String SPARE_PART_LIST_IS_EMPTY = "Выбранные запчасти уже добавлены!";
 
 }

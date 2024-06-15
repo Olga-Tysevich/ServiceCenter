@@ -1,5 +1,6 @@
 package it.academy.service.services.impl;
 
+import it.academy.service.dto.OrderItemDTO;
 import it.academy.service.dto.SparePartOrderDTO;
 import it.academy.service.entity.RepairStatus;
 import it.academy.service.entity.SparePartOrder;
@@ -13,7 +14,6 @@ import it.academy.service.services.SparePartOrderService;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -43,8 +43,7 @@ public class SparePartOrderServiceImpl extends CrudServiceImpl<SparePartOrder, S
 
     @Override
     public SparePartOrderDTO createOrUpdate(@NotNull SparePartOrderDTO orderDTO) {
-        Long id = orderDTO.getId();
-        return id == null ? createSparePartOrder(orderDTO) : updateSparePartOrder(orderDTO);
+        return orderDTO.getId() == null ? createSparePartOrder(orderDTO) : updateSparePartOrder(orderDTO);
     }
 
     @Override
@@ -67,7 +66,10 @@ public class SparePartOrderServiceImpl extends CrudServiceImpl<SparePartOrder, S
     }
 
     private SparePartOrderDTO createSparePartOrder(SparePartOrderDTO orderDTO) {
-        if (orderDTO.getOrderItems().isEmpty()) {
+        List<OrderItemDTO> orderItems = orderDTO.getOrderItems().stream()
+                .filter(o -> o.getQuantity() <= 0)
+                .collect(Collectors.toList());
+        if (orderDTO.getOrderItems().isEmpty() || !orderItems.isEmpty()) {
             orderDTO.setErrorMessage(ORDER_IS_EMPTY);
             return orderDTO;
         }

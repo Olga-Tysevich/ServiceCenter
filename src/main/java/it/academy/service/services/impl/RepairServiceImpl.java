@@ -230,7 +230,7 @@ public class RepairServiceImpl extends CrudServiceImpl<Repair, RepairDTO, Long> 
         StockSparePartPK primaryKey = forRemove.getPrimaryKey();
         int quantityForDelete = forRemove.getQuantity();
         StockSparePart stockSparePart = stockSparePartRepository.getById(primaryKey);
-        if (stockSparePart.getQuantity() < quantityForDelete) {
+        if (quantityForDelete <= 0 || stockSparePart.getQuantity() < quantityForDelete) {
             throw new InvalidSparePartQuantity();
         }
 

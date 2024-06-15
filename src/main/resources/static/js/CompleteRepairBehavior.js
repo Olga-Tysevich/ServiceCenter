@@ -1,9 +1,11 @@
 function addToRepair(button) {
+    $('#error-quantity').hide();
     let row = $(button).closest('tr');
     let sparePartOrderId = row.find('td:nth-child(1)').text();
     let sparePartId = row.find('td:nth-child(3)').text();
     let sparePartName = row.find('td:nth-child(4)').text();
     let sparePartQuantity = parseInt(row.find('td:nth-child(5)').text());
+
     let newRow = `
             <div class="included-container" id="add-spare-part-id">
                  <div class="forms-container" id="order-container-id">
@@ -47,6 +49,12 @@ function addSparePartToRepair() {
     let sparePartId = parseInt($('#spare-part-id').text());
     let sparePartName = $('#spare-part-name-id').text();
     let sparePartQuantity = parseInt($('#quantity-id').val());
+    if (sparePartQuantity <= 0) {
+        $('#error-quantity').text('Количество запчастей не может быть меньше одной!').show();
+        removeAddSparePartBlock();
+        return;
+    }
+
     let maxSparePartQuantity = parseInt($('#max-quantity-id').val());
     if (sparePartQuantity > maxSparePartQuantity) {
         sparePartQuantity = maxSparePartQuantity;
@@ -60,15 +68,15 @@ function addSparePartToRepair() {
     repairType.find('tbody tr').each(function () {
         let existingSparePartOrderId = $(this).find('th:nth-child(1)').text();
         let existingSparePartId = $(this).find('th:nth-child(2)').text();
-        let existingSparePartQuantity = parseInt($(this).find('th:nth-child(4)').text());
+        let existingSparePartQuantityBlock = $(this).find('th:nth-child(4)');
+        let existingSparePartQuantity = parseInt(existingSparePartQuantityBlock.text());
 
         if (parseInt(existingSparePartOrderId) === sparePartOrderId && parseInt(existingSparePartId) === sparePartId) {
             sparePartAdded = true;
-            if (existingSparePartQuantity >= sparePartQuantity) {
-                console.log('Количество запчастей уже равно или превышает введенное количество');
+            if (existingSparePartQuantity === maxSparePartQuantity || existingSparePartQuantity + sparePartQuantity > maxSparePartQuantity) {
+                $('#error-quantity').text('Количество запчастей уже равно или превышает введенное количество!').show();
             } else {
-                existingSparePartQuantity = existingSparePartQuantity + sparePartQuantity;
-                $(this).find('th:nth-child(4)').text(sparePartQuantity);
+                existingSparePartQuantityBlock.text(existingSparePartQuantity + sparePartQuantity);
             }
             return false;
         }

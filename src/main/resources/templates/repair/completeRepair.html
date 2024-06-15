@@ -41,6 +41,11 @@
                     </select>
                 </div>
 
+
+                <div class="f-input">
+                    <p id="error-quantity" style="display: none; color: red"></p>
+                </div>
+
                 <div th:switch="${sparePartList}">
                     <h2 th:case="null">Нет добавленных заказов!</h2>
                     <div th:case="*">
