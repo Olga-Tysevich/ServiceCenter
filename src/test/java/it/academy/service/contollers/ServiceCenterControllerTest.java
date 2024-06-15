@@ -115,8 +115,8 @@ class ServiceCenterControllerTest {
                 .flashAttr("serviceCenterDTO", serviceCenterDTO);
 
         mockMvc.perform(request)
-                .andExpect(status().isOk())
-                .andExpect(view().name(SERVICE_CENTER_TABLE));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/service-centers"));;
 
         verify(serviceCenterService, times(1)).createOrUpdate(serviceCenterDTO);
     }
@@ -132,8 +132,8 @@ class ServiceCenterControllerTest {
     @Test
     void deleteTest() throws Exception {
         mockMvc.perform(get("/service-centers/service-center-delete/{id}", FIRST_ID))
-                .andExpect(status().isOk())
-                .andExpect(view().name(SERVICE_CENTER_TABLE));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name(SERVICE_CENTERS_PAGE_REDIRECT));
     }
 
     private void performSaveOrUpdateForFailedCase(ServiceCenterDTO serviceCenterDTO, String postUrl, String expectedUrl) throws Exception {

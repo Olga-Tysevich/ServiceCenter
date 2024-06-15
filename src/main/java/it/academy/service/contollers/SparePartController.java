@@ -1,17 +1,15 @@
 package it.academy.service.contollers;
 
+import it.academy.service.dto.SparePartDTO;
 import it.academy.service.dto.TablePageReq;
 import it.academy.service.dto.forms.SparePartForm;
-import it.academy.service.dto.validator.DtoValidator;
-import it.academy.service.dto.SparePartDTO;
 import it.academy.service.dto.forms.TablePage;
+import it.academy.service.dto.validator.DtoValidator;
 import it.academy.service.entity.SparePart_;
 import it.academy.service.services.SparePartService;
-import it.academy.service.services.auth.AccountDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,15 +27,12 @@ public class SparePartController {
     private final SparePartService service;
 
     @GetMapping
-    public String showPage(Authentication authentication, Model model) {
-        Long serviceCenterId = ((AccountDetailsImpl) authentication.getPrincipal()).getServiceCenterId();
-        return showPage(authentication, model,  new TablePageReq(serviceCenterId, FIRST_PAGE, SparePart_.NAME, Sort.Direction.ASC.name(), StringUtils.EMPTY));
+    public String showPage(Model model) {
+        return showPage(model, new TablePageReq(null, FIRST_PAGE, SparePart_.NAME, Sort.Direction.ASC.name(), StringUtils.EMPTY));
     }
 
     @GetMapping("/page/{pageNum}")
-    public String showPage(Authentication authentication, Model model, @ModelAttribute TablePageReq tablePageReq) {
-        Long serviceCenterId = ((AccountDetailsImpl) authentication.getPrincipal()).getServiceCenterId();
-        tablePageReq.setServiceCenterId(serviceCenterId);
+    public String showPage(Model model, @ModelAttribute TablePageReq tablePageReq) {
         TablePage<SparePartDTO> page = service.findForPage(tablePageReq);
         model.addAttribute(TABLE_PAGE, page);
         return SPARE_PART_TABLE;
@@ -88,12 +83,12 @@ public class SparePartController {
 
 
     @GetMapping("/spare-part-delete/{id}")
-    public String delete(Authentication authentication, Model model, @PathVariable(OBJECT_ID) Long id) {
-        try{
+    public String delete(Model model, @PathVariable(OBJECT_ID) Long id) {
+        try {
             service.delete(id);
         } catch (Exception e) {
             model.addAttribute(ERROR_MESSAGE, DELETE_FAILED);
         }
-        return showPage(authentication, model);
+        return showPage(model);
     }
 }

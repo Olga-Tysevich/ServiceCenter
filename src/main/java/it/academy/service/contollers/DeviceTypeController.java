@@ -6,11 +6,9 @@ import it.academy.service.dto.forms.TablePage;
 import it.academy.service.dto.validator.DtoValidator;
 import it.academy.service.entity.DeviceType_;
 import it.academy.service.services.DeviceTypeService;
-import it.academy.service.services.auth.AccountDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,15 +26,12 @@ public class DeviceTypeController {
     private final DeviceTypeService service;
 
     @GetMapping
-    public String showPage(Authentication authentication, Model model) {
-        Long serviceCenterId = ((AccountDetailsImpl) authentication.getPrincipal()).getServiceCenterId();
-        return showPage(authentication, model, new TablePageReq(serviceCenterId, FIRST_PAGE, DeviceType_.NAME, Sort.Direction.ASC.name(), StringUtils.EMPTY));
+    public String showPage(Model model) {
+        return showPage(model, new TablePageReq(null, FIRST_PAGE, DeviceType_.NAME, Sort.Direction.ASC.name(), StringUtils.EMPTY));
     }
 
     @GetMapping("/page/{pageNum}")
-    public String showPage(Authentication authentication, Model model, @ModelAttribute TablePageReq tablePageReq) {
-        Long serviceCenterId = ((AccountDetailsImpl) authentication.getPrincipal()).getServiceCenterId();
-        tablePageReq.setServiceCenterId(serviceCenterId);
+    public String showPage(Model model, @ModelAttribute TablePageReq tablePageReq) {
         TablePage<DeviceTypeDTO> page = service.findForPage(tablePageReq);
         model.addAttribute(TABLE_PAGE, page);
         return DEVICE_TYPE_TABLE;
@@ -70,13 +65,13 @@ public class DeviceTypeController {
     }
 
     @GetMapping("/device-type-delete/{id}")
-    public String delete(Authentication authentication, Model model, @PathVariable(OBJECT_ID) Long id) {
+    public String delete(Model model, @PathVariable(OBJECT_ID) Long id) {
         try {
             service.delete(id);
         } catch (Exception e) {
             model.addAttribute(ERROR_MESSAGE, DELETE_FAILED);
         }
-        return showPage(authentication, model);
+        return showPage(model);
     }
 
     private String createOrUpdate(Model model, @Valid DeviceTypeDTO deviceTypeDTO,
